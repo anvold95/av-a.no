@@ -1,90 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com;">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="https://use.typekit.net/ydm1hnc.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="page-css.css">
-    <style>
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.1s ease-out;
-        }
-        .collapsible-content.active {
-            transition: max-height 0.1s ease-in;
-        }
-        #overlay {
-            display: none;
-        }
-        .overlay-active #overlay {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A. Vold Arkitektur AS</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body onselectstart="return false">
-    <div id="overlay"></div>
-    <div class="header-container">
-        <div class="logo-container">
-            <a style="--font-scale: 1.1;" class="clicker-logo" href="#" id="logo" rel="home-page">
-                a. - vold
-            </a>
-            <div class="logo-subtext">Architecture, transformation & objects</div>
-        </div>
-        <div style="--font-scale: 0.5;" class="collapsible" onclick="toggleCollapsible()">
-            <span class="icon-container"><text-icon icon="menu-3"></text-icon></span>
-        </div>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="logo">a.-vold<br><span class="sub-logo">Architecture,<br>transformation &<br>objects</span></div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#info">Info</a></li>
+          <li><a href="#projects">Projects</a></li>
+        </ul>
+      </nav>
     </div>
-    <div class="collapsible-content" id="menuItems">
-        <a href="info" rel="history">Info</a>
-        <a href="services" rel="history">Services</a>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <div class="text-block">
+        <h1>A. VOLD ARKITEKTUR AS</h1>
+        <p>is an architecture firm dedicated to transformation and restoration. We focus on practical reuse and local adaptation, valuing solid craftsmanship to deliver thoughtful, enduring solutions.</p>
+        <p>Our expertise spans application work and construction consulting, including advising, building applications, feasibility studies, and preliminary designs. We approach each project with the aim to make the most of existing materials and spaces, ensuring that every element contributes to the overall integrity and functionality of the design.</p>
+        <p>Fill out this <a href="#contact">if you’re looking for architectural assistance.</a></p>
+      </div>
+      <div class="media-block">
+        <!-- Instagram embed placeholder or image -->
+        <div class="instagram-embed">
+          <img src="instagram-placeholder.jpg" alt="Instagram embed">
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <div class="project-item">
+        <img src="project-2023.jpg" alt="2023 - Master Thesis, Transformation">
+        <p>2023 - Master Thesis, Transformation</p>
+      </div>
+      <div class="certification">
+        <img src="sentralt-godkjent-logo.png" alt="Sentralt godkjent">
+        <p>A. Vold Arkitektur AS is a centrally approved company for responsibility rights under the Planning and Building Act, issued by the Norwegian Building Authority (DiBK).</p>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <p class="contact-prompt">Have a project?</p>
+      <p class="contact-email">post@av-a.no</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="social-links">
+        <li><a href="#">LinkedIn icon</a></li>
+        <li><a href="#">Instagram icon</a></li>
+      </ul>
     </div>
-    <div id="page-content-container"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        function toggleCollapsible() {
-            var content = document.querySelector('.collapsible-content');
-            var collapsible = document.querySelector('.collapsible');
-            var currentMaxHeight = window.getComputedStyle(content).maxHeight;
-            content.classList.toggle('active');
-            collapsible.classList.toggle('active');
-            if (currentMaxHeight && currentMaxHeight !== '0px') {
-                content.style.maxHeight = '0';
-                document.documentElement.style.setProperty('--body-margin-top', '0');
-            } else {
-                var scrollHeight = content.scrollHeight + 'px';
-                content.style.maxHeight = scrollHeight;
-                document.documentElement.style.setProperty('--body-margin-top', scrollHeight);
-            }
-        }
-
-        document.addEventListener('click', function(event) {
-            var menu = document.getElementById('menuItems');
-            var toggleButton = document.querySelector('.collapsible');
-            var isClickInsideMenu = menu.contains(event.target) || toggleButton.contains(event.target);
-            if (!isClickInsideMenu) {
-                menu.style.maxHeight = '0';
-                document.documentElement.style.setProperty('--body-margin-top', '0');
-                menu.classList.remove('active');
-            }
-        });
-
-        window.addEventListener('scroll', function() {
-            var menu = document.getElementById('menuItems');
-            if (menu.classList.contains('active')) {
-                menu.style.maxHeight = '0';
-                document.documentElement.style.setProperty('--body-margin-top', '0');
-                menu.classList.remove('active');
-            }
-        });
-
-        $(document).ready(function() {
-            $("#page-content-container").load("page-html.html");
-        });
-    </script>
+  </footer>
 </body>
 </html>
+
 
