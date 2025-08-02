@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home — A. Vold Arkitektur AS</title>
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="homepage.css">
+  <title>A. Vold Arkitektur AS</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header fra index.html -->
   <header class="site-header">
     <div class="container">
       <div class="logo">
@@ -17,18 +15,17 @@
       </div>
       <nav class="main-nav">
         <ul>
-          <li><a href="homepage.html">Home</a></li>
-          <li><a href="about.html">Info</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#info">Info</a></li>
+          <li><a href="#projects">Projects</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- Intro Section -->
+    <!-- Intro Section (tre kolonner som Cargo) -->
     <section class="intro flex-three">
-      <!-- Tekst-kolonne -->
       <div class="text-block">
         <h1>A. VOLD ARKITEKTUR AS</h1>
         <p>is an architecture firm dedicated to transformation and restoration. We focus on practical reuse and local adaptation, valuing solid craftsmanship to deliver thoughtful, enduring solutions.</p>
@@ -36,7 +33,6 @@
         <p>Fill out <a href="e-mail-form">this</a> if you’re looking for architectural assistance.</p>
       </div>
 
-      <!-- Instagram Embed -->
       <div class="media-block instagram-embed">
         <iframe 
           src="https://www.instagram.com/p/C_fTkIOu-nR/embed" 
@@ -47,10 +43,9 @@
         </iframe>
       </div>
 
-      <!-- Prosjekt + Sertifisering -->
       <div class="project-block">
         <figure class="project-item">
-          <img src="img/00-rågsved-centrum.jpg" alt="2023 – Master Thesis, Transformation">
+          <img src="img/00-rågsved-centrum.jpg" alt="2023 – Master Thesis, Transformation">
           <figcaption>2023 – Master Thesis, Transformation</figcaption>
         </figure>
         <div class="inline-wrapper">
@@ -62,7 +57,7 @@
       </div>
     </section>
 
-    <!-- Projects & Certification Section -->
+    <!-- Projects & Certification -->
     <section id="projects" class="projects">
       <figure class="project-item">
         <img src="img/project-2023.jpg" alt="2023 – Master Thesis, Transformation">
@@ -74,17 +69,16 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact -->
     <section id="contact" class="contact">
       <p class="contact-prompt">Have a project?</p>
       <p class="contact-email">post@av-a.no</p>
     </section>
   </main>
 
-  <!-- Instagram Embed Script -->
+  <!-- Instagram embed script -->
   <script async src="//www.instagram.com/embed.js"></script>
 
-  <!-- Footer fra index.html -->
   <footer class="site-footer">
     <div class="container">
       <ul class="social-links">
@@ -95,4 +89,5 @@
   </footer>
 </body>
 </html>
+
 
