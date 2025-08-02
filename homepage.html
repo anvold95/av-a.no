@@ -8,24 +8,90 @@
   <link rel="stylesheet" href="homepage.css">
 </head>
 <body>
-  <!-- header inkluderes fra index.html (kopier samme kode) -->
+  <!-- Header fra index.html -->
+  <header class="site-header">
+    <div class="container">
+      <div class="logo">
+        a.-vold<br>
+        <span class="sub-logo">architecture,<br>transformation &<br>objects</span>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="homepage.html">Home</a></li>
+          <li><a href="about.html">Info</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <main class="container">
+    <!-- Intro Section -->
     <section class="intro flex-three">
-      <!-- Tekst, Instagram, prosjekt osv. som tidligere -->
+      <!-- Tekst-kolonne -->
+      <div class="text-block">
+        <h1>A. VOLD ARKITEKTUR AS</h1>
+        <p>is an architecture firm dedicated to transformation and restoration. We focus on practical reuse and local adaptation, valuing solid craftsmanship to deliver thoughtful, enduring solutions.</p>
+        <p>Our expertise spans application work and construction consulting, including advising, building applications, feasibility studies, and preliminary designs. We approach each project with the aim to make the most of existing materials and spaces, ensuring that every element contributes to the overall integrity and functionality of the design.</p>
+        <p>Fill out <a href="e-mail-form">this</a> if you’re looking for architectural assistance.</p>
+      </div>
+
+      <!-- Instagram Embed -->
+      <div class="media-block instagram-embed">
+        <iframe 
+          src="https://www.instagram.com/p/C_fTkIOu-nR/embed" 
+          frameborder="0" 
+          allowtransparency="true" 
+          allowfullscreen="true" 
+          scrolling="no">
+        </iframe>
+      </div>
+
+      <!-- Prosjekt + Sertifisering -->
+      <div class="project-block">
+        <figure class="project-item">
+          <img src="img/00-rågsved-centrum.jpg" alt="2023 – Master Thesis, Transformation">
+          <figcaption>2023 – Master Thesis, Transformation</figcaption>
+        </figure>
+        <div class="inline-wrapper">
+          <img src="img/sentralt-godkjent-logo.png" alt="Sentralt godkjent" class="media-item">
+          <span class="text-item">
+            <strong>A. Vold Arkitektur AS</strong> is a centrally approved company for responsibility rights under the Planning and Building Act, issued by the Norwegian Building Authority (DiBK).
+          </span>
+        </div>
+      </div>
     </section>
 
+    <!-- Projects & Certification Section -->
     <section id="projects" class="projects">
-      <!-- Prosjekter -->
+      <figure class="project-item">
+        <img src="img/project-2023.jpg" alt="2023 – Master Thesis, Transformation">
+        <figcaption>2023 – Master Thesis, Transformation</figcaption>
+      </figure>
+      <div class="certification">
+        <img src="img/sentralt-godkjent-logo.png" alt="Sentralt godkjent">
+        <p>A. Vold Arkitektur AS is a centrally approved company for responsibility rights under the Planning and Building Act, issued by the Norwegian Building Authority (DiBK).</p>
+      </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact" class="contact">
-      <!-- Kontaktprompt -->
+      <p class="contact-prompt">Have a project?</p>
+      <p class="contact-email">post@av-a.no</p>
     </section>
   </main>
 
+  <!-- Instagram Embed Script -->
   <script async src="//www.instagram.com/embed.js"></script>
 
-  <!-- footer inkluderes fra index.html -->
+  <!-- Footer fra index.html -->
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="social-links">
+        <li><a href="#" aria-label="LinkedIn"><i class="icon-linkedin"></i></a></li>
+        <li><a href="#" aria-label="Instagram"><i class="icon-instagram"></i></a></li>
+      </ul>
+    </div>
+  </footer>
 </body>
 </html>
