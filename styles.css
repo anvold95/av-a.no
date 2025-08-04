@@ -100,15 +100,17 @@ img{ max-width:100%; display:block; }
 .project:hover .cap, .project:focus-within .cap{ opacity:1; transform: translateY(0); }
 
 /* Lightbox */
-.lightbox{
-  position:fixed; inset:0; display:grid; place-items:center; background: rgba(0,0,0,.7); z-index:50;
-}
-.lightbox-fig{ max-width:min(1200px, 92vw); }
-.lightbox img{ max-height:80vh; width:auto; height:auto; display:block; margin-inline:auto; border-radius: 10px; }
-.lightbox-close{
-  position:absolute; top:1rem; right:1rem; font-size:1.6rem; line-height:1; width:2.3rem; height:2.3rem;
-  border-radius:999px; border:1px solid #fff; background:transparent; color:#fff; cursor:pointer;
-}
+-.lightbox{
+-  position:fixed; inset:0; display:grid; place-items:center; background: rgba(0,0,0,.7); z-index:50;
+-}
++.lightbox{
++  position:fixed; inset:0; place-items:center; background: rgba(0,0,0,.7); z-index:50;
++}
++/* Skjul når hidden er satt */
++.lightbox[hidden]{ display:none !important; }
++/* Vis kun når den ikke er hidden */
++.lightbox:not([hidden]){ display:grid; }
+
 
 /* Studio-seksjon */
 .two-col{
