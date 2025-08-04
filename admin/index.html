@@ -4,9 +4,61 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Innholdsredigering</title>
+  <style>
+    body { font-family: ui-monospace, Menlo, Consolas, monospace; padding: 16px; }
+    #log { white-space: pre-wrap; line-height: 1.4; }
+    .ok { color: #0a0; } .err { color: #a00; }
+  </style>
 </head>
 <body>
-  <!-- Ikke manuell init. La Decap auto-starte. Kun én script-tag. -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <h1>Admin – debug</h1>
+  <div id="log">Starter…</div>
+
+  <script>
+    const L = (m, cls='') => {
+      const el = document.getElementById('log');
+      const line = document.createElement('div');
+      if (cls) line.className = cls;
+      line.textContent = m;
+      el.appendChild(line);
+    };
+
+    // Logg feil direkte på siden
+    window.onerror = (msg, src, line, col, err) => {
+      L(`FEIL: ${msg} @ ${src}:${line}:${col}`, 'err');
+    };
+
+    L('1) Laster config.yml …');
+    fetch('/admin/config.yml', { cache: 'no-store' })
+      .then(r => L(`config.yml status: ${r.status} ${r.ok ? '(OK)' : '(IKKE FUNNET)'}`, r.ok ? 'ok' : 'err'))
+      .catch(e => L('config fetch error: ' + e, 'err'))
+      .finally(() => {
+        L('2) Laster decap-cms.js …');
+      });
+
+    // Ta manuell kontroll for å unngå dobbel init
+    window.CMS_MANUAL_INIT = true;
+
+    // Når skriptet er lastet, initierer vi CMS
+    window.__cmsLoaded = () => {
+      L('decap-cms.js lastet (CMS finnes: ' + (typeof CMS) + ')', (typeof CMS === 'function') ? 'ok' : 'err');
+      try {
+        CMS.init({ config: { load_config_file: true } });
+        L('CMS.init() kalt', 'ok');
+      } catch (e) {
+        L('CMS.init() feilet: ' + e, 'err');
+      }
+    };
+
+    // Logg auth-meldinger fra popup
+    window.addEventListener('message', (e) => {
+      L('AUTH MESSAGE → ' + JSON.stringify(e.data) + ' FROM ' + e.origin, 'ok');
+    });
+  </script>
+
+  <!-- Last Decap fra CDN (enkelt å bytte til lokal fil senere) -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"
+          onload="window.__cmsLoaded()"
+          onerror="L('decap-cms.js kunne ikke lastes', 'err')"></script>
 </body>
 </html>
