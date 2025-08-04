@@ -6,6 +6,10 @@
   <title>Innholdsredigering</title>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <noscript>Slå på JavaScript for å bruke editoren.</noscript>
+  <div id="cms-root">Laster editor …</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"
+          onload="CMS.init({ config: { load_config_file: true } });"></script>
 </body>
 </html>
