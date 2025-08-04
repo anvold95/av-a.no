@@ -12,7 +12,7 @@ collections:
   - name: "innhold"
     label: "Innhold"
     files:
-      - file: "content.json"     # må finnes i web-roten (https://av-a.no/content.json)
+      - file: "content.json"         # må finnes på https://av-a.no/content.json
         label: "Tekst og innhold"
         name: "content"
         fields:
