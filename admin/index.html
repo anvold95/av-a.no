@@ -8,6 +8,9 @@
 <body>
   <!-- Slå av auto-init FØR vi laster skriptet -->
   <script>window.CMS_MANUAL_INIT = true;</script>
+<script>
+  window.addEventListener('message', (e) => console.log('AUTH MESSAGE →', e.data, 'FROM', e.origin));
+</script>
 
   <!-- Bruk en stabil, kjent versjon -->
   <script src="https://cdn.jsdelivr.net/npm/decap-cms@2.10.192/dist/decap-cms.js"></script>
