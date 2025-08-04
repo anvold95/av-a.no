@@ -4,16 +4,14 @@ backend:
   branch: main
   base_url: "https://av-a-oauth.vercel.app"
   auth_endpoint: "/api/auth"
-
 media_folder: "img/projects"
 public_folder: "/img/projects"
-
 
 collections:
   - name: "innhold"
     label: "Innhold"
     files:
-      - file: "content.json"
+      - file: "content.json"   # <- da må content.json ligge i web-roten
         label: "Tekst og innhold"
         name: "content"
         fields:
@@ -21,7 +19,7 @@ collections:
             name: "about"
             widget: object
             fields:
-              - { label: "Avsnitt", name: "paragraphs", widget: list, field: {label: "Tekst", name: "text", widget: text} }
+              - { label: "Avsnitt", name: "paragraphs", widget: list, field: { label: "Tekst", name: "text", widget: text } }
           - { label: "Tjenester", name: "services", widget: list }
           - label: "CTA"
             name: "cta"
