@@ -12,11 +12,11 @@
 
   <!-- Sticky Header -->
   <header class="site-header">
-    <div class="container head-grid">
+    <div class="header-inner">
       <a class="logo" href="#top">A. Vold Architecture</a>
       <nav class="main-nav">
         <ul>
-          <li><a href="#prosjekter">Works</a></li>
+          <li><a href="#top">Works</a></li>
           <li><a href="#studio">Studio</a></li>
           <li><a href="#journal">Journal</a></li>
         </ul>
@@ -26,17 +26,23 @@
 
   <!-- Hero Carousel -->
   <section id="top" class="hero">
-    <div class="hero-inner container">
-      <button class="hero-btn prev" aria-label="Forrige">←</button>
-      <div class="hero-container" id="hero-images"></div>
-      <div class="hero-counter" id="hero-counter"></div>
-      <button class="hero-btn next" aria-label="Neste">→</button>
+    <button class="hero-btn prev" aria-label="Forrige">🠐</button>
+    <div class="hero-inner">
+      <div id="hero-images" class="hero-container"></div>
+      <div id="hero-counter" class="hero-counter"></div>
     </div>
+    <button class="hero-btn next" aria-label="Neste">🠒</button>
   </section>
 
   <main id="main">
+    <!-- Projects Grid (4 per row) -->
+    <section id="prosjekter" class="section projects container">
+      <h2>Prosjekter</h2>
+      <div class="projects-grid" id="projects-grid"></div>
+    </section>
+
     <!-- Studio + Instagram -->
-    <section id="studio" class="section two-col studio-social container">
+    <section id="studio" class="section studio-social container">
       <div class="text-col">
         <h2>Studio</h2>
         <p>Et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk.</p>
@@ -48,17 +54,11 @@
         <div id="instagram-embed" class="insta-embed"></div>
       </aside>
     </section>
-
-    <!-- Prosjekter grid -->
-    <section id="prosjekter" class="section projects container">
-      <h2>Prosjekter</h2>
-      <div class="projects-grid" id="projects-grid"></div>
-    </section>
   </main>
 
   <!-- Sticky Footer -->
   <footer class="site-footer">
-    <div class="container footer-grid">
+    <div class="footer-inner">
       <p>&copy; 2025 A. Vold Arkitektur AS</p>
       <nav class="social-nav">
         <ul>
