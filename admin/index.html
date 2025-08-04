@@ -4,34 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Innholdsredigering</title>
+  <link rel="cms-config-url" href="/admin/config-one.yml">
 </head>
 <body>
-  <script>window.CMS_MANUAL_INIT = true;</script>
   <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
-  <script>
-  CMS.init({ config: {
-    backend: {
-      name: "github",
-      repo: "anvold95/av-a.no",     // repoet du faktisk publiserer fra
-      branch: "av-a.no",            // branchen som Pages bruker
-      base_url: "https://av-a-oauth.vercel.app",
-      auth_endpoint: "/api/auth"
-    },
-    media_folder: "img/projects",
-    public_folder: "/img/projects",
-    collections: [{
-      name: "innhold",
-      label: "Innhold",
-      files: [{
-        file: "content.json",       // må finnes på https://av-a.no/content.json
-        label: "Tekst og innhold",
-        name: "content",
-        fields: [
-          { label: "Tittel", name: "title", widget: "string" }
-        ]
-      }]
-    }]
-  }});
-  </script>
 </body>
 </html>
