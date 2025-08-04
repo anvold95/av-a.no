@@ -47,6 +47,13 @@
         L('CMS.init() feilet: ' + e, 'err');
       }
     };
+    <script>
+  window.addEventListener('message', (e) => {
+    console.log('AUTH MESSAGE →', e.data, 'FROM', e.origin);
+    alert('AUTH MESSAGE mottatt: ' + (typeof e.data === 'string' ? e.data.slice(0,60)+'…' : JSON.stringify(e.data).slice(0,60)+'…'));
+  });
+</script>
+
   </script>
 
   <!-- Last CMS fra CDN (vi kan bytte til lokal fil senere) -->
