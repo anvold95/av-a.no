@@ -1,9 +1,10 @@
 backend:
   name: github
-  repo: anvold95/av-a.no     # ← bytt til faktisk repo-navn
+  repo: anvold95/av-a/admin
   branch: main
-  base_url: https:av-a-oauth.vercel.app/api
-  auth_endpoint: auth            # anbefalt, så CMS kaller /api/auth
+  base_url: https://av-a-oauth.vercel.app/api
+  auth_endpoint: auth
+
 media_folder: "img/projects"
 public_folder: "/img/projects"
 
