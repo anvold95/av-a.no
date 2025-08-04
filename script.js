@@ -1,55 +1,42 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const res = await fetch('content.json', { cache: 'no-store' });
-  const data = await res.json();
+  const data = await (await fetch('content.json')).json();
 
-  // --- Tjenester (Studio) ---
+  // Services
   const servicesList = document.getElementById('services-list');
-  if (servicesList && data.services) {
-    servicesList.innerHTML = data.services
+  if (servicesList) {
+    servicesList.innerHTML = (data.services || [])
       .map(s => `<li>${s}</li>`).join('');
   }
 
-  // --- Instagram Embed ---
-  const instaWrap = document.getElementById('instagram-embed');
-  if (instaWrap && data.instagram) {
+  // Instagram Embed
+  const insta = document.getElementById('instagram-embed');
+  if (insta && data.instagram) {
     if (data.instagram.embedHtml) {
-      instaWrap.innerHTML = data.instagram.embedHtml;
+      insta.innerHTML = data.instagram.embedHtml;
       const s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.instagram.com/embed.js';
+      s.async = true; s.src = 'https://www.instagram.com/embed.js';
       document.body.appendChild(s);
     } else if (data.instagram.postUrl) {
-      const url = data.instagram.postUrl.endsWith('/')
-        ? data.instagram.postUrl + '?embed'
-        : data.instagram.postUrl + '/?embed';
-      instaWrap.innerHTML = `
-        <iframe
-          src="${url}"
-          frameborder="0"
-          allowtransparency="true"
-          allowfullscreen
-          scrolling="no"
-          style="width:100%; height:100%;"></iframe>`;
+      let url = data.instagram.postUrl;
+      if (!url.endsWith('?embed')) url += url.endsWith('/') ? '?embed' : '/?embed';
+      insta.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen
+        style="width:100%; height:100%;"></iframe>`;
     }
   }
 
-  // --- Hero Carousel ---
+  // Hero Carousel
+  const heroImages = data.hero?.images || [];
   const heroContainer = document.getElementById('hero-images');
   const heroCounter   = document.getElementById('hero-counter');
-  const heroData      = data.hero?.images || [];
-  if (heroContainer && heroData.length) {
-    // Inject slides
-    heroContainer.innerHTML = heroData.map((img, i) =>
-      `<img src="${img.src}"
-            alt="${img.alt || ''}"
-            class="hero-slide${i===0?' current':''}"
-            data-index="${i}">`
+  if (heroContainer && heroImages.length) {
+    heroContainer.innerHTML = heroImages.map((img, i) =>
+      `<img src="${img.src}" alt="${img.alt||''}"
+        class="hero-slide${i===0?' current':''}" data-index="${i}">`
     ).join('');
-    heroCounter.textContent = `1 / ${heroData.length}`;
+    heroCounter.textContent = `1 / ${heroImages.length}`;
 
     const slides = Array.from(heroContainer.querySelectorAll('.hero-slide'));
     let current = 0;
-
     function show(idx) {
       slides.forEach(s => s.classList.remove('current'));
       slides[idx].classList.add('current');
@@ -65,38 +52,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       .addEventListener('click', () =>
         show((current + 1) % slides.length)
       );
+    slides.forEach(s => s.addEventListener('click', () =>
+      show((current + 1) % slides.length)
+    ));
 
-    slides.forEach(slide =>
-      slide.addEventListener('click', () =>
-        show((current + 1) % slides.length)
-      )
-    );
-
-    // Auto-advance 5s
-    let timer = setInterval(() =>
-      show((current + 1) % slides.length),
-      5000
-    );
-    // Pause on hover
-    [...slides,
-      document.querySelector('.hero-btn.prev'),
-      document.querySelector('.hero-btn.next')
-    ].forEach(el => {
-      el.addEventListener('mouseenter', () => clearInterval(timer));
-      el.addEventListener('mouseleave', () =>
-        timer = setInterval(() =>
-          show((current + 1) % slides.length),
-          5000
-        )
-      );
-    });
+    let timer = setInterval(() => show((current + 1) % slides.length), 5000);
+    [...slides, document.querySelector('.hero-btn.prev'), document.querySelector('.hero-btn.next')]
+      .forEach(el => {
+        el.addEventListener('mouseenter', () => clearInterval(timer));
+        el.addEventListener('mouseleave', () =>
+          timer = setInterval(() => show((current + 1) % slides.length), 5000)
+        );
+      });
   }
 
-  // --- Projects Grid ---
-  const grid     = document.getElementById('projects-grid');
-  const projects = data.projects || [];
-  if (grid) {
-    grid.innerHTML = projects.map(p =>
+  // Projects Grid
+  const grid = document.getElementById('projects-grid');
+  if (grid && data.projects) {
+    grid.innerHTML = data.projects.map(p =>
       `<article class="project">
          <img src="${p.src}" alt="${p.alt||''}">
          ${p.caption ? `<div class="cap">${p.caption}</div>` : ''}
@@ -104,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     ).join('');
   }
 
-  // --- Footer Social Links ---
-  document.getElementById('linkedin-link').href   = data.social?.linkedin   || '#';
+  // Footer links
+  document.getElementById('linkedin-link').href = data.social?.linkedin || '#';
   document.getElementById('instagram-link').href = data.social?.instagram || '#';
 });
