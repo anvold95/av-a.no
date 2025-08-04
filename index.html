@@ -10,83 +10,111 @@
 </head>
 <body>
   <a class="skiplink" href="#innhold">Hopp til innhold</a>
-
+  
   <header class="site-header">
     <div class="container head-grid">
       <div class="logo">
-        a.-vold<br>
-        <span class="sub-logo">architecture,<br>transformation &<br>objects</span>
+        a. vold<br>
+        <div class="sub-logo">architecture<br>transformation<br>objects</div>
       </div>
       <nav class="main-nav" aria-label="Hovedmeny">
         <ul>
-          <li><a href="#tjenester">Tjenester</a></li>
-          <li><a href="#info">Info</a></li>
-          <li><a href="#prosjekter">Prosjekter</a></li>
-          <li><a href="#kontakt">Kontakt</a></li>
+          <li><a href="#info">info</a></li>
+          <li><a href="#tjenester">tjenester</a></li>
+          <li><a href="#prosjekter">prosjekter</a></li>
+          <li><a href="#kontakt">kontakt</a></li>
         </ul>
       </nav>
     </div>
   </header>
-
+  
   <main id="innhold" class="container three-grid">
     <!-- Kolonne 1: Tekst -->
     <section id="info" class="panel text-panel">
-      <h1 class="brand">A. VOLD ARKITEKTUR AS</h1>
-      <div id="about-text" class="flow"></div>
-
+      <h1 class="brand">A. Vold Arkitektur AS</h1>
+      <div id="about-text" class="flow">
+        <p>Vi skaper arkitektur som forener funksjon og form gjennom en følsom tilnærming til rom, materiale og kontekst. Vårt arbeid kjennetegnes av en dyp respekt for både det eksisterende og det nye.</p>
+        <p>Fra transformasjon av verneverdig bebyggelse til utvikling av samtidsarkitektur — hvert prosjekt møtes med samme oppmerksomhet for detalj og helhet.</p>
+      </div>
+      
       <section id="tjenester" class="flow">
         <h2>Tjenester</h2>
-        <ul id="services-list" class="list-clean"></ul>
+        <ul id="services-list" class="list-clean">
+          <li>Arkitektonisk design</li>
+          <li>Transformasjon</li>
+          <li>Konseptutvikling</li>
+          <li>Prosjektledelse</li>
+          <li>Materialrådgivning</li>
+        </ul>
       </section>
-
-      <p class="cta">
-        <a id="cta-link" class="link-underline" href="#" rel="noopener">Forespørsel om bistand</a>
-      </p>
+      
+      <div class="cta">
+        <a id="cta-link" class="link-underline" href="mailto:post@av-a.no">forespørsel om bistand</a>
+      </div>
     </section>
-
+    
     <!-- Kolonne 2: Instagram -->
     <section class="panel insta-panel" aria-label="Instagram">
       <div id="instagram-embed" class="insta-embed">
-        <!-- Dynamisk fra content.json -->
+        <div class="insta-placeholder">
+          instagram
+        </div>
       </div>
       <noscript>
-        <p><a id="instagram-fallback" href="#" target="_blank" rel="noopener">Se Instagram</a></p>
+        <p><a id="instagram-fallback" href="#" target="_blank" rel="noopener">se instagram</a></p>
       </noscript>
     </section>
-
+    
     <!-- Kolonne 3: Karusell + Sentralt godkjent -->
     <section id="prosjekter" class="panel projects-panel">
       <div class="carousel" aria-label="Prosjektbilder">
-        <button class="car-btn prev" aria-label="Forrige" data-dir="-1">←</button>
-        <div class="car-track" id="car-track"></div>
-        <button class="car-btn next" aria-label="Neste" data-dir="1">→</button>
-        <div class="car-dots" id="car-dots" role="tablist" aria-label="Bildeindekser"></div>
+        <button class="car-btn prev" aria-label="Forrige" data-dir="-1">‹</button>
+        <div class="car-track" id="car-track">
+          <div class="car-item">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=280&fit=crop&crop=center" alt="Moderne hus" loading="lazy">
+            <div class="car-caption">villa, oslo</div>
+          </div>
+          <div class="car-item">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=280&fit=crop&crop=center" alt="Transformasjon" loading="lazy">
+            <div class="car-caption">transformasjon, bergen</div>
+          </div>
+          <div class="car-item">
+            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=280&fit=crop&crop=center" alt="Kommersielt prosjekt" loading="lazy">
+            <div class="car-caption">kontor, trondheim</div>
+          </div>
+        </div>
+        <button class="car-btn next" aria-label="Neste" data-dir="1">›</button>
+        <div class="car-dots" id="car-dots" role="tablist" aria-label="Bildeindekser">
+          <button class="car-dot" aria-current="true" data-slide="0"></button>
+          <button class="car-dot" data-slide="1"></button>
+          <button class="car-dot" data-slide="2"></button>
+        </div>
       </div>
-
+      
       <div class="cert">
-        <img id="cert-logo" src="img/logo-sentralt-godkjent.png" alt="Sentralt godkjent" width="96" height="96" loading="lazy">
-        <p id="cert-text" class="muted"></p>
-        <p><a id="cert-link" class="link-underline" href="#" target="_blank" rel="noopener">Les mer</a></p>
+        <img id="cert-logo" src="https://via.placeholder.com/60x60/8a8a8a/ffffff?text=SG" alt="Sentralt godkjent" width="60" height="60" loading="lazy">
+        <div>
+          <p id="cert-text" class="muted">Sentralt godkjent arkitekt med autorisasjon for alle typer byggeprosjekter.</p>
+          <p><a id="cert-link" class="link-underline" href="#" target="_blank" rel="noopener">autorisasjon</a></p>
+        </div>
       </div>
     </section>
   </main>
-
+  
   <section id="kontakt" class="contact">
-    <p class="kicker">Har du et prosjekt?</p>
+    <p class="kicker">har du et prosjekt?</p>
     <p class="email"><a href="mailto:post@av-a.no">post@av-a.no</a></p>
   </section>
-
+  
   <footer class="site-footer">
     <div class="container">
       <ul class="social-links">
-        <li><a id="linkedin-link" href="#" aria-label="LinkedIn">LinkedIn</a></li>
-        <li><a id="instagram-link" href="#" aria-label="Instagram">Instagram</a></li>
+        <li><a id="linkedin-link" href="#" aria-label="LinkedIn">linkedin</a></li>
+        <li><a id="instagram-link" href="#" aria-label="Instagram">instagram</a></li>
       </ul>
     </div>
   </footer>
 
-  <!-- Data + logikk -->
   <script defer src="script.js"></script>
-  <!-- Instagram script lastes kun når embed brukes -->
 </body>
 </html>
