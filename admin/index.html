@@ -4,9 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Innholdsredigering</title>
-  <link rel="cms-config-url" href="/admin/config-one.yml">
 </head>
 <body>
+  <script>window.CMS_MANUAL_INIT = true;</script>
   <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
+  <script>
+    CMS.init({ config: '/admin/config-one.yml' });  // ← Tvinger én fil, ingen auto-søk
+  </script>
 </body>
 </html>
