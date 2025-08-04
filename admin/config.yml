@@ -1,8 +1,12 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: DITTNAVN/DITTREPO   # f.eks. avold/website
   branch: main
+  base_url: https://ditt-oauth-navn.vercel.app   # settes i steg 3
+
 media_folder: "img/projects"
 public_folder: "/img/projects"
+
 collections:
   - name: "innhold"
     label: "Innhold"
@@ -11,20 +15,28 @@ collections:
         label: "Tekst og innhold"
         name: "content"
         fields:
-          - { label: "Avsnitt", name: "about.paragraphs", widget: list, field: {label: Avsnitt, name: text, widget: text} }
+          - label: "Om oss (avsnitt)"
+            name: "about"
+            widget: object
+            fields:
+              - { label: "Avsnitt", name: "paragraphs", widget: list, field: {label: "Tekst", name: "text", widget: text} }
           - { label: "Tjenester", name: "services", widget: list }
-          - { label: "CTA-lenke", name: "cta.href", widget: string }
-          - label: "Instagram
-            "
+          - label: "CTA"
+            name: "cta"
+            widget: object
+            fields:
+              - { label: "E-post/lenke", name: "href", widget: string }
+          - label: "Instagram"
             name: "instagram"
             widget: object
             fields:
               - { label: "Profil-URL", name: "profileUrl", widget: string, required: false }
               - { label: "Post-URL", name: "postUrl", widget: string, required: false }
               - { label: "Embed HTML", name: "embedHtml", widget: text, required: false }
-          - label: "Prosjekter"
+          - label: "Prosjektbilder"
             name: "projects"
             widget: list
+            summary: "{{fields.caption}}"
             fields:
               - { label: "Bilde", name: "src", widget: image }
               - { label: "Alt-tekst", name: "alt", widget: string, required: false }
