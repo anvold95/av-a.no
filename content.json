@@ -30,7 +30,7 @@
     "text": "A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).",
     "link": "https://sgregister.dibk.no/"
   },
-    "hero": {
+   "hero": {
      "images": [
        { "src": "img/projects/SQUARE-2-.jpg", "alt": "Transformasjon 2023" },
        { "src": "img/projects/SQUARE10.jpg", "alt": "Rehabilitering av etterkrigshus" },
