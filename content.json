@@ -30,7 +30,24 @@
     "text": "A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).",
     "link": "https://sgregister.dibk.no/"
   },
-  "social": {
+  "hero": {
+  "images": [
+    { "src": "img/projects/SQUARE-2-.jpg", "alt": "Transformasjon 2023" },
+    { "src": "img/projects/SQUARE10.jpg", "alt": "Rehabilitering av etterkrigshus" },
+    { "src": "img/projects/SQUARE18.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE21.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE2.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE50.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE64.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE63.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE67.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE48.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE53.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE43.jpg", "alt": "Ombygging av næringslokaler" }
+    { "src": "img/projects/SQUARE19.jpg", "alt": "Ombygging av næringslokaler" }
+    
+  ],
+ "social": {
     "linkedin": "#",
     "instagram": "https://www.instagram.com/DITT_BRUKERNAVN/"
   }
