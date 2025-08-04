@@ -6,66 +6,75 @@
   <title>A. Vold Arkitektur AS</title>
   <meta name="description" content="A. Vold Arkitektur AS – arkitektur, transformasjon og objekter.">
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <a class="skiplink" href="#main">Hopp til innhold</a>
 
   <!-- Sticky Header -->
   <header class="site-header">
-    <div class="header-inner">
-      <a class="logo" href="#top">A. Vold Architecture</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#top">Works</a></li>
-          <li><a href="#studio">Studio</a></li>
-          <li><a href="#journal">Journal</a></li>
-        </ul>
-      </nav>
+    <div class="container">
+      <div class="header-inner">
+        <a class="logo" href="#top">A. Vold Architecture</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#top">Works</a></li>
+            <li><a href="#studio">Studio</a></li>
+            <li><a href="#journal">Journal</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Carousel -->
+  <!-- Hero -->
   <section id="top" class="hero">
-    <button class="hero-btn prev" aria-label="Forrige">🠐</button>
-    <div class="hero-inner">
+    <div class="hero-inner container">
+      <button class="hero-btn prev" aria-label="Forrige">←</button>
       <div id="hero-images" class="hero-container"></div>
       <div id="hero-counter" class="hero-counter"></div>
+      <button class="hero-btn next" aria-label="Neste">→</button>
     </div>
-    <button class="hero-btn next" aria-label="Neste">🠒</button>
   </section>
 
   <main id="main">
-    <!-- Projects Grid (4 per row) -->
+    <!-- Prosjekter -->
     <section id="prosjekter" class="section projects container">
       <h2>Prosjekter</h2>
-      <div class="projects-grid" id="projects-grid"></div>
+      <div id="projects-grid" class="projects-grid"></div>
     </section>
+
+    <hr class="divider">
 
     <!-- Studio + Instagram -->
     <section id="studio" class="section studio-social container">
       <div class="text-col">
         <h2>Studio</h2>
-        <p>Et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk.</p>
+        <p><b>A. VOLD ARKITEKTUR AS</b> er et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk. Vi fokuserer på praktisk ombruk og lokal tilpasning med solid håndverk for varige løsninger.</p>
         <h3>Tjenester</h3>
         <ul id="services-list"></ul>
       </div>
       <aside class="journal">
         <h2>Instagram</h2>
-        <div id="instagram-embed" class="insta-embed"></div>
+        <!-- Her bruker vi samme iframe du hadde fra Cargo -->
+        <iframe src="https://www.instagram.com/p/C_fTkIOu-nR/embed/?cr=1&v=14"
+          frameborder="0" allowtransparency="true" allowfullscreen style="width:100%; min-height:300px; border:1px solid #dbdbdb;">
+        </iframe>
       </aside>
     </section>
   </main>
 
-  <!-- Sticky Footer -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <p>&copy; 2025 A. Vold Arkitektur AS</p>
-      <nav class="social-nav">
-        <ul>
-          <li><a id="linkedin-link" href="#">LinkedIn</a></li>
-          <li><a id="instagram-link" href="#">Instagram</a></li>
-        </ul>
-      </nav>
+    <div class="container">
+      <div class="footer-inner">
+        <p>&copy; 2025 A. Vold Arkitektur AS</p>
+        <nav class="social-nav">
+          <ul>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Instagram</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </footer>
 
