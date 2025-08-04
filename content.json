@@ -21,38 +21,34 @@
     "embedHtml": ""
   },
   "projects": [
-    { "src": "img/projects/SQUARE-2-.jpg", "alt": "Transformasjon 2023", "caption": "2023 – Master Thesis, Transformation" },
-    { "src": "img/projects/SQUARE10.jpg", "alt": "Rehabilitering av etterkrigshus", "caption": "Rehabilitering og Transformasjon" },
-    { "src": "img/projects/SQUARE18.jpg", "alt": "Transformasjon og Addisjon av næringslokaler", "caption": "Ombygging" }
+    { "src": "img/projects/SQUARE-2-.jpg",  "alt": "Transformasjon 2023",                     "caption": "2023 – Master Thesis, Transformation" },
+    { "src": "img/projects/SQUARE10.jpg",    "alt": "Rehabilitering av etterkrigshus",         "caption": "Rehabilitering og Transformasjon" },
+    { "src": "img/projects/SQUARE18.jpg",    "alt": "Transformasjon og Addisjon av næringslokaler", "caption": "Ombygging" }
   ],
   "cert": {
     "logo": "img/SG_GULL_HVITBOKS.png",
     "text": "A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).",
     "link": "https://sgregister.dibk.no/"
   },
-   "hero": {
-     "images": [
-       { "src": "img/projects/SQUARE-2-.jpg", "alt": "Transformasjon 2023" },
-       { "src": "img/projects/SQUARE10.jpg", "alt": "Rehabilitering av etterkrigshus" },
-       { "src": "img/projects/SQUARE18.jpg", "alt": "Ombygging av næringslokaler" },
--    { "src": "img/projects/SQUARE21.jpg", "alt": "Ombygging av næringslokaler" }
--    { "src": "img/projects/SQUARE2.jpg", "alt": "Ombygging av næringslokaler" }
--    …
-+    { "src": "img/projects/SQUARE21.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE2.jpg",  "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE50.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE64.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE63.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE67.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE48.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE53.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE43.jpg", "alt": "Ombygging av næringslokaler" },
-+    { "src": "img/projects/SQUARE19.jpg", "alt": "Ombygging av næringslokaler" }
-     ]
-- }
-- "social": {
-+ },    ← lukk hero-objektet her
-+  "social": {
-     "linkedin": "#",
-     "instagram": "https://www.instagram.com/DITT_BRUKERNAVN/"
-   }
+  "hero": {
+    "images": [
+      { "src": "img/projects/SQUARE-2-.jpg",  "alt": "Transformasjon 2023" },
+      { "src": "img/projects/SQUARE10.jpg",    "alt": "Rehabilitering av etterkrigshus" },
+      { "src": "img/projects/SQUARE18.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE21.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE2.jpg",     "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE50.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE64.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE63.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE67.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE48.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE53.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE43.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/projects/SQUARE19.jpg",    "alt": "Ombygging av næringslokaler" }
+    ]
+  },
+  "social": {
+    "linkedin": "#",
+    "instagram": "https://www.instagram.com/DITT_BRUKERNAVN/"
+  }
+}
