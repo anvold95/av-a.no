@@ -11,7 +11,7 @@
 <body>
   <a class="skiplink" href="#innhold">Hopp til innhold</a>
 
-  <!-- Minimal toppstripe -->
+  <!-- Header -->
   <header class="site-header kba">
     <div class="container head-grid">
       <a class="logo" href="#top" aria-label="Forside">
@@ -29,7 +29,7 @@
     </div>
   </header>
 
-  <!-- HERO: rolig, fullskjerm, bilde-fokus -->
+  <!-- HERO: begrenset bredde, sentrert -->
   <section id="top" class="hero" aria-label="Utvalgte prosjekter">
     <div class="hero-images" id="hero-images" aria-hidden="true"></div>
     <div class="hero-overlay">
@@ -37,21 +37,20 @@
       <p class="hero-kicker">arkitektur · transformasjon · objekter</p>
       <a class="hero-cta" href="#prosjekter">Se prosjekter</a>
     </div>
-    <button class="hero-btn prev" aria-label="Forrige">←</button>
-    <button class="hero-btn next" aria-label="Neste">→</button>
   </section>
 
   <!-- Innhold -->
   <main id="innhold">
 
-    <!-- Bildedrevet prosjektrist -->
+    <!-- Prosjekter -->
     <section id="prosjekter" class="section projects">
       <div class="section-head">
         <h2>Prosjekter</h2>
         <p class="muted">Et utvalg arbeider</p>
       </div>
       <div class="grid" id="projects-grid" aria-live="polite"></div>
-      <!-- Lettvekts lightbox -->
+
+      <!-- Lightbox -->
       <div id="lightbox" class="lightbox" hidden>
         <button class="lightbox-close" aria-label="Lukk">×</button>
         <figure class="lightbox-fig">
@@ -61,7 +60,7 @@
       </div>
     </section>
 
-    <!-- Info + tjenester i to kolonner -->
+    <!-- Info + tjenester -->
     <section class="section two-col" id="studio">
       <div id="info" class="text-col">
         <h2>Info</h2>
@@ -77,7 +76,6 @@
         </p>
       </div>
 
-      <!-- Instagram / Journal-lignende strøm -->
       <aside class="journal">
         <h3 class="visually-hidden">Instagram</h3>
         <div id="instagram-embed" class="insta-embed"></div>
@@ -85,9 +83,8 @@
           <p><a id="instagram-fallback" href="#" target="_blank" rel="noopener">Se Instagram</a></p>
         </noscript>
 
-        <!-- Sertifikat -->
         <div class="cert">
-          <img id="cert-logo" src="img/logo-sentralt-godkjent.png" alt="Sentralt godkjent" width="96" height="96" loading="lazy">
+          <img id="cert-logo" src="img/SG_GULL_HVITBOKS.png" alt="Sentralt godkjent" loading="lazy">
           <div>
             <p id="cert-text" class="muted"></p>
             <p><a id="cert-link" class="link-underline" href="#" target="_blank" rel="noopener">Les mer</a></p>
@@ -95,6 +92,7 @@
         </div>
       </aside>
     </section>
+
   </main>
 
   <!-- Kontaktstripe -->
@@ -103,6 +101,7 @@
     <p class="email"><a href="mailto:post@av-a.no">post@av-a.no</a></p>
   </section>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <ul class="social-links">
