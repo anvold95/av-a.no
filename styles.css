@@ -422,32 +422,45 @@ h3 { font-size: 1.2rem; }
   padding: 1rem; /* keep your original padding */
 }
 
-/* 4. Dragon-flame cursor */
+* { cursor: none !important; } /* hide native pointer */
+
 .dragon-cursor {
-  width: 24px;
-  height: 24px;
+  position: fixed;
+  width: 24px; height: 24px;
   background: radial-gradient(
     circle at 50% 50%,
-    #ff4500 0%,     /* bright orange center */
-    #ff0000 60%,    /* red mid */
-    transparent 80% /* fade out */
+    #ff4500 0%,
+    #ff0000 60%,
+    transparent 80%
   );
   clip-path: polygon(
-    50% 0%,  61% 35%, 98% 35%, 68% 57%, 79% 91%,
-    50% 70%, 21% 91%, 32% 57%,  2% 35%, 39% 35%
-  ); /* rough flame outline */
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+  pointer-events: none;
   mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
   transition: transform 0.2s ease;
-}
-.dragon-cursor.hover {
-  transform: scale(1.3);
+  z-index: 9998;
 }
 
-/* 5. Softer trail dots */
-.dragon-trail {
-  background: rgba(255, 69, 0, 0.6); /* semi-transparent orange */
-  width: 6px;
-  height: 6px;
+.dragon-cursor.hover {
+  transform: translate(-50%, -50%) scale(1.3);
 }
+
+/* Trail dots */
+.dragon-trail {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: rgba(255,69,0,0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: trailFade 0.8s forwards ease-out;
+}
+@keyframes trailFade {
+  to { opacity: 0; transform: scale(0.3); }
+}
+
 
 }
