@@ -1,92 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>A. Vold Arkitektur AS</title>
+  <meta name="description" content="A. Vold Arkitektur AS – arkitektur, transformasjon og objekter.">
+  <link rel="preload" href="styles.css" as="style">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skiplink" href="#innhold">Hopp til innhold</a>
+
   <header class="site-header">
-    <div class="container">
+    <div class="container head-grid">
       <div class="logo">
         a.-vold<br>
         <span class="sub-logo">architecture,<br>transformation &<br>objects</span>
       </div>
-      <nav class="main-nav">
+      <nav class="main-nav" aria-label="Hovedmeny">
         <ul>
-          <li><a href="#services">Services</a></li>
+          <li><a href="#tjenester">Tjenester</a></li>
           <li><a href="#info">Info</a></li>
-          <li><a href="#projects">Projects</a></li>
+          <li><a href="#prosjekter">Prosjekter</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <!-- Intro Section (tre kolonner som Cargo) -->
-    <section class="intro flex-three">
-      <div class="text-block">
-        <h1>A. VOLD ARKITEKTUR AS</h1>
-        <p>is an architecture firm dedicated to transformation and restoration. We focus on practical reuse and local adaptation, valuing solid craftsmanship to deliver thoughtful, enduring solutions.</p>
-        <p>Our expertise spans application work and construction consulting, including advising, building applications, feasibility studies, and preliminary designs. We approach each project with the aim to make the most of existing materials and spaces, ensuring that every element contributes to the overall integrity and functionality of the design.</p>
-        <p>Fill out <a href="e-mail-form">this</a> if you’re looking for architectural assistance.</p>
-      </div>
+  <main id="innhold" class="container three-grid">
+    <!-- Kolonne 1: Tekst -->
+    <section id="info" class="panel text-panel">
+      <h1 class="brand">A. VOLD ARKITEKTUR AS</h1>
+      <div id="about-text" class="flow"></div>
 
-      <div class="media-block instagram-embed">
-        <iframe 
-          src="https://www.instagram.com/p/C_fTkIOu-nR/embed" 
-          frameborder="0" 
-          allowtransparency="true" 
-          allowfullscreen="true" 
-          scrolling="no">
-        </iframe>
-      </div>
+      <section id="tjenester" class="flow">
+        <h2>Tjenester</h2>
+        <ul id="services-list" class="list-clean"></ul>
+      </section>
 
-      <div class="project-block">
-        <figure class="project-item">
-          <img src="img/00-rågsved-centrum.jpg" alt="2023 – Master Thesis, Transformation">
-          <figcaption>2023 – Master Thesis, Transformation</figcaption>
-        </figure>
-        <div class="inline-wrapper">
-          <img src="img/sentralt-godkjent-logo.png" alt="Sentralt godkjent" class="media-item">
-          <span class="text-item">
-            <strong>A. Vold Arkitektur AS</strong> is a centrally approved company for responsibility rights under the Planning and Building Act, issued by the Norwegian Building Authority (DiBK).
-          </span>
-        </div>
-      </div>
+      <p class="cta">
+        <a id="cta-link" class="link-underline" href="#" rel="noopener">Forespørsel om bistand</a>
+      </p>
     </section>
 
-    <!-- Projects & Certification -->
-    <section id="projects" class="projects">
-      <figure class="project-item">
-        <img src="img/project-2023.jpg" alt="2023 – Master Thesis, Transformation">
-        <figcaption>2023 – Master Thesis, Transformation</figcaption>
-      </figure>
-      <div class="certification">
-        <img src="img/sentralt-godkjent-logo.png" alt="Sentralt godkjent">
-        <p>A. Vold Arkitektur AS is a centrally approved company for responsibility rights under the Planning and Building Act, issued by the Norwegian Building Authority (DiBK).</p>
+    <!-- Kolonne 2: Instagram -->
+    <section class="panel insta-panel" aria-label="Instagram">
+      <div id="instagram-embed" class="insta-embed">
+        <!-- Dynamisk fra content.json -->
       </div>
+      <noscript>
+        <p><a id="instagram-fallback" href="#" target="_blank" rel="noopener">Se Instagram</a></p>
+      </noscript>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="contact">
-      <p class="contact-prompt">Have a project?</p>
-      <p class="contact-email">post@av-a.no</p>
+    <!-- Kolonne 3: Karusell + Sentralt godkjent -->
+    <section id="prosjekter" class="panel projects-panel">
+      <div class="carousel" aria-label="Prosjektbilder">
+        <button class="car-btn prev" aria-label="Forrige" data-dir="-1">←</button>
+        <div class="car-track" id="car-track"></div>
+        <button class="car-btn next" aria-label="Neste" data-dir="1">→</button>
+        <div class="car-dots" id="car-dots" role="tablist" aria-label="Bildeindekser"></div>
+      </div>
+
+      <div class="cert">
+        <img id="cert-logo" src="img/logo-sentralt-godkjent.png" alt="Sentralt godkjent" width="96" height="96" loading="lazy">
+        <p id="cert-text" class="muted"></p>
+        <p><a id="cert-link" class="link-underline" href="#" target="_blank" rel="noopener">Les mer</a></p>
+      </div>
     </section>
   </main>
 
-  <!-- Instagram embed script -->
-  <script async src="//www.instagram.com/embed.js"></script>
+  <section id="kontakt" class="contact">
+    <p class="kicker">Har du et prosjekt?</p>
+    <p class="email"><a href="mailto:post@av-a.no">post@av-a.no</a></p>
+  </section>
 
   <footer class="site-footer">
     <div class="container">
       <ul class="social-links">
-        <li><a href="#" aria-label="LinkedIn"><i class="icon-linkedin"></i></a></li>
-        <li><a href="#" aria-label="Instagram"><i class="icon-instagram"></i></a></li>
+        <li><a id="linkedin-link" href="#" aria-label="LinkedIn">LinkedIn</a></li>
+        <li><a id="instagram-link" href="#" aria-label="Instagram">Instagram</a></li>
       </ul>
     </div>
   </footer>
+
+  <!-- Data + logikk -->
+  <script defer src="script.js"></script>
+  <!-- Instagram script lastes kun når embed brukes -->
 </body>
 </html>
-
