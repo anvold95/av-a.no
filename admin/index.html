@@ -6,18 +6,7 @@
   <title>Innholdsredigering</title>
 </head>
 <body>
-  <script>
-  // 1) Bekreft at config lastes
-  fetch('/admin/config.yml', {cache:'no-store'})
-    .then(r => console.log('config.yml status:', r.status))
-    .catch(e => console.error('config fetch error', e));
-
-  // 2) Logg auth-meldingen fra popup
-  window.addEventListener('message', (e) => console.log('AUTH MESSAGE →', e.data, 'FROM', e.origin));
-</script>
-
-  <!-- Kun én last, ingen manuell init -->
-  <script src="/admin/decap-cms.js"></script>
+  <!-- KUN én script-tag. Ingen CMS.init, ingen ekstra script. -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
-
