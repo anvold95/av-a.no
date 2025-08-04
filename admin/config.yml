@@ -1,0 +1,44 @@
+backend:
+  name: git-gateway
+  branch: main
+media_folder: "img/projects"
+public_folder: "/img/projects"
+collections:
+  - name: "innhold"
+    label: "Innhold"
+    files:
+      - file: "content.json"
+        label: "Tekst og innhold"
+        name: "content"
+        fields:
+          - { label: "Avsnitt", name: "about.paragraphs", widget: list, field: {label: Avsnitt, name: text, widget: text} }
+          - { label: "Tjenester", name: "services", widget: list }
+          - { label: "CTA-lenke", name: "cta.href", widget: string }
+          - label: "Instagram
+            "
+            name: "instagram"
+            widget: object
+            fields:
+              - { label: "Profil-URL", name: "profileUrl", widget: string, required: false }
+              - { label: "Post-URL", name: "postUrl", widget: string, required: false }
+              - { label: "Embed HTML", name: "embedHtml", widget: text, required: false }
+          - label: "Prosjekter"
+            name: "projects"
+            widget: list
+            fields:
+              - { label: "Bilde", name: "src", widget: image }
+              - { label: "Alt-tekst", name: "alt", widget: string, required: false }
+              - { label: "Bildetekst", name: "caption", widget: string, required: false }
+          - label: "Sentralt godkjent"
+            name: "cert"
+            widget: object
+            fields:
+              - { label: "Logo", name: "logo", widget: image, required: false }
+              - { label: "Tekst", name: "text", widget: string }
+              - { label: "Lenke", name: "link", widget: string }
+          - label: "Sosiale lenker"
+            name: "social"
+            widget: object
+            fields:
+              - { label: "LinkedIn", name: "linkedin", widget: string, required: false }
+              - { label: "Instagram", name: "instagram", widget: string, required: false }
