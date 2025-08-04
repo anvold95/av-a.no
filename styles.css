@@ -100,17 +100,13 @@ img{ max-width:100%; display:block; }
 .project:hover .cap, .project:focus-within .cap{ opacity:1; transform: translateY(0); }
 
 /* Lightbox */
--.lightbox{
--  position:fixed; inset:0; display:grid; place-items:center; background: rgba(0,0,0,.7); z-index:50;
--}
-+.lightbox{
-+  position:fixed; inset:0; place-items:center; background: rgba(0,0,0,.7); z-index:50;
-+}
-+/* Skjul når hidden er satt */
-+.lightbox[hidden]{ display:none !important; }
-+/* Vis kun når den ikke er hidden */
-+.lightbox:not([hidden]){ display:grid; }
-
+.lightbox{
+  position:fixed; inset:0; place-items:center; background: rgba(0,0,0,.7); z-index:50;
+}
+/* Skjul når hidden er satt */
+.lightbox[hidden]{ display:none !important; }
+/* Vis kun når den ikke er hidden */
+.lightbox:not([hidden]){ display:grid; }
 
 /* Studio-seksjon */
 .two-col{
