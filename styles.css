@@ -23,58 +23,44 @@ html, body {
 
 .dragon-cursor {
   position: fixed;
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(45deg, #ff6b9d, #a8e6cf, #ffd93d, #6bcf7f);
+  width: 12px;
+  height: 12px;
+  background: #ff0000;
   pointer-events: none;
   z-index: 9998;
-  mix-blend-mode: multiply;
+  mix-blend-mode: difference;
   transform: translate(-50%, -50%);
-  border-radius: 60% 40% 50% 30%;
-  animation: dragonFloat 2s infinite ease-in-out;
-  box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
-}
-
-@keyframes dragonFloat {
-  0%, 100% { 
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
-    border-radius: 60% 40% 50% 30%;
-  }
-  50% { 
-    transform: translate(-50%, -50%) rotate(10deg) scale(1.1);
-    border-radius: 40% 60% 30% 50%;
-  }
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
 .dragon-cursor.hover {
-  width: 30px;
-  height: 30px;
-  animation-duration: 1s;
+  width: 24px;
+  height: 24px;
+  background: #000000;
 }
 
-/* --- Dragon Glitter Trail --- */
-.dragon-glitter {
+/* --- Dragon Trail --- */
+.dragon-trail {
   position: fixed;
   pointer-events: none;
   z-index: 9997;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
+  background: #ff0000;
   border-radius: 50%;
-  animation: dragonGlitterFade 1.5s forwards ease-out;
+  mix-blend-mode: difference;
+  animation: trailFade 0.8s forwards ease-out;
 }
 
-@keyframes dragonGlitterFade {
+@keyframes trailFade {
   0% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.5) rotate(180deg);
+    opacity: 0.8;
+    transform: scale(1);
   }
   100% {
     opacity: 0;
-    transform: scale(0.3) rotate(360deg);
+    transform: scale(0.3);
   }
 }
 
@@ -114,6 +100,12 @@ h3 { font-size: 1.2rem; }
   top: 0; 
   z-index: 100;
   border-bottom: 1px solid var(--border);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.site-header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .header-inner {
@@ -154,7 +146,7 @@ h3 { font-size: 1.2rem; }
 
 /* --- Hero Carousel --- */
 .hero { 
-  margin: 80px 0 4rem 0; 
+  margin: 120px 0 6rem 0; 
 }
 
 .hero-inner {
@@ -212,8 +204,9 @@ h3 { font-size: 1.2rem; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  max-width: 100%;
+  max-width: 1000px;
   margin: 0 auto;
+  justify-items: center;
 }
 
 .project {
@@ -320,7 +313,7 @@ h3 { font-size: 1.2rem; }
 
 .insta-iframe {
   width: 100%; 
-  height: 400px;
+  height: 600px;
   border: none;
   display: block;
 }
@@ -333,6 +326,12 @@ h3 { font-size: 1.2rem; }
   position: sticky; 
   bottom: 0; 
   z-index: 50;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.site-footer.hidden {
+  transform: translateY(100%);
+  opacity: 0;
 }
 
 .footer-inner {
