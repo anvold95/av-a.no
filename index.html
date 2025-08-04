@@ -10,7 +10,7 @@
 <body>
   <a class="skiplink" href="#main">Hopp til innhold</a>
 
-  <!-- Sticky header -->
+  <!-- Sticky Header -->
   <header class="site-header">
     <div class="container head-grid">
       <a class="logo" href="#top">A. Vold Architecture</a>
@@ -24,20 +24,20 @@
     </div>
   </header>
 
-  <!-- Hero carousel -->
-  <section id="top" class="hero" aria-label="Utvalgte prosjekter">
-    <button class="hero-btn prev" aria-label="Forrige">←</button>
-    <div class="hero-container" id="hero-images">
-      <!-- Images injected by script.js -->
+  <!-- Hero Carousel -->
+  <section id="top" class="hero">
+    <div class="hero-inner container">
+      <button class="hero-btn prev" aria-label="Forrige">←</button>
+      <div class="hero-container" id="hero-images"></div>
+      <div class="hero-counter" id="hero-counter"></div>
+      <button class="hero-btn next" aria-label="Neste">→</button>
     </div>
-    <div class="hero-counter" id="hero-counter"></div>
-    <button class="hero-btn next" aria-label="Neste">→</button>
   </section>
 
   <main id="main">
     <!-- Studio + Instagram -->
-    <section class="section two-col studio-social">
-      <div id="studio" class="text-col">
+    <section id="studio" class="section two-col studio-social container">
+      <div class="text-col">
         <h2>Studio</h2>
         <p>Et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk.</p>
         <h3>Tjenester</h3>
@@ -50,13 +50,13 @@
     </section>
 
     <!-- Prosjekter grid -->
-    <section id="prosjekter" class="section projects">
+    <section id="prosjekter" class="section projects container">
       <h2>Prosjekter</h2>
       <div class="projects-grid" id="projects-grid"></div>
     </section>
   </main>
 
-  <!-- Sticky footer -->
+  <!-- Sticky Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <p>&copy; 2025 A. Vold Arkitektur AS</p>
