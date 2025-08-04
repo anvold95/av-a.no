@@ -1,15 +1,15 @@
-// script.js
 document.addEventListener('DOMContentLoaded', async () => {
-  // Hent innhold fra JSON
   const res = await fetch('content.json', { cache: 'no-store' });
   const data = await res.json();
 
-  // ----- Tjenester -----
+  // --- Tjenester (Studio) ---
   const servicesList = document.getElementById('services-list');
-  servicesList.innerHTML = (data.services || [])
-    .map(s => `<li>${s}</li>`).join('');
+  if (servicesList && data.services) {
+    servicesList.innerHTML = data.services
+      .map(s => `<li>${s}</li>`).join('');
+  }
 
-  // ----- Instagram embed -----
+  // --- Instagram Embed ---
   const instaWrap = document.getElementById('instagram-embed');
   if (instaWrap && data.instagram) {
     if (data.instagram.embedHtml) {
@@ -33,14 +33,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // ----- Hero Carousel -----
+  // --- Hero Carousel ---
   const heroContainer = document.getElementById('hero-images');
-  const heroCounter = document.getElementById('hero-counter');
-  const heroData = data.hero?.images || [];
+  const heroCounter   = document.getElementById('hero-counter');
+  const heroData      = data.hero?.images || [];
   if (heroContainer && heroData.length) {
+    // Inject slides
     heroContainer.innerHTML = heroData.map((img, i) =>
-      `<img src="${img.src}" alt="${img.alt||''}"
-            class="hero-slide${i===0?' current':''}" data-index="${i}">`
+      `<img src="${img.src}"
+            alt="${img.alt || ''}"
+            class="hero-slide${i===0?' current':''}"
+            data-index="${i}">`
     ).join('');
     heroCounter.textContent = `1 / ${heroData.length}`;
 
@@ -63,38 +66,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         show((current + 1) % slides.length)
       );
 
-    // Naviger ved å klikke på selve bildet
-    slides.forEach(s =>
-      s.addEventListener('click', () =>
+    slides.forEach(slide =>
+      slide.addEventListener('click', () =>
         show((current + 1) % slides.length)
       )
     );
 
-    // Auto‐advance hver 5s
+    // Auto-advance 5s
     let timer = setInterval(() =>
-      show((current + 1) % slides.length), 5000
+      show((current + 1) % slides.length),
+      5000
     );
-    // Pause ved hover
-    [ ...slides,
+    // Pause on hover
+    [...slides,
       document.querySelector('.hero-btn.prev'),
       document.querySelector('.hero-btn.next')
     ].forEach(el => {
       el.addEventListener('mouseenter', () => clearInterval(timer));
       el.addEventListener('mouseleave', () =>
         timer = setInterval(() =>
-          show((current + 1) % slides.length), 5000
+          show((current + 1) % slides.length),
+          5000
         )
       );
     });
   }
 
-  // ----- Projects Grid -----
-  const grid = document.getElementById('projects-grid');
+  // --- Projects Grid ---
+  const grid     = document.getElementById('projects-grid');
   const projects = data.projects || [];
-  grid.innerHTML = projects.map(p =>
-    `<article class="project">
-       <img src="${p.src}" alt="${p.alt||''}">
-       ${p.caption ? `<div class="cap">${p.caption}</div>` : ''}
-     </article>`
-  ).join('');
+  if (grid) {
+    grid.innerHTML = projects.map(p =>
+      `<article class="project">
+         <img src="${p.src}" alt="${p.alt||''}">
+         ${p.caption ? `<div class="cap">${p.caption}</div>` : ''}
+       </article>`
+    ).join('');
+  }
+
+  // --- Footer Social Links ---
+  document.getElementById('linkedin-link').href   = data.social?.linkedin   || '#';
+  document.getElementById('instagram-link').href = data.social?.instagram || '#';
 });
