@@ -1,0 +1,37 @@
+{
+  "about": {
+    "paragraphs": [
+      "er et arkitektkontor med vekt på transformasjon og restaurering. Vi jobber praktisk med gjenbruk og lokal tilpasning, og prioriterer solid håndverk for varige løsninger.",
+      "Vi tilbyr rådgivning, byggesøknader, mulighetsstudier og skisseprosjekter. Hvert prosjekt handler om å forvalte eksisterende materialer og rom på en måte som styrker helhet og funksjon."
+    ]
+  },
+  "services": [
+    "Rådgivning og mulighetsstudier",
+    "Skisseprosjekt og forprosjekt",
+    "Byggesøknad (PBL/DiBK)",
+    "Ombruk og materialkartlegging",
+    "Byggeledelse og oppfølging"
+  ],
+  "cta": {
+    "href": "mailto:post@av-a.no?subject=Forespørsel%20om%20arkitektbistand"
+  },
+  "instagram": {
+    "profileUrl": "https://www.instagram.com/DITT_BRUKERNAVN/",
+    "postUrl": "https://www.instagram.com/p/C_fTkIOu-nR/",
+    "embedHtml": ""
+  },
+  "projects": [
+    { "src": "img/projects/project-01.jpg", "alt": "Transformasjon 2023", "caption": "2023 – Master Thesis, Transformation" },
+    { "src": "img/projects/project-02.jpg", "alt": "Rehabilitering trehus", "caption": "Rehabilitering – tre" },
+    { "src": "img/projects/project-03.jpg", "alt": "Ombygging lokaler", "caption": "Ombygging næring" }
+  ],
+  "cert": {
+    "logo": "img/logo-sentralt-godkjent.png",
+    "text": "A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).",
+    "link": "https://sgregister.dibk.no/" 
+  },
+  "social": {
+    "linkedin": "#",
+    "instagram": "https://www.instagram.com/DITT_BRUKERNAVN/"
+  }
+}
