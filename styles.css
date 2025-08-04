@@ -1,85 +1,115 @@
-/* Reset & Base */
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family:'Helvetica Neue',Arial,sans-serif;
-  line-height:1.6; color:#333; background:#fff;
+/* --- Reset og baser --- */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+:root{
+  --bg:#fff;
+  --fg:#111;
+  --muted:#666;
+  --line:#e6e6e6;
+  --link:#111;
+  --radius:10px;
+  --measure:68ch;
 }
-img { max-width:100%; display:block; }
-.container { width:90%; max-width:1200px; margin:0 auto; }
-
-/* Header */
-.site-header { border-bottom:1px solid #eaeaea; padding:1rem 0; }
-.site-header .container {
-  display:flex; align-items:center; justify-content:space-between;
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e0f11; --fg:#e9e9ea; --muted:#a3a3a3; --line:#2a2a2a; --link:#e9e9ea; }
 }
-.logo { font-size:1.5rem; font-weight:bold; line-height:1.2; }
-.sub-logo {
-  font-size:0.8rem; font-weight:normal; color:#555; line-height:1.3;
-}
-.main-nav ul { list-style:none; display:flex; gap:2rem; }
-.main-nav a {
-  text-decoration:none; color:#333; font-weight:500;
-}
-.main-nav a:hover { color:#000; }
-
-/* Three-column intro */
-.flex-three {
-  display:flex; flex-wrap:wrap; gap:2rem; padding:4rem 0;
-}
-.flex-three > div { flex:1 1 300px; }
-.text-block h1 { font-size:2rem; margin-bottom:1rem; }
-.text-block p { margin-bottom:1rem; }
-
-/* Instagram embed */
-.instagram-embed iframe {
-  width:100%; max-width:540px; border:1px solid #ddd;
-  border-radius:3px; background:#fff; margin:0 auto 2rem;
+body{
+  font-family: ui-sans-serif, -apple-system, "Helvetica Neue", Arial, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  line-height: 1.55;
+  color: var(--fg);
+  background: var(--bg);
+  text-rendering: optimizeLegibility;
 }
 
-/* Project & certification */
-.project-block {
-  display:flex; flex-direction:column; gap:1.5rem;
-}
-.project-item img { border:1px solid #eaeaea; }
-.project-item figcaption {
-  margin-top:0.5rem; font-size:0.9rem; color:#666;
-}
-.inline-wrapper {
-  display:inline-flex; align-items:center; gap:1rem;
-}
-.text-item {
-  display:inline-block; max-width:250px;
-  padding:10px; background:#fff; border-radius:5px;
-  font-size:0.9rem; color:#555; overflow-wrap:break-word;
-}
+img{ max-width:100%; display:block; }
 
-/* Projects section */
-.projects {
+/* --- Layout --- */
+.container{ width:min(1120px, 92vw); margin-inline:auto; }
+.site-header{ border-bottom:1px solid var(--line); padding:1.2rem 0; }
+.head-grid{ display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
+
+.logo{ font-weight:700; letter-spacing:.2px; line-height:1.2; }
+.sub-logo{ font-weight:400; color:var(--muted); font-size:.9rem; }
+
+/* Nav */
+.main-nav ul{ list-style:none; display:flex; gap:1.6rem; padding:0; margin:0; }
+.main-nav a{ color:var(--link); text-decoration:none; }
+.main-nav a:hover{ text-decoration:underline; }
+
+/* Tre like paneler (kolonner) */
+.three-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:2rem; padding:2rem 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 2.5vw, 2rem);
+  padding: clamp(1.2rem, 2.5vw, 2rem) 0 3rem;
+  border-bottom:1px solid var(--line);
 }
-.certification {
-  display:flex; flex-direction:column;
-  align-items:start; gap:1rem;
-}
-.certification img { width:100px; }
-.certification p { font-size:0.9rem; color:#555; }
+.panel{ display:flex; flex-direction:column; gap:1rem; }
+.text-panel{ max-width: var(--measure); }
+.projects-panel{ position:relative; }
 
-/* Contact */
-.contact { text-align:center; padding:4rem 0; }
-.contact-prompt { font-size:1.5rem; margin-bottom:0.5rem; }
-.contact-email {
-  font-size:1.2rem; font-weight:bold; color:#333;
+/* Typografi */
+.brand{ font-size: clamp(1.4rem, 2.2vw, 1.8rem); margin:0 0 .5rem; letter-spacing:.3px; }
+h2{ font-size:1rem; font-weight:600; margin:1rem 0 .25rem; }
+.flow > * + *{ margin-top:.75rem; }
+.muted{ color:var(--muted); }
+.list-clean{ list-style:none; padding:0; margin:0; }
+.list-clean li{ padding-left:0; }
+
+.link-underline{ text-decoration:underline; text-underline-offset:2px; }
+.cta{ margin-top:1rem; }
+
+/* Instagram */
+.insta-embed{ border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
+.insta-embed iframe, .insta-embed blockquote{ width:100%; }
+
+/* Karusell */
+.carousel{ position:relative; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
+.car-track{ display:flex; transition: transform .4s ease; will-change: transform; }
+.car-item{ min-width:100%; position:relative; }
+.car-item img{ width:100%; height:auto; display:block; }
+.car-caption{ position:absolute; left:0; bottom:0; padding:.6rem .8rem; background:rgba(255,255,255,.75); color:#000; font-size:.85rem; }
+@media (prefers-color-scheme: dark){
+  .car-caption{ background: rgba(0,0,0,.55); color:#fff; }
+}
+.car-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background: rgba(255,255,255,.8); border:1px solid var(--line);
+  padding:.4rem .6rem; cursor:pointer; border-radius:8px; backdrop-filter:saturate(130%) blur(8px);
+}
+.car-btn:hover{ background:#fff; }
+.car-btn.prev{ left:.5rem; } .car-btn.next{ right:.5rem; }
+.car-dots{ display:flex; justify-content:center; gap:.5rem; padding:.6rem; }
+.car-dot{ width:8px; height:8px; border-radius:50%; border:1px solid var(--fg); background:transparent; opacity:.5; }
+.car-dot[aria-current="true"]{ opacity:1; }
+
+/* Sertifikat */
+.cert{ display:grid; grid-template-columns: auto 1fr; gap:.8rem 1rem; align-items:start; margin-top:1rem; }
+.cert img{ width:96px; height:auto; }
+.cert p{ margin:.2rem 0; }
+
+/* Kontakt + footer */
+.contact{ text-align:center; padding:2.2rem 0; }
+.kicker{ font-size:1.2rem; margin:.2rem 0 .4rem; }
+.email a{ color:var(--link); font-weight:600; text-decoration:none; }
+.email a:hover{ text-decoration:underline; }
+
+.site-footer{ border-top:1px solid var(--line); padding:1rem 0; }
+.social-links{ list-style:none; display:flex; gap:1rem; justify-content:center; padding:0; margin:0; }
+.social-links a{ color:var(--link); text-decoration:none; }
+.social-links a:hover{ text-decoration:underline; }
+
+/* Tilgjengelighet */
+.skiplink{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skiplink:focus{
+  position:static; width:auto; height:auto; padding:.5rem; background:#fffb; border:1px solid var(--line);
 }
 
-/* Footer */
-.site-footer {
-  border-top:1px solid #eaeaea; padding:1rem 0;
-}
-.social-links {
-  list-style:none; display:flex; gap:1rem; justify-content:center;
-}
-.social-links a {
-  text-decoration:none; color:#333; font-size:1.2rem;
+/* Responsiv */
+@media (max-width: 960px){
+  .three-grid{ grid-template-columns: 1fr; }
+  .text-panel{ max-width: none; }
+  .car-caption{ position:static; background: none; padding:.4rem .8rem 1rem; }
 }
