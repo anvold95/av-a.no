@@ -6,15 +6,17 @@
   <title>A. Vold Arkitektur AS</title>
   <meta name="description" content="A. Vold Arkitektur AS – arkitektur, transformasjon og objekter.">
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Neue+Haas+Grotesk+Text:wght@400;500;600&family=Times+New+Roman:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="dragon-cursor"></div>
+  
   <a class="skiplink" href="#main">Hopp til innhold</a>
-
+  
   <!-- HEADER full width -->
   <header class="site-header">
     <div class="header-inner container">
-      <a class="logo" href="#top">A. Vold Architecture</a>
+      <a class="logo" href="#top">A. Vold Arkitektur AS</a>
       <nav class="main-nav">
         <ul>
           <li><a href="#top">Works</a></li>
@@ -24,35 +26,88 @@
       </nav>
     </div>
   </header>
-
+  
   <main id="main">
-
-    <!-- HERO (sentrert, kvadratisk) -->
+    <!-- HERO -->
     <section id="top" class="hero">
       <div class="hero-inner container">
-        <div id="hero-images" class="hero-container"></div>
-        <div id="hero-counter" class="hero-counter"></div>
+        <div id="hero-images" class="hero-container">
+          <!-- Demo images - replace with your content.json -->
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop" alt="Modern architecture" class="hero-slide current" data-index="0">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop" alt="Interior design" class="hero-slide" data-index="1">
+          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop" alt="Renovation project" class="hero-slide" data-index="2">
+        </div>
+        <div id="hero-counter" class="hero-counter">1 / 3</div>
       </div>
     </section>
-
-    <!-- PROSJEKTER GRID (4 pr rad) -->
+    
+    <!-- PROJECTS GRID -->
     <section id="prosjekter" class="projects-section container">
-      <h2>Prosjekter</h2>
-      <div id="projects-grid" class="projects-grid"></div>
+      <h2 class="section-title">Prosjekter</h2>
+      <div id="projects-grid" class="projects-grid">
+        <!-- Demo projects - replace with your content.json -->
+        <article class="project">
+          <div class="project-info">2021.01.23</div>
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&h=400&fit=crop" alt="Project 1">
+          <div class="cap">Ollonborren, Sweden</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2020.11.15</div>
+          <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=400&fit=crop" alt="Project 2">
+          <div class="cap">Bergen, Norway</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2020.08.30</div>
+          <img src="https://images.unsplash.com/photo-1600585154084-4e5fe7c39198?w=400&h=400&fit=crop" alt="Project 3">
+          <div class="cap">Stavanger, Norway</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2020.06.12</div>
+          <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=400&h=400&fit=crop" alt="Project 4">
+          <div class="cap">Telemark, Norway</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2020.03.08</div>
+          <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=400&h=400&fit=crop" alt="Project 5">
+          <div class="cap">Oslo, Norway</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2019.12.20</div>
+          <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400&h=400&fit=crop" alt="Project 6">
+          <div class="cap">Copenhagen, Denmark</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2019.09.14</div>
+          <img src="https://images.unsplash.com/photo-1600585154363-67eb9d91e60c?w=400&h=400&fit=crop" alt="Project 7">
+          <div class="cap">Stockholm, Sweden</div>
+        </article>
+        <article class="project">
+          <div class="project-info">2019.07.01</div>
+          <img src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=400&h=400&fit=crop" alt="Project 8">
+          <div class="cap">Helsinki, Finland</div>
+        </article>
+      </div>
     </section>
-
+    
     <hr class="divider">
-
-    <!-- STUDIO + INSTAGRAM side by side -->
+    
+    <!-- STUDIO + INSTAGRAM -->
     <section class="studio-social container">
       <div class="text-col" id="studio">
         <h2>Studio</h2>
         <p class="studio-intro"><b>A. VOLD ARKITEKTUR AS</b> er et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk. Vi fokuserer på praktisk ombruk og lokal tilpasning med solid håndverk for varige løsninger.</p>
         <h3>Tjenester</h3>
-        <ul id="services-list"></ul>
+        <ul id="services-list">
+          <li>Arkitektonisk design og planlegging</li>
+          <li>Transformasjon og restaurering</li>
+          <li>Bærekraftig gjenbruk av materialer</li>
+          <li>Prosjektledelse og byggeoppføling</li>
+          <li>Konseptutvikling og visualisering</li>
+        </ul>
       </div>
+      
       <aside class="journal" id="journal">
-        <h2>Instagram</h2>
+        <h2>Journal</h2>
         <iframe
           src="https://www.instagram.com/p/C_fTkIOu-nR/embed/?cr=1&v=14"
           frameborder="0"
@@ -62,22 +117,21 @@
         </iframe>
       </aside>
     </section>
-
   </main>
-
-  <!-- FOOTER full width -->
+  
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-inner container">
-      <a class="logo" href="#top">A. Vold Architecture</a>
+      <a class="logo" href="#top">A. Vold Arkitektur AS</a>
       <nav class="social-nav">
         <ul>
-          <li><a id="linkedin-link" href="#">LinkedIn</a></li>
-          <li><a id="instagram-link" href="#">Instagram</a></li>
+          <li><a id="linkedin-link" href="#" target="_blank">LinkedIn</a></li>
+          <li><a id="instagram-link" href="#" target="_blank">Instagram</a></li>
         </ul>
       </nav>
     </div>
   </footer>
-
+  
   <script defer src="script.js"></script>
 </body>
 </html>
