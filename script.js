@@ -74,10 +74,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeDemoCarousel();
   }
   
-  // --- Dragon Cursor & Glitter Trail ---
+  // --- Dragon Cursor & Trail ---
   const cursor = document.querySelector('.dragon-cursor');
   let mouseX = 0, mouseY = 0;
-  let trailPoints = [];
+  let trailHistory = [];
   
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
@@ -86,19 +86,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     cursor.style.left = mouseX + 'px';
     cursor.style.top = mouseY + 'px';
     
-    // Add point to trail
-    trailPoints.push({
+    // Add to trail history
+    trailHistory.push({
       x: mouseX,
       y: mouseY,
       time: Date.now()
     });
     
     // Keep only recent points
-    trailPoints = trailPoints.filter(point => Date.now() - point.time < 500);
+    trailHistory = trailHistory.filter(point => Date.now() - point.time < 300);
     
-    // Create dragon glitter trail
-    if (Math.random() > 0.8) {
-      createDragonGlitter(mouseX, mouseY);
+    // Create trail dot occasionally
+    if (trailHistory.length > 3 && Math.random() > 0.7) {
+      createTrailDot(mouseX, mouseY);
     }
   });
   
@@ -108,36 +108,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
   });
   
-  function createDragonGlitter(x, y) {
-    const colors = ['#ff6b9d', '#a8e6cf', '#ffd93d', '#6bcf7f', '#ff8a65', '#b19cd9'];
+  function createTrailDot(x, y) {
+    const trail = document.createElement('div');
+    trail.className = 'dragon-trail';
     
-    // Create multiple glitter particles
-    for (let i = 0; i < 3; i++) {
-      const glitter = document.createElement('div');
-      glitter.className = 'dragon-glitter';
-      
-      const offsetX = (Math.random() - 0.5) * 30;
-      const offsetY = (Math.random() - 0.5) * 30;
-      
-      glitter.style.left = (x + offsetX) + 'px';
-      glitter.style.top = (y + offsetY) + 'px';
-      glitter.style.background = colors[Math.floor(Math.random() * colors.length)];
-      glitter.style.animationDelay = (i * 0.1) + 's';
-      
-      // Add some sparkle shapes
-      if (Math.random() > 0.7) {
-        glitter.style.borderRadius = '0';
-        glitter.style.transform = 'rotate(45deg)';
+    const offsetX = (Math.random() - 0.5) * 8;
+    const offsetY = (Math.random() - 0.5) * 8;
+    
+    trail.style.left = (x + offsetX) + 'px';
+    trail.style.top = (y + offsetY) + 'px';
+    
+    document.body.appendChild(trail);
+    
+    setTimeout(() => {
+      if (trail.parentNode) {
+        trail.parentNode.removeChild(trail);
       }
-      
-      document.body.appendChild(glitter);
-      
-      setTimeout(() => {
-        if (glitter.parentNode) {
-          glitter.parentNode.removeChild(glitter);
-        }
-      }, 1500);
-    }
+    }, 800);
   }
   
   // --- Demo Carousel (fallback) ---
@@ -182,15 +169,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
   
-  // --- Header Scroll Effect ---
+  // --- Header & Footer Auto-hide ---
   let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
+  let idleTimer = null;
+  let isIdle = false;
+  
+  function hideElements() {
     const header = document.querySelector('.site-header');
-    if (window.scrollY > lastScrollY && window.scrollY > 100) {
+    const footer = document.querySelector('.site-footer');
+    header.classList.add('hidden');
+    footer.classList.add('hidden');
+    isIdle = true;
+  }
+  
+  function showElements() {
+    const header = document.querySelector('.site-header');
+    const footer = document.querySelector('.site-footer');
+    header.classList.remove('hidden');
+    footer.classList.remove('hidden');
+    isIdle = false;
+  }
+  
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    if (isIdle) showElements();
+    idleTimer = setTimeout(hideElements, 3000); // Hide after 3 seconds of inactivity
+  }
+  
+  // Track mouse movement and scrolling for idle detection
+  document.addEventListener('mousemove', resetIdleTimer);
+  document.addEventListener('scroll', () => {
+    const header = document.querySelector('.site-header');
+    
+    // Show/hide on scroll direction (immediate)
+    if (window.scrollY > lastScrollY && window.scrollY > 100 && !isIdle) {
       header.style.transform = 'translateY(-100%)';
-    } else {
+    } else if (!isIdle) {
       header.style.transform = 'translateY(0)';
     }
+    
     lastScrollY = window.scrollY;
+    resetIdleTimer();
   });
+  
+  // Initialize idle timer
+  resetIdleTimer();
 });
