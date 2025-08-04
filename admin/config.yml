@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: <bruker/org>/<repo>
+  repo: anvold95/av-a-website
   branch: main
   base_url: https://av-a-oauth.vercel.app/api   # legg merke til /api her
 media_folder: "img/projects"
