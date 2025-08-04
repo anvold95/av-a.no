@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: anvold95/av-a-website
-  branch: main
+  branch: av-a.no
   base_url: "https://av-a-oauth.vercel.app"
   auth_endpoint: "/api/auth"
 media_folder: "img/projects"
