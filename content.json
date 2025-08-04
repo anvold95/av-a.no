@@ -21,9 +21,9 @@
     "embedHtml": ""
   },
   "projects": [
-    { "src": "img/projects/SQUARE-01.jpg", "alt": "Transformasjon 2023", "caption": "2023 – Master Thesis, Transformation" },
-    { "src": "img/projects/SQUARE-02.jpg", "alt": "Rehabilitering trehus", "caption": "Rehabilitering – tre" },
-    { "src": "img/projects/SQUARE-03.jpg", "alt": "Ombygging lokaler", "caption": "Ombygging næring" }
+    { "src": "img/projects/SQUARE-2-.jpg", "alt": "Transformasjon 2023", "caption": "2023 – Master Thesis, Transformation" },
+    { "src": "img/projects/SQUARE10.jpg", "alt": "Rehabilitering av etterkrigshus", "caption": "Rehabilitering og Transformasjon" },
+    { "src": "img/projects/SQUARE18.jpg", "alt": "Transformasjon og Addisjon av næringslokaler", "caption": "Ombygging" }
   ],
   "cert": {
     "logo": "img/logo-sentralt-godkjent.png",
