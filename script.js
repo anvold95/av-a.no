@@ -2,80 +2,120 @@
   const res = await fetch('content.json', { cache: 'no-store' });
   const data = await res.json();
 
-  // Tekst + tjenester
+  /* ---------- Tekst + tjenester ---------- */
   const about = document.getElementById('about-text');
-  about.innerHTML = data.about.paragraphs.map(p => `<p>${p}</p>`).join('');
+  about.innerHTML = (data.about?.paragraphs || []).map(p => `<p>${p}</p>`).join('');
 
   const servicesList = document.getElementById('services-list');
-  servicesList.innerHTML = data.services.map(s => `<li>${s}</li>`).join('');
+  servicesList.innerHTML = (data.services || []).map(s => `<li>${s}</li>`).join('');
 
   const ctaLink = document.getElementById('cta-link');
-  ctaLink.href = data.cta.href;
+  if (ctaLink && data.cta?.href) ctaLink.href = data.cta.href;
 
-  // Instagram
+  /* ---------- Instagram ---------- */
   const instaWrap = document.getElementById('instagram-embed');
-  if (data.instagram.embedHtml) {
-    instaWrap.innerHTML = data.instagram.embedHtml;
-    // last offisielt script kun hvis vi faktisk har embed
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = "https://www.instagram.com/embed.js";
-    document.body.appendChild(s);
-  } else if (data.instagram.postUrl) {
-    instaWrap.innerHTML = `<iframe
-      src="${data.instagram.postUrl}embed"
-      frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no"
-      style="width:100%; min-height: 560px;"></iframe>`;
+  if (instaWrap) {
+    if (data.instagram?.embedHtml) {
+      instaWrap.innerHTML = data.instagram.embedHtml;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = "https://www.instagram.com/embed.js";
+      document.body.appendChild(s);
+    } else if (data.instagram?.postUrl) {
+      instaWrap.innerHTML = `<iframe
+        src="${data.instagram.postUrl}embed"
+        frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no"
+        style="width:100%; min-height: 560px;"></iframe>`;
+    }
+    const instaFallback = document.getElementById('instagram-fallback');
+    if (instaFallback) instaFallback.href = data.instagram?.profileUrl || '#';
   }
-  const instaFallback = document.getElementById('instagram-fallback');
-  if (instaFallback) instaFallback.href = data.instagram.profileUrl || '#';
 
-  // Karusell
-  const track = document.getElementById('car-track');
-  const dots = document.getElementById('car-dots');
-  const images = data.projects;
+  /* ---------- HERO ---------- */
+  const heroMount = document.getElementById('hero-images');
+  const heroImages = (data.hero?.images && data.hero.images.length)
+    ? data.hero.images
+    : (data.projects || []).slice(0, 5); // fallback til første prosjekter
 
-  track.innerHTML = images.map(item => `
-    <figure class="car-item">
-      <img src="${item.src}" alt="${item.alt || ''}" loading="lazy">
-      ${item.caption ? `<figcaption class="car-caption">${item.caption}</figcaption>` : ''}
-    </figure>
+  heroMount.innerHTML = heroImages.map((it, i) => `
+    <div class="hero-slide" role="img" aria-label="${it.alt || ''}"
+      style="background-image:url('${it.src}')"
+      ${i === 0 ? 'aria-current="true"' : ''}></div>
   `).join('');
 
-  dots.innerHTML = images.map((_, i) =>
-    `<button class="car-dot" role="tab" aria-label="Bilde ${i+1}" data-idx="${i}"></button>`
-  ).join('');
-
-  let idx = 0;
-  const setIdx = (i) => {
-    idx = (i + images.length) % images.length;
-    track.style.transform = `translateX(${-idx * 100}%)`;
-    dots.querySelectorAll('.car-dot').forEach((d, j) => d.setAttribute('aria-current', j===idx ? 'true' : 'false'));
+  let hIdx = 0;
+  const slides = Array.from(heroMount.querySelectorAll('.hero-slide'));
+  const setHero = (i) => {
+    hIdx = (i + slides.length) % slides.length;
+    slides.forEach((s, j) => s.setAttribute('aria-current', j === hIdx ? 'true' : 'false'));
   };
-  setIdx(0);
-
-  document.querySelectorAll('.car-btn').forEach(btn => {
-    btn.addEventListener('click', () => setIdx(idx + Number(btn.dataset.dir)));
+  const jump = (dir) => setHero(hIdx + dir);
+  const nextBtn = document.querySelector('.hero-btn.next');
+  const prevBtn = document.querySelector('.hero-btn.prev');
+  nextBtn.addEventListener('click', () => jump(1));
+  prevBtn.addEventListener('click', () => jump(-1));
+  let heroTimer = setInterval(() => jump(1), 5000);
+  ['click','keydown','pointerdown','touchstart'].forEach(ev => {
+    heroMount.addEventListener(ev, () => { clearInterval(heroTimer); heroTimer = setInterval(() => jump(1), 7000); }, { passive:true });
   });
 
-  dots.addEventListener('click', (e) => {
-    const b = e.target.closest('.car-dot');
-    if (b) setIdx(Number(b.dataset.idx));
-  });
+  /* ---------- Prosjektrist ---------- */
+  const grid = document.getElementById('projects-grid');
+  const images = data.projects || [];
+  grid.innerHTML = images.map((item, idx) => `
+    <article class="project ${idx % 5 === 0 ? 'tall' : ''}">
+      <a href="${item.src}" class="project-link" data-idx="${idx}" aria-label="${item.alt || 'Prosjektbilde'}">
+        <img src="${item.src}" alt="${item.alt || ''}" loading="lazy">
+        ${item.caption ? `<div class="cap">${item.caption}</div>` : ''}
+      </a>
+    </article>
+  `).join('');
 
-  // Piltaster
+  /* Lightbox (lettvekts, uten eksterne avhengigheter) */
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-cap');
+  const lbClose = document.querySelector('.lightbox-close');
+
+  const openLightbox = (idx) => {
+    const it = images[idx];
+    if (!it) return;
+    lbImg.src = it.src;
+    lbImg.alt = it.alt || '';
+    lbCap.textContent = it.caption || '';
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  };
+  const closeLightbox = () => {
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  };
+  grid.addEventListener('click', (e) => {
+    const a = e.target.closest('a.project-link');
+    if (!a) return;
+    e.preventDefault();
+    openLightbox(Number(a.dataset.idx));
+  });
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') setIdx(idx - 1);
-    if (e.key === 'ArrowRight') setIdx(idx + 1);
+    if (!lightbox.hidden && (e.key === 'Escape' || e.key === 'Esc')) closeLightbox();
+    if (!lightbox.hidden && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
+      const current = images.findIndex(it => it.src === lbImg.src);
+      const next = (current + dir + images.length) % images.length;
+      openLightbox(next);
+    }
   });
 
-  // Sertifikat
-  document.getElementById('cert-text').textContent = data.cert.text;
-  document.getElementById('cert-link').href = data.cert.link;
+  /* ---------- Sertifikat + footer ---------- */
+  document.getElementById('cert-text').textContent = data.cert?.text || '';
+  document.getElementById('cert-link').href = data.cert?.link || '#';
   const certLogo = document.getElementById('cert-logo');
-  if (data.cert.logo) certLogo.src = data.cert.logo;
+  if (data.cert?.logo) certLogo.src = data.cert.logo;
 
-  // Footer lenker
-  document.getElementById('linkedin-link').href = data.social.linkedin || '#';
-  document.getElementById('instagram-link').href = data.social.instagram || '#';
+  document.getElementById('linkedin-link').href = data.social?.linkedin || '#';
+  document.getElementById('instagram-link').href = data.social?.instagram || '#';
 })();
