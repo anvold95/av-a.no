@@ -23,25 +23,23 @@
       el.appendChild(line);
     };
 
-    // Logg feil direkte på siden
-    window.onerror = (msg, src, line, col, err) => {
-      L(`FEIL: ${msg} @ ${src}:${line}:${col}`, 'err');
-    };
-
-    L('1) Laster config.yml …');
+    // 1) Sjekk at config.yml er tilgjengelig
+    L('Sjekker config.yml …');
     fetch('/admin/config.yml', { cache: 'no-store' })
       .then(r => L(`config.yml status: ${r.status} ${r.ok ? '(OK)' : '(IKKE FUNNET)'}`, r.ok ? 'ok' : 'err'))
-      .catch(e => L('config fetch error: ' + e, 'err'))
-      .finally(() => {
-        L('2) Laster decap-cms.js …');
-      });
+      .catch(e => L('config fetch error: ' + e, 'err'));
 
-    // Ta manuell kontroll for å unngå dobbel init
+    // 2) Logg auth-meldinger fra popup (token)
+    window.addEventListener('message', (e) => {
+      L('AUTH MESSAGE → ' + JSON.stringify(e.data) + '  FROM ' + e.origin, 'ok');
+    });
+
+    // 3) Slå av auto-init; vi initierer selv når skriptet er lastet
     window.CMS_MANUAL_INIT = true;
 
-    // Når skriptet er lastet, initierer vi CMS
+    // 4) Funksjon som kalles når CMS-skriptet er lastet
     window.__cmsLoaded = () => {
-      L('decap-cms.js lastet (CMS finnes: ' + (typeof CMS) + ')', (typeof CMS === 'function') ? 'ok' : 'err');
+      L('decap-cms.js lastet. typeof CMS = ' + (typeof CMS), (typeof CMS === 'function') ? 'ok' : 'err');
       try {
         CMS.init({ config: { load_config_file: true } });
         L('CMS.init() kalt', 'ok');
@@ -49,16 +47,11 @@
         L('CMS.init() feilet: ' + e, 'err');
       }
     };
-
-    // Logg auth-meldinger fra popup
-    window.addEventListener('message', (e) => {
-      L('AUTH MESSAGE → ' + JSON.stringify(e.data) + ' FROM ' + e.origin, 'ok');
-    });
   </script>
 
-  <!-- Last Decap fra CDN (enkelt å bytte til lokal fil senere) -->
+  <!-- Last CMS fra CDN (vi kan bytte til lokal fil senere) -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"
           onload="window.__cmsLoaded()"
-          onerror="L('decap-cms.js kunne ikke lastes', 'err')"></script>
+          onerror="document.getElementById('log').innerHTML += '\n' + 'decap-cms.js kunne ikke lastes'"></script>
 </body>
 </html>
