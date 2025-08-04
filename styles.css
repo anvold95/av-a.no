@@ -400,4 +400,54 @@ h3 { font-size: 1.2rem; }
   .projects-grid {
     grid-template-columns: 1fr;
   }
+
+/* 1. Lighter borders everywhere */
+:root {
+  --border: #c0c0c0;
+}
+
+/* 2. Center the Prosjekter title + grid */
+.projects-section .section-title {
+  text-align: center;
+}
+.projects-grid {
+  margin: 0 auto; /* already has max-width, this centers it */
+}
+
+/* 3. Make header/footer inner go full-width */
+.site-header .header-inner,
+.site-footer .footer-inner {
+  max-width: none;
+  width: 100%;
+  padding: 1rem; /* keep your original padding */
+}
+
+/* 4. Dragon-flame cursor */
+.dragon-cursor {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    #ff4500 0%,     /* bright orange center */
+    #ff0000 60%,    /* red mid */
+    transparent 80% /* fade out */
+  );
+  clip-path: polygon(
+    50% 0%,  61% 35%, 98% 35%, 68% 57%, 79% 91%,
+    50% 70%, 21% 91%, 32% 57%,  2% 35%, 39% 35%
+  ); /* rough flame outline */
+  mix-blend-mode: screen;
+  transition: transform 0.2s ease;
+}
+.dragon-cursor.hover {
+  transform: scale(1.3);
+}
+
+/* 5. Softer trail dots */
+.dragon-trail {
+  background: rgba(255, 69, 0, 0.6); /* semi-transparent orange */
+  width: 6px;
+  height: 6px;
+}
+
 }
