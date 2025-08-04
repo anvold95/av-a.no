@@ -5,109 +5,80 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>A. Vold Arkitektur AS</title>
   <meta name="description" content="A. Vold Arkitektur AS – arkitektur, transformasjon og objekter.">
-  <link rel="preload" href="styles.css" as="style">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Skip link -->
   <a class="skiplink" href="#innhold">Hopp til innhold</a>
 
-  <!-- Header -->
-  <header class="site-header kba">
+  <!-- Header (inspirert av Kolman Boye: minimal) -->
+  <header class="site-header">
     <div class="container head-grid">
-      <a class="logo" href="#top" aria-label="Forside">
-        a.-vold
-        <span class="sub-logo">architecture, transformation & objects</span>
-      </a>
+      <a class="logo" href="#top">A. Vold Architects</a>
       <nav class="main-nav" aria-label="Hovedmeny">
         <ul>
-          <li><a href="#prosjekter">Prosjekter</a></li>
-          <li><a href="#tjenester">Tjenester</a></li>
-          <li><a href="#info">Info</a></li>
-          <li><a href="#kontakt">Kontakt</a></li>
+          <li><a href="#prosjekter">Works</a></li>
+          <li><a href="#studio">Studio</a></li>
+          <li><a href="#journal">Journal</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- HERO: begrenset bredde, sentrert -->
-  <section id="top" class="hero" aria-label="Utvalgte prosjekter">
-    <div class="hero-images" id="hero-images" aria-hidden="true"></div>
-    <div class="hero-overlay">
-      <h1 class="brand-hero">A. VOLD<br>ARKITEKTUR AS</h1>
-      <p class="hero-kicker">arkitektur · transformasjon · objekter</p>
-      <a class="hero-cta" href="#prosjekter">Se prosjekter</a>
+  <!-- Hero full-bredde bilde med tittel over -->
+  <section id="top" class="hero">
+    <img src="img/SQUARE-2-.jpg" alt="Hovedprosjekt" class="hero-img">
+    <div class="hero-caption">
+      <span class="hero-date">2024.08.01</span>
+      <span class="hero-title">Ravine House, Sweden</span>
+      <a href="#prosjekter" class="hero-link">Read more</a>
     </div>
   </section>
 
-  <!-- Innhold -->
+  <!-- Main content -->
   <main id="innhold">
-
-    <!-- Prosjekter -->
+    <!-- Prosjekter grid -->
     <section id="prosjekter" class="section projects">
-      <div class="section-head">
-        <h2>Prosjekter</h2>
-        <p class="muted">Et utvalg arbeider</p>
-      </div>
-      <div class="grid" id="projects-grid" aria-live="polite"></div>
-
-      <!-- Lightbox -->
-      <div id="lightbox" class="lightbox" hidden>
-        <button class="lightbox-close" aria-label="Lukk">×</button>
-        <figure class="lightbox-fig">
-          <img id="lightbox-img" alt="">
-          <figcaption id="lightbox-cap" class="muted"></figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- Info + tjenester -->
-    <section class="section two-col" id="studio">
-      <div id="info" class="text-col">
-        <h2>Info</h2>
-        <div id="about-text" class="flow"></div>
-
-        <section id="tjenester" class="flow">
-          <h3>Tjenester</h3>
-          <ul id="services-list" class="list-clean"></ul>
-        </section>
-
-        <p class="cta">
-          <a id="cta-link" class="link-underline" href="#" rel="noopener">Forespørsel om bistand</a>
-        </p>
-      </div>
-
-      <aside class="journal">
-        <h3 class="visually-hidden">Instagram</h3>
-        <div id="instagram-embed" class="insta-embed"></div>
-        <noscript>
-          <p><a id="instagram-fallback" href="#" target="_blank" rel="noopener">Se Instagram</a></p>
-        </noscript>
-
-        <div class="cert">
-          <img id="cert-logo" src="img/SG_GULL_HVITBOKS.png" alt="Sentralt godkjent" loading="lazy">
-          <div>
-            <p id="cert-text" class="muted"></p>
-            <p><a id="cert-link" class="link-underline" href="#" target="_blank" rel="noopener">Les mer</a></p>
+      <div class="container">
+        <div class="projects-grid">
+          <!-- Gjenta for hvert prosjekt -->
+          <div class="project-item">
+            <img src="img/SQUARE10.jpg" alt="Prosjekt 1">
+            <div class="project-info">
+              <span class="project-date">2023.05.15</span>
+              <h3 class="project-title">Rehabilitering etterkrigshus</h3>
+            </div>
           </div>
+          <div class="project-item">
+            <img src="img/SQUARE18.jpg" alt="Prosjekt 2">
+            <div class="project-info">
+              <span class="project-date">2022.11.20</span>
+              <h3 class="project-title">Ombygging næringslokaler</h3>
+            </div>
+          </div>
+          <!-- Flere items ... -->
         </div>
-      </aside>
+      </div>
     </section>
 
+    <!-- Studio-seksjon -->
+    <section id="studio" class="section studio">
+      <div class="container two-col">
+        <div class="text-col">
+          <h2>Studio</h2>
+          <p>… Om oss …</p>
+        </div>
+        <aside class="sidebar">
+          <h2>Journal</h2>
+        </aside>
+      </div>
+    </section>
   </main>
 
-  <!-- Kontaktstripe -->
-  <section id="kontakt" class="contact">
-    <p class="kicker">Har du et prosjekt?</p>
-    <p class="email"><a href="mailto:post@av-a.no">post@av-a.no</a></p>
-  </section>
-
-  <!-- Footer -->
+  <!-- Footer minimal -->
   <footer class="site-footer">
     <div class="container">
-      <ul class="social-links">
-        <li><a id="linkedin-link" href="#" aria-label="LinkedIn">LinkedIn</a></li>
-        <li><a id="instagram-link" href="#" aria-label="Instagram">Instagram</a></li>
-      </ul>
+      <p>&copy; 2024 A. Vold Architects</p>
     </div>
   </footer>
 
