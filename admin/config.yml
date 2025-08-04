@@ -1,11 +1,11 @@
 backend:
   name: github
-  repo: DITTNAVN/DITTREPO   # f.eks. avold/website
+  repo: <bruker/org>/<repo>
   branch: main
-  base_url: https://ditt-oauth-navn.vercel.app   # settes i steg 3
-
+  base_url: https://av-a-oauth.vercel.app/api   # legg merke til /api her
 media_folder: "img/projects"
 public_folder: "/img/projects"
+# ... (resten av fields slik vi la opp tidligere)
 
 collections:
   - name: "innhold"
