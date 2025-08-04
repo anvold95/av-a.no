@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const data = await (await fetch('content.json')).json();
 
-  // --- Hero Carousel uten piler ---
+  // --- Hero-karusell uten piler ---
   const heroImgs = data.hero?.images || [];
   const heroContainer = document.getElementById('hero-images');
   const heroCounter   = document.getElementById('hero-counter');
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const slides = Array.from(heroContainer.querySelectorAll('.hero-slide'));
     let current = 0;
-
     function show(i) {
       slides.forEach(s => s.classList.remove('current'));
       slides[i].classList.add('current');
@@ -22,17 +21,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       heroCounter.textContent = `${i+1} / ${slides.length}`;
     }
 
-    // Klikk på bildet for neste
+    // Neste bilde på klikk
     slides.forEach(s => s.addEventListener('click', () =>
       show((current+1) % slides.length)
     ));
 
     // Auto-advance
-    let timer = setInterval(() => show((current+1)%slides.length), 5000);
+    let timer = setInterval(() =>
+      show((current+1) % slides.length), 5000
+    );
     slides.forEach(s => {
       s.addEventListener('mouseenter', () => clearInterval(timer));
       s.addEventListener('mouseleave', () =>
-        timer = setInterval(() => show((current+1)%slides.length), 5000)
+        timer = setInterval(() =>
+          show((current+1) % slides.length), 5000
+        )
       );
     });
   }
@@ -58,22 +61,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('linkedin-link').href   = data.social?.linkedin   || '#';
   document.getElementById('instagram-link').href = data.social?.instagram || '#';
 
-  // --- Mouse glitter-tail ---
-  let last = { x:0, y:0, t:0 };
+  // --- Mouse glitter-tail over hele siden ---
+  let last = { x: 0, y: 0, t: 0 };
   document.addEventListener('mousemove', e => {
     const now = Date.now();
     const dx = e.clientX - last.x;
     const dy = e.clientY - last.y;
     const dt = now - last.t || 1;
-    const speed = Math.min(Math.hypot(dx,dy)/dt*50, 20); // 0–20 scale
+    const speed = Math.min(Math.hypot(dx,dy) / dt * 50, 20); // 0–20
+
     last = { x: e.clientX, y: e.clientY, t: now };
 
     const dot = document.createElement('div');
     dot.className = 'cursor-trail';
-    // skaler størrelsen etter hastighet
-    const size = 4 + speed; 
+    const size = 4 + speed;  // base 4px + speed
     dot.style.width = `${size}px`;
-    dot.style.height = `${size}px`;
+    dot.style.height = `${size/2}px`; // mer avlang
     dot.style.left = `${e.clientX}px`;
     dot.style.top = `${e.clientY}px`;
     document.body.append(dot);
