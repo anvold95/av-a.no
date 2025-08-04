@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: anvold95/av-a-website
+  repo: anvold95/av-a
   branch: main
   base_url: https://av-a-oauth.vercel.app/api
   auth_endpoint: auth
