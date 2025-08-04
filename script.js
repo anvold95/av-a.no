@@ -1,19 +1,20 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const data = await (await fetch('content.json')).json();
 
-  // --- Services ---
+  // Tjenester
   const services = document.getElementById('services-list');
   if (services && data.services) {
     services.innerHTML = data.services.map(s => `<li>${s}</li>`).join('');
   }
 
-  // --- Hero Carousel ---
+  // Hero-karusell
   const heroData = data.hero?.images || [];
   const container = document.getElementById('hero-images');
   const counter   = document.getElementById('hero-counter');
   if (container && heroData.length) {
     container.innerHTML = heroData.map((img,i) =>
-      `<img src="${img.src}" alt="${img.alt||''}" class="hero-slide${i===0?' current':''}" data-index="${i}">`
+      `<img src="${img.src}" alt="${img.alt||''}"
+        class="hero-slide${i===0?' current':''}" data-index="${i}">`
     ).join('');
     counter.textContent = `1 / ${heroData.length}`;
 
@@ -26,17 +27,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       counter.textContent = `${i+1} / ${slides.length}`;
     }
 
-    document.querySelector('.hero-btn.prev').addEventListener('click', () =>
-      show((current-1+slides.length)%slides.length)
+    document.querySelector('.hero-btn.prev')
+      .addEventListener('click', () =>
+        show((current-1+slides.length)%slides.length)
+      );
+    document.querySelector('.hero-btn.next')
+      .addEventListener('click', () =>
+        show((current+1)%slides.length)
+      );
+    slides.forEach(s =>
+      s.addEventListener('click', () =>
+        show((current+1)%slides.length)
+      )
     );
-    document.querySelector('.hero-btn.next').addEventListener('click', () =>
-      show((current+1)%slides.length)
-    );
-    slides.forEach(s => s.addEventListener('click', () =>
-      show((current+1)%slides.length)
-    ));
 
-    let timer = setInterval(() => show((current+1)%slides.length), 5000);
+    let timer = setInterval(() =>
+      show((current+1)%slides.length), 5000
+    );
     [...slides, ...document.querySelectorAll('.hero-btn')].forEach(el => {
       el.addEventListener('mouseenter', () => clearInterval(timer));
       el.addEventListener('mouseleave', () =>
@@ -45,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // --- Projects Grid ---
+  // Prosjekter-grid
   const grid = document.getElementById('projects-grid');
   if (grid && data.projects) {
     grid.innerHTML = data.projects.map(p =>
@@ -55,4 +62,9 @@ document.addEventListener('DOMContentLoaded', async () => {
        </article>`
     ).join('');
   }
+
+  // Sosiale lenker i footer
+  document.getElementById('linkedin-link').href   = data.social?.linkedin   || '#';
+  document.getElementById('instagram-link').href = data.social?.instagram || '#';
 });
+
