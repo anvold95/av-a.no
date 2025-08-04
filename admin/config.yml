@@ -11,7 +11,7 @@ collections:
   - name: "innhold"
     label: "Innhold"
     files:
-      - file: "content.json"   # <- da må content.json ligge i web-roten
+      - file: "content.json"
         label: "Tekst og innhold"
         name: "content"
         fields:
