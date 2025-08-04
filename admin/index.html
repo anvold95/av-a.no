@@ -6,8 +6,13 @@
   <title>Innholdsredigering</title>
 </head>
 <body>
+  <!-- Viktig: slå av auto-init FØR vi laster skriptet -->
   <script>window.CMS_MANUAL_INIT = true;</script>
-  <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- Pin gjerne versjonen for stabilitet -->
+  <script src="https://cdn.jsdelivr.net/npm/decap-cms@3.0.0/dist/decap-cms.js"></script>
+
+  <!-- ÉN eksplisitt init -->
   <script>
     CMS.init({ config: { load_config_file: true } });
   </script>
