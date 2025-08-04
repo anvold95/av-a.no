@@ -8,14 +8,13 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Skip link -->
   <a class="skiplink" href="#innhold">Hopp til innhold</a>
 
-  <!-- Header (inspirert av Kolman Boye: minimal) -->
+  <!-- Header -->
   <header class="site-header">
     <div class="container head-grid">
-      <a class="logo" href="#top">A. Vold Architects</a>
-      <nav class="main-nav" aria-label="Hovedmeny">
+      <a class="logo" href="#top">A. Vold Architecture</a>
+      <nav class="main-nav">
         <ul>
           <li><a href="#prosjekter">Works</a></li>
           <li><a href="#studio">Studio</a></li>
@@ -25,60 +24,75 @@
     </div>
   </header>
 
-  <!-- Hero full-bredde bilde med tittel over -->
-  <section id="top" class="hero">
-    <img src="img/SQUARE-2-.jpg" alt="Hovedprosjekt" class="hero-img">
-    <div class="hero-caption">
-      <span class="hero-date">2024.08.01</span>
-      <span class="hero-title">Ravine House, Sweden</span>
-      <a href="#prosjekter" class="hero-link">Read more</a>
+  <!-- Hero carousel -->
+  <section id="top" class="hero" aria-label="Utvalgte prosjekter">
+    <button class="hero-btn prev" aria-label="Forrige">←</button>
+    <div class="hero-images" id="hero-images">
+      <img src="img/SQUARE-2-.jpg"  alt="Prosjektbilde 1" class="hero-slide current">
+      <img src="img/SQUARE10.jpg"   alt="Prosjektbilde 2" class="hero-slide">
+      <img src="img/SQUARE18.jpg"   alt="Prosjektbilde 3" class="hero-slide">
     </div>
+    <button class="hero-btn next" aria-label="Neste">→</button>
   </section>
 
-  <!-- Main content -->
   <main id="innhold">
-    <!-- Prosjekter grid -->
-    <section id="prosjekter" class="section projects">
-      <div class="container">
-        <div class="projects-grid">
-          <!-- Gjenta for hvert prosjekt -->
-          <div class="project-item">
-            <img src="img/SQUARE10.jpg" alt="Prosjekt 1">
-            <div class="project-info">
-              <span class="project-date">2023.05.15</span>
-              <h3 class="project-title">Rehabilitering etterkrigshus</h3>
-            </div>
-          </div>
-          <div class="project-item">
-            <img src="img/SQUARE18.jpg" alt="Prosjekt 2">
-            <div class="project-info">
-              <span class="project-date">2022.11.20</span>
-              <h3 class="project-title">Ombygging næringslokaler</h3>
-            </div>
-          </div>
-          <!-- Flere items ... -->
+    <!-- Info + Instagram -->
+    <section class="section studio-social">
+      <div class="container two-col">
+        <div id="info">
+          <h2>Info</h2>
+          <p>Et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk.</p>
+          <h3>Tjenester</h3>
+          <ul>
+            <li>Rådgivning og mulighetsstudier</li>
+            <li>Skisseprosjekt og forprosjekt</li>
+            <li>Byggesøknad (PBL/DiBK)</li>
+            <li>Ombruk og materialkartlegging</li>
+            <li>Byggeledelse og oppfølging</li>
+          </ul>
         </div>
+        <aside class="journal">
+          <h2>Instagram</h2>
+          <div class="insta-embed">
+            <!-- Instagram embed-kode her -->
+          </div>
+        </aside>
       </div>
     </section>
 
-    <!-- Studio-seksjon -->
-    <section id="studio" class="section studio">
-      <div class="container two-col">
-        <div class="text-col">
-          <h2>Studio</h2>
-          <p>… Om oss …</p>
+    <!-- Prosjekter grid -->
+    <section id="prosjekter" class="section projects">
+      <div class="container">
+        <h2>Prosjekter</h2>
+        <div class="projects-grid">
+          <article class="project">
+            <img src="img/SQUARE-2-.jpg"  alt="Transformasjon 2023">
+            <div class="cap">2023 – Master Thesis, Transformation</div>
+          </article>
+          <article class="project">
+            <img src="img/SQUARE10.jpg"   alt="Rehabilitering av etterkrigshus">
+            <div class="cap">Rehabilitering og transformasjon</div>
+          </article>
+          <article class="project">
+            <img src="img/SQUARE18.jpg"   alt="Ombygging av næringslokaler">
+            <div class="cap">Addisjon av næringslokaler</div>
+          </article>
+          <!-- Flere prosjekter her -->
         </div>
-        <aside class="sidebar">
-          <h2>Journal</h2>
-        </aside>
       </div>
     </section>
   </main>
 
-  <!-- Footer minimal -->
+  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2024 A. Vold Architects</p>
+    <div class="container footer-grid">
+      <p>&copy; 2024 A. Vold Arkitektur AS</p>
+      <nav class="social-nav">
+        <ul>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </nav>
     </div>
   </footer>
 
