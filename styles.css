@@ -6,7 +6,7 @@
 }
 
 html, body {
-  font-family: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-body);
   background: #fff;
   color: #000;
   line-height: 1.4;
@@ -33,6 +33,10 @@ html, body {
   --accent: #000;
   --text-light: #666;
   --border: #a0a0a0;
+
+  /* ---- Font Stacks ---- */
+  --font-body: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
+  --font-title: 'bricolage-grotesque', sans-serif;
 }
 
 /* --- Container Helper --- */
@@ -44,7 +48,7 @@ html, body {
 
 /* --- Typography --- */
 h1, h2, h3 {
-  font-family: 'Times New Roman', serif;
+  font-family: var(--font-title);
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0;
@@ -67,7 +71,6 @@ h3 { font-size: 1.2rem; }
   transform: translateY(-100%);
   opacity: 0;
 }
-/* override container on header-inner so it's full-width */
 .site-header .header-inner {
   max-width: none;
   width: 100%;
@@ -79,7 +82,8 @@ h3 { font-size: 1.2rem; }
 
 /* logo + nav */
 .logo {
-  font-family: 'Times New Roman', serif;
+  font-family: var(--font-title);
+  font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
   color: #000;
@@ -121,12 +125,11 @@ h3 { font-size: 1.2rem; }
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;     /* eller cover, hvis du vil udfylde hele feltet (kropscrop) */
+  object-fit: contain;
   object-position: center;
   opacity: 0;
   transition: opacity .3s ease;
 }
-
 .hero-slide.current {
   opacity: 1;
 }
@@ -156,7 +159,7 @@ h3 { font-size: 1.2rem; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1rem;
-  width: 100%;            /* fills the container */
+  width: 100%;
   justify-items: center;
 }
 .project {
