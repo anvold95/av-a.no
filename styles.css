@@ -6,13 +6,24 @@
 }
 
 html, body {
-  font-family: var(--font-body);
+  font-family: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
   background: #fff;
   color: #000;
   line-height: 1.4;
   font-weight: 400;
   font-size: 16px;
   cursor: auto;
+}
+
+.skiplink {
+  position: absolute;
+  left: -9999px;
+}
+.skiplink:focus {
+  position: static;
+  background: #fff;
+  padding: .5rem;
+  border: 1px solid #a0a0a0;
 }
 
 /* --- Variables --- */
@@ -22,13 +33,6 @@ html, body {
   --accent: #000;
   --text-light: #666;
   --border: #a0a0a0;
-
-  /* Font stacks */
-  --font-body: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
-  --font-title: 'bricolage-grotesque', sans-serif;
-
-  /* Blur-sensitivitet */
-  --blur-factor: 0.05; /* px blur per pixel scroll-delta */
 }
 
 /* --- Container Helper --- */
@@ -40,7 +44,7 @@ html, body {
 
 /* --- Typography --- */
 h1, h2, h3 {
-  font-family: var(--font-title);
+  font-family: 'Times New Roman', serif;
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0;
@@ -52,11 +56,11 @@ h3 { font-size: 1.2rem; }
 /* --- Header (full-bleed) --- */
 .site-header {
   width: 100%;
-  background: transparent;           /* fjernet hvid baggrund */
+  background: transparent;
   position: fixed;
   top: 0;
   z-index: 100;
-  border-bottom: none;               /* fjernet sort streg */
+  border-bottom: none;
   transition: transform .4s ease, opacity .4s ease;
 }
 .site-header.hidden {
@@ -74,12 +78,10 @@ h3 { font-size: 1.2rem; }
 
 /* logo + nav */
 .logo {
-  font-family: var(--font-title);
-  font-weight: 700;
+  font-family: 'Times New Roman', serif;
   font-size: 1rem;
   text-decoration: none;
   color: #000;
-  transition: filter .2s ease;
 }
 .main-nav ul {
   list-style: none;
@@ -93,7 +95,6 @@ h3 { font-size: 1.2rem; }
   font-weight: 400;
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
-  transition: filter .2s ease;
 }
 .main-nav a:hover {
   border-bottom: 1px solid var(--border);
@@ -117,8 +118,6 @@ h3 { font-size: 1.2rem; }
 .hero-slide {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   object-fit: contain;
   object-position: center;
   opacity: 0;
@@ -140,7 +139,7 @@ h3 { font-size: 1.2rem; }
 
 /* --- Projects Section (inside container) --- */
 .projects-section.container {
-  margin: 4rem auto;
+  margin: 4rem 0;
 }
 .section-title {
   font-size: 1.2rem;
@@ -156,27 +155,85 @@ h3 { font-size: 1.2rem; }
   width: 100%;
   justify-items: center;
 }
-/* … resten af projekter, studio, footer uændret bortset fra: */
-
-/* --- Footer (full-bleed) --- */
-.site-footer {
+.project {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+}
+.project img {
   width: 100%;
-  background: transparent;           /* fjernet hvid baggrund */
-  border-top: none;                  /* fjernet sort streg */
-  position: sticky;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter .2s ease;
+}
+.project:hover img {
+  filter: grayscale(0%);
+}
+.project .cap {
+  position: absolute;
   bottom: 0;
-  z-index: 50;
-  transition: transform .4s ease, opacity .4s ease;
-}
-.site-footer.hidden {
-  transform: translateY(100%);
-  opacity: 0;
-}
-.site-footer .footer-inner {
-  max-width: none;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
+  padding: .5rem;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 400;
+  border-top: 1px solid var(--border);
 }
+.project-info {
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  background: #fff;
+  padding: .25rem .5rem;
+  font-size: .7rem;
+  color: #000;
+  border: 1px solid var(--border);
+}
+
+/* --- Divider --- */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 4rem 0;
+}
+
+/* --- Studio + Instagram (inside container) --- */
+.studio-social.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  margin-bottom: 4rem;
+  align-items: start;
+}
+.text-col h2 {
+  margin-bottom: 1rem;
+  color: #000;
+  font-weight: 400;
+}
+.text-col h3 {
+  margin: 2rem 0 1rem;
+  color: #000;
+  font-weight: 400;
+}
+.studio-intro {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #000;
+}
+.studio-intro b {
+  font-weight: 500;
+}
+#services-list {
+  list-style: none;
+  padding-left: 0;
+}
+#services-list li {
+  margin-bottom: .5rem;
+  line-height: 1.4;
+  font-size: .9rem;
+  color: #000;
+  border-bottom: 1px solid #e0e0e0;
