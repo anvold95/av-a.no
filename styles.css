@@ -6,7 +6,7 @@
 }
 
 html, body {
-  font-family: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-body);
   background: #fff;
   color: #000;
   line-height: 1.4;
@@ -33,6 +33,10 @@ html, body {
   --accent: #000;
   --text-light: #666;
   --border: #a0a0a0;
+
+  /* ---- Font Stacks ---- */
+  --font-body: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
+  --font-title: 'bricolage-grotesque', sans-serif;
 }
 
 /* --- Container Helper --- */
@@ -44,7 +48,7 @@ html, body {
 
 /* --- Typography --- */
 h1, h2, h3 {
-  font-family: 'Times New Roman', serif;
+  font-family: var(--font-title);
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0;
@@ -56,11 +60,11 @@ h3 { font-size: 1.2rem; }
 /* --- Header (full-bleed) --- */
 .site-header {
   width: 100%;
-  background: transparent;
+  background: transparent;       /* fjernet hvid baggrund */
   position: fixed;
   top: 0;
   z-index: 100;
-  border-bottom: none;
+  border-bottom: none;           /* fjernet sorte streg */
   transition: transform .4s ease, opacity .4s ease;
 }
 .site-header.hidden {
@@ -78,7 +82,8 @@ h3 { font-size: 1.2rem; }
 
 /* logo + nav */
 .logo {
-  font-family: 'Times New Roman', serif;
+  font-family: var(--font-title);
+  font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
   color: #000;
@@ -118,6 +123,8 @@ h3 { font-size: 1.2rem; }
 .hero-slide {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: center;
   opacity: 0;
@@ -237,3 +244,88 @@ h3 { font-size: 1.2rem; }
   font-size: .9rem;
   color: #000;
   border-bottom: 1px solid #e0e0e0;
+  padding-bottom: .5rem;
+}
+.journal {
+  background: #fff;
+  border: 1px solid var(--border);
+  position: sticky;
+  top: 100px;
+}
+.journal h2 {
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: #000;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+.insta-iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  display: block;
+}
+
+/* --- Footer (full-bleed) --- */
+.site-footer {
+  width: 100%;
+  background: transparent;   /* fjernet hvid baggrund */
+  border-top: none;          /* fjernet sorte streg */
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+  transition: transform .4s ease, opacity .4s ease;
+}
+.site-footer.hidden {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.site-footer .footer-inner {
+  max-width: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.social-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.social-nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 400;
+  font-size: .9rem;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+.social-nav a:hover {
+  border-bottom: 1px solid var(--border);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .studio-social.container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .journal {
+    position: static;
+  }
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .main-nav ul {
+    gap: 1rem;
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.2rem; }
+}
+@media (max-width: 480px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
