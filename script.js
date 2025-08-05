@@ -215,3 +215,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize idle timer
   resetIdleTimer();
 });
+
+// Hastigheds-baseret blur-effekt
+let lastScrollY = window.scrollY;
+let lastTime = performance.now();
+
+function blurOnSpeed() {
+  const now = performance.now();
+  const deltaY = window.scrollY - lastScrollY;
+  const deltaT = now - lastTime;
+  // pixler pr ms → pixler pr frame * faktor
+  const speed = Math.abs(deltaY) / deltaT; // px per ms
+  const blur = Math.min(speed * 100 * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--blur-factor')), 10);
+  
+  document.querySelector('.site-header').style.filter = `blur(${blur}px)`;
+  document.querySelector('.site-footer').style.filter = `blur(${blur}px)`;
+
+  lastScrollY = window.scrollY;
+  lastTime = now;
+  requestAnimationFrame(blurOnSpeed);
+}
+
+// Start loop
+requestAnimationFrame(blurOnSpeed);
+
