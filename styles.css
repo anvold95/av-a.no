@@ -146,8 +146,9 @@ h3 { font-size: 1.2rem; }
 
 /* --- Projects Section (inside container) --- */
 .projects-section.container {
-  margin: 4rem 0;
+  margin: 4rem auto;
 }
+
 .section-title {
   font-size: 1.2rem;
   margin-bottom: 2rem;
