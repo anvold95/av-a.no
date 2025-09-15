@@ -14,6 +14,15 @@ html, body {
   font-size: 16px;
   cursor: auto;
 }
+::selection {
+  background: #ffeb3b; /* yellow highlight */
+  color: #000;         /* keep text readable */
+}
+
+::-moz-selection {
+  background: #ffeb3b; /* Firefox requires its own */
+  color: #000;
+}
 
 .skiplink {
   position: absolute;
