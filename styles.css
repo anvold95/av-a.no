@@ -35,8 +35,10 @@ html, body {
   --border: #a0a0a0;
 
   /* ---- Font Stacks ---- */
-  --font-body: 'Neue Haas Grotesk Text', 'Helvetica Neue', Arial, sans-serif;
-  --font-title: 'bricolage-grotesque', sans-serif;
+
+  --font-body: 'rig-sans', sans-serif;
+  --font-title: 'rig-sans', sans-serif;
+
 }
 
 /* --- Container Helper --- */
