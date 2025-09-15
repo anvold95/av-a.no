@@ -16,11 +16,11 @@ html, body {
 }
 
 ::selection {
-  background: #ffeb3b; /* yellow highlight */
+  background: #ff0; /* yellow highlight */
   color: #000;         /* keep text readable */
 }
 ::-moz-selection {
-  background: #ffeb3b; /* Firefox requires its own */
+  background: #ff0; /* Firefox requires its own */
   color: #000;
 }
 
