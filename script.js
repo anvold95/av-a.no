@@ -239,3 +239,89 @@ function blurOnSpeed() {
 // Start loop
 requestAnimationFrame(blurOnSpeed);
 
+// --- Scroll-to-carousel hijack ---
+(function() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  const slides = hero.querySelectorAll('.hero-slide');
+  const heroCounter = document.getElementById('hero-counter');
+  if (!slides.length) return;
+
+  let currentIndex = 0;
+  let lockScroll = false;
+
+  function showSlide(i) {
+    slides.forEach(s => s.classList.remove('current'));
+    slides[i].classList.add('current');
+    currentIndex = i;
+    if (heroCounter) heroCounter.textContent = `${i+1} / ${slides.length}`;
+  }
+
+  window.addEventListener('wheel', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const inView = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+
+    if (inView && !lockScroll) {
+      // hindre at vanlig scroll skyver siden
+      e.preventDefault();
+      lockScroll = true;
+
+      if (e.deltaY > 0 && currentIndex < slides.length - 1) {
+        showSlide(currentIndex + 1);
+      } else if (e.deltaY < 0 && currentIndex > 0) {
+        showSlide(currentIndex - 1);
+      } else {
+        // Slipp scroll når vi er på første eller siste slide
+        lockScroll = false;
+        return;
+      }
+
+      // delay så man ikke hopper flere slides på én gang
+      setTimeout(() => {
+        lockScroll = false;
+      }, 600);
+    }
+  }, { passive: false });
+})();
+
+(function() {
+  const heroSection = document.querySelector('.hero-inner.container');
+  const heroContainer = document.querySelector('#hero-images');
+  const slides = heroContainer ? heroContainer.querySelectorAll('.hero-slide') : [];
+  if (!heroSection || slides.length === 0) return;
+
+  let currentIndex = 0;
+  let locked = false;
+
+  function updateSlide(index) {
+    heroContainer.style.transform = `translateX(-${index * 100}%)`;
+    currentIndex = index;
+    const counter = document.getElementById('hero-counter');
+    if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+  }
+
+  function handleScroll(e) {
+    const rect = heroSection.getBoundingClientRect();
+    const inView = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+    if (!inView) return; // bare aktivt når hero er sentrert
+
+    e.preventDefault();
+    if (locked) return;
+    locked = true;
+
+    if (e.deltaY > 0 && currentIndex < slides.length - 1) {
+      updateSlide(currentIndex + 1);
+    } else if (e.deltaY < 0 && currentIndex > 0) {
+      updateSlide(currentIndex - 1);
+    }
+
+    setTimeout(() => { locked = false; }, 700); // liten pause for smoothness
+  }
+
+  // start på første slide
+  updateSlide(0);
+
+  window.addEventListener('wheel', handleScroll, { passive: false });
+})();
+
