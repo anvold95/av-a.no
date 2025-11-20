@@ -22,18 +22,26 @@ body {
   overflow-x: hidden;
 }
 
-/* PAPER TEXTURE BACKGROUND */
+/* SVAK PAPIRTEKSTUR (statisk) */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
+  z-index: -3;
+  background: #fcfcfb;
+  pointer-events: none;
+}
+
+/* ANIMERT SVG-STØY (levende korn) */
+.noise {
+  position: fixed;
+  inset: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  background-image: 
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="200" height="200" filter="url(%23noise)" opacity="0.03"/></svg>');
+  z-index: -2;
+  opacity: 0.06;
   pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
 /* MORPHING SHAPE */
@@ -44,8 +52,8 @@ body::before {
   width: 600px;
   height: 600px;
   transform: translate(-50%, -50%);
-  z-index: 0;
-  opacity: 0.15;
+  z-index: -1;
+  opacity: 0.16;
   pointer-events: none;
   background: #d8d8d6;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
@@ -60,19 +68,19 @@ body::before {
   }
   25% {
     border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-    transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
+    transform: translate(-50%, -50%) rotate(40deg) scale(1.06);
   }
   50% {
     border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-    transform: translate(-50%, -50%) rotate(90deg) scale(0.9);
+    transform: translate(-50%, -50%) rotate(80deg) scale(0.94);
   }
   75% {
     border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-    transform: translate(-50%, -50%) rotate(135deg) scale(1.05);
+    transform: translate(-50%, -50%) rotate(120deg) scale(1.04);
   }
   100% {
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    transform: translate(-50%, -50%) rotate(180deg) scale(1);
+    transform: translate(-50%, -50%) rotate(160deg) scale(1);
   }
 }
 
@@ -82,7 +90,7 @@ a {
 }
 
 a:hover {
-  opacity: 0.5;
+  opacity: 0.55;
 }
 
 /* CONTAINER */
@@ -93,35 +101,51 @@ a:hover {
   z-index: 1;
 }
 
-/* HEADER */
+/* HEADER – STICKY + LITT MER HIERARKI */
 header {
-  text-align: center;
-  margin-bottom: 100px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  padding: 18px 0 22px;
+  margin-bottom: 80px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
 }
 
 .site-title {
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: 0.02em;
-  margin-bottom: 40px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
 }
 
 nav ul {
   list-style: none;
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 32px;
 }
 
 nav a {
   font-size: 12px;
   font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+}
+
+nav a:hover {
+  opacity: 1;
+  border-bottom-color: #bbb;
 }
 
 /* INTRO */
 .intro {
   text-align: center;
-  margin-bottom: 120px;
+  margin-bottom: 110px;
 }
 
 .intro p {
@@ -133,16 +157,16 @@ nav a {
 
 /* SECTION */
 section {
-  margin-bottom: 120px;
+  margin-bottom: 110px;
 }
 
 .section-title {
   font-size: 11px;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 60px;
   color: #999;
 }
 
@@ -152,23 +176,24 @@ section {
 }
 
 .project-item {
-  margin-bottom: 100px;
+  margin-bottom: 90px;
   text-align: center;
 }
 
 .project-image {
   width: 100%;
   max-width: 600px;
-  aspect-ratio: 1/1;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  margin: 0 auto 30px;
+  margin: 0 auto 28px;
   display: block;
+  border-radius: 18px;
 }
 
 .project-number {
   font-size: 10px;
-  color: #ccc;
-  margin-bottom: 12px;
+  color: #c3c3c3;
+  margin-bottom: 10px;
 }
 
 .project-title {
@@ -181,7 +206,7 @@ section {
   font-size: 13px;
   color: #888;
   font-style: italic;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .project-description {
@@ -189,7 +214,7 @@ section {
   line-height: 1.7;
   color: #555;
   max-width: 500px;
-  margin: 0 auto 15px;
+  margin: 0 auto 14px;
 }
 
 .project-meta {
@@ -207,13 +232,13 @@ section {
 .approach-text p {
   font-size: 14px;
   line-height: 1.8;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
   color: #444;
 }
 
 .approach-list {
   list-style: none;
-  margin-top: 40px;
+  margin-top: 34px;
   font-size: 13px;
   line-height: 2;
   color: #555;
@@ -221,7 +246,7 @@ section {
 }
 
 .approach-list li {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 /* RESEARCH */
@@ -232,20 +257,20 @@ section {
 }
 
 .research-item {
-  margin-bottom: 50px;
+  margin-bottom: 46px;
   text-align: center;
 }
 
 .research-meta {
   font-size: 11px;
   color: #999;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .research-title {
   font-size: 15px;
   font-weight: 400;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   line-height: 1.4;
 }
 
@@ -253,21 +278,15 @@ section {
   font-size: 13px;
   line-height: 1.7;
   color: #666;
-  margin-bottom: 15px;
-}
-
-.research-link {
-  font-size: 11px;
-  color: #999;
-  text-decoration: underline;
+  margin-bottom: 10px;
 }
 
 /* CONTACT */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
-  max-width: 400px;
+  gap: 34px;
+  max-width: 420px;
   margin: 0 auto;
   text-align: center;
 }
@@ -275,8 +294,8 @@ section {
 .contact-block h3 {
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 15px;
+  letter-spacing: 0.14em;
+  margin-bottom: 13px;
   font-weight: 400;
   color: #999;
 }
@@ -299,57 +318,97 @@ section {
   margin-bottom: 3px;
 }
 
-/* FOOTER */
+/* FOOTER – LIGGER TYDELIG I BUNNEN */
 footer {
-  margin-top: 100px;
-  padding-top: 30px;
-  border-top: 1px solid #e8e8e8;
+  margin-top: 90px;
+  padding: 24px 0 20px;
+  border-top: 1px solid rgba(0,0,0,0.06);
   text-align: center;
   font-size: 11px;
-  color: #bbb;
+  color: #aaa;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  bottom: 0;
 }
 
 footer a {
   color: #999;
-  margin: 0 15px;
+  margin: 0 14px;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
   body {
-    padding: 40px 20px;
+    padding: 26px 18px 30px;
   }
   
   header {
-    margin-bottom: 70px;
+    padding: 14px 0 18px;
+    margin-bottom: 60px;
+  }
+  
+  .site-title {
+    font-size: 14px;
+    margin-bottom: 14px;
   }
   
   nav ul {
-    flex-direction: column;
-    gap: 15px;
+    gap: 18px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  nav a {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
   }
   
   .intro {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
   }
   
   section {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
   }
   
   .project-item {
-    margin-bottom: 70px;
+    margin-bottom: 60px;
+  }
+  
+  .project-image {
+    border-radius: 14px;
   }
   
   .approach-list {
     text-align: center;
+  }
+  
+  footer {
+    margin-top: 60px;
+    padding: 18px 0 16px;
   }
 }
   </style>
 </head>
 <body>
 
-<!-- BACKGROUND SHAPE -->
+<!-- ANIMERT STØY-LAG -->
+<svg class="noise" xmlns="http://www.w3.org/2000/svg">
+  <filter id="noiseFilter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch">
+      <animate attributeName="baseFrequency"
+               dur="12s"
+               values="0.9;0.7;1.0;0.8;0.9"
+               repeatCount="indefinite" />
+    </feTurbulence>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+</svg>
+
+<!-- MORPHING FORM -->
 <div class="background-shape"></div>
 
 <div class="container">
@@ -361,7 +420,7 @@ footer a {
       <li><a href="#intro">Om</a></li>
       <li><a href="#works">Prosjekter</a></li>
       <li><a href="#approach">Tilnærming</a></li>
-      <li><a href="#research">Forskning</a></li>
+      <li><a href="#research">Faglig arbeid</a></li>
       <li><a href="#contact">Kontakt</a></li>
     </ul>
   </nav>
@@ -372,7 +431,7 @@ footer a {
 <section id="intro" class="intro">
   <p>A. Vold Arkitektur arbeider med transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse i eksisterende bygningsmasse.</p>
   
-  <p>Vi er opptatt av hvordan bygninger bærer spor av tid, bruk og konstruksjon, og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes – fremfor å starte på nytt.</p>
+  <p>Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes, fremfor å starte på nytt.</p>
 </section>
 
 <section id="works">
@@ -396,7 +455,7 @@ footer a {
       <div class="project-title">Skjønsbergvegen 14</div>
       <div class="project-subtitle">Shifts in Structure</div>
       <div class="project-description">
-        Transformasjon av et etterkrigsenebolig. Prosjektet genfortolker hverdagens rom gjennom små arkitektoniske forskyvninger, der nye lag tilføyes med respekt for husets opprinnelige struktur og økonomi.
+        Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.
       </div>
       <div class="project-meta">Privatoppdrag, 2024</div>
     </li>
@@ -407,7 +466,7 @@ footer a {
       <div class="project-title">Remaking Hauberg</div>
       <div class="project-subtitle">Royal Academy</div>
       <div class="project-description">
-        1:1-bygg som undersøkelse av materialkultur og byggeteknisk hukommelse. Prosjektet undersøker hvordan detaljert håndverk kan belyse konstruksjonens logikk og tidsdybde.
+        1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.
       </div>
       <div class="project-meta">Akademisk arbeid, 2022</div>
     </li>
@@ -418,7 +477,7 @@ footer a {
       <div class="project-title">Material Practice</div>
       <div class="project-subtitle">Dæmpegård Skovriddergård</div>
       <div class="project-description">
-        Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og samlingens logikk. Et arbeid hvor bygningens tidsspor brukes aktivt som formgivende ressurs.
+        Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.
       </div>
       <div class="project-meta">Akademisk arbeid, 2022</div>
     </li>
@@ -429,7 +488,7 @@ footer a {
       <div class="project-title">Recasting the Void</div>
       <div class="project-subtitle">Østerbrogade 146</div>
       <div class="project-description">
-        Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og undersøker hvordan nye lag av boliger kan innpasses i eksisterende strukturer.
+        Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.
       </div>
       <div class="project-meta">Akademisk arbeid, 2021</div>
     </li>
@@ -440,30 +499,30 @@ footer a {
   <h2 class="section-title">Tilnærming</h2>
   
   <div class="approach-text">
-    <p>Arbeidet vårt tar utgangspunkt i at arkitektur alltid står i forlengelse av noe eksisterende – en konstruksjon, et sted, en historie eller en bruk. Vi forsøker å lese disse sporene nøye, før vi legger til noe nytt.</p>
+    <p>Arbeidet tar utgangspunkt i en enkel tanke: å bruke det som allerede finnes, både fysisk og kunnskapsmessig, før man legger til noe nytt. Det innebærer en langsom lesning av sted, bygning og materiale – og en nøkternhet i grepet.</p>
     
     <p>Vi arbeider særlig med:</p>
     
     <ul class="approach-list">
-      <li>— Transformasjon og rehabilitering av eksisterende bygninger</li>
+      <li>— Transformasjon og rehabilitering av boliger og næringsbygg</li>
       <li>— Gjenbruk av materialer og strategier for forlengelse av levetid</li>
-      <li>— Kulturarv og etterkrigsarkitektur som ressurs i samtiden</li>
-      <li>— Metodisk oppmåling, dokumentasjon og analyse av eksisterende konstruksjoner</li>
-      <li>— Tette prosesser med byggherre, håndverkere og myndigheter</li>
-      <li>— Prosjektering i Revit/Archicad og presis, lesbar tegningsproduksjon</li>
+      <li>— Etterkrigsarkitektur og velferdsbygg som kulturarv</li>
+      <li>— Oppmåling, verdianalyse og dokumentasjon av eksisterende konstruksjoner</li>
+      <li>— Tett dialog med håndverkere, byggherrer og myndigheter</li>
+      <li>— Prosjektering og visualisering i Revit og Archicad</li>
     </ul>
   </div>
 </section>
 
 <section id="research">
-  <h2 class="section-title">Forskning</h2>
+  <h2 class="section-title">Faglig arbeid</h2>
   
   <ul class="research-list">
     <li class="research-item">
       <div class="research-meta">Masteroppgave, Det Kongelige Akademi, 2023</div>
       <div class="research-title">Suburban City Center – Rågsved. Reinterpreting the Periphery</div>
       <div class="research-description">
-        En undersøkelse av hvordan transformasjon av et svensk etterkrigsbysenter kan brukes som kritisk linse på dagens bolig- og byutvikling, med særlig vekt på sosial og materiell sårbarhet.
+        En studie av transformasjon i et svensk etterkrigsbysenter, med fokus på sosial sårbarhet, materialitet og hvordan eksisterende strukturer kan fungere som ramme for nye former for fellesskap.
       </div>
     </li>
     
@@ -471,14 +530,15 @@ footer a {
       <div class="research-meta">Pågående faglig utvikling</div>
       <div class="research-title">Metoder for verdianalyse i eksisterende bygningsmasse</div>
       <div class="research-description">
-        Videreutvikling av arbeidet med vurdering av eksisterende bygninger i et bærekrafts- og kulturarvsperspektiv. Arbeidet retter seg mot praksisnære verktøy som kan brukes i tidligfase, og danner grunnlag for fremtidige artikler og presentasjoner.</div>
+        Videreføring av arbeidet med å forstå hvordan bevaringsverdi, brukskvalitet og klimahensyn kan vektes sammen i tidligfase. Målet er å utvikle praktiske verktøy som kan brukes i små og mellomstore prosjekter, og som på sikt kan deles gjennom artikler og foredrag.
+      </div>
     </li>
     
     <li class="research-item">
       <div class="research-meta">Interesser</div>
       <div class="research-title">Praksis som forskningsfelt</div>
       <div class="research-description">
-        Langsiktig interesse for hvordan arkitektpraksis kan kobles tettere til kritisk og akademisk refleksjon – særlig gjennom transformasjonsprosjekter, etterkrigsarkitektur og sirkulær materialbruk. Fokus på å bygge erfaring og kunnskap før større publisering.
+        Langsiktig interesse for hvordan arkitektpraksis kan kobles til kritisk og akademisk refleksjon – særlig innen transformasjon, etterkrigsarkitektur og sirkulær materialbruk. Ambisjonen er å bygge erfaring og kunnskapsgrunnlag som kan danne basis for videre forskning på sikt.
       </div>
     </li>
   </ul>
@@ -506,11 +566,11 @@ footer a {
     <div class="contact-block">
       <h3>Tjenester</h3>
       <ul>
-        <li>Transformasjon og rehabilitering av boliger og næringsbygg</li>
+        <li>Transformasjon og rehabilitering</li>
         <li>Restaurering og ombygging i verne- og bevaringsverdige miljøer</li>
         <li>Oppmåling, dokumentasjon og digital modellering (Revit / Archicad)</li>
         <li>Byggesøknader, myndighetsdialog og teknisk dokumentasjon</li>
-        <li>Visualisering, presentasjon og arkitektoniske studier</li>
+        <li>Visualisering og arkitektoniske studier i tidligfase</li>
       </ul>
     </div>
   </div>
@@ -520,7 +580,7 @@ footer a {
 
 <footer>
   <div>© 2025 A. Vold Arkitektur AS</div>
-  <div style="margin-top: 10px;">
+  <div style="margin-top: 8px;">
     <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
     <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
   </div>
