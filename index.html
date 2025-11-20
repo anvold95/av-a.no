@@ -4,9 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>studio av·a</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
 :root {
   --color-bg: #fafaf8;
@@ -16,8 +13,10 @@
   --color-text-light: #b0b0b0;
   --color-border: #e0e0dc;
   --color-border-light: #ececea;
-  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
-  --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+
+  /* standard/system-fonter, i tråd med porteføljen */
+  --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
 * {
@@ -167,14 +166,52 @@ nav a:hover {
 }
 
 .landing-hero {
+  position: relative;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
+  overflow: hidden;
 }
 
-/* ny tegne-firkant på landingssiden */
+/* bakgrunns-blob (svg) */
+.hero-blob {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  max-width: 70vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.45;
+  z-index: 0;
+  filter: blur(0.2px);
+  pointer-events: none;
+}
+
+.hero-blob path {
+  /* veldig lett grønnblå linolie-skjær */
+  fill: rgba(186, 210, 202, 0.75);
+}
+
+@keyframes blobDrift {
+  0% {
+    transform: translate(-52%, -48%) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(-48%, -52%) scale(1.05) rotate(2deg);
+  }
+  100% {
+    transform: translate(-51%, -49%) scale(1) rotate(-1deg);
+  }
+}
+
+.hero-blob {
+  animation: blobDrift 22s ease-in-out infinite alternate;
+}
+
+/* tegne-firkanten (bakgrunnsbilde) */
 .hero-draw-wrapper {
   max-width: 480px;
   width: 100%;
@@ -183,6 +220,7 @@ nav a:hover {
   border: 1px solid var(--color-border);
   background: #f4f4f0;
   overflow: hidden;
+  z-index: 2;
 }
 
 .hero-draw-bg {
@@ -194,23 +232,62 @@ nav a:hover {
   opacity: 0.9;
 }
 
-/* selve tegne-canvas */
+/* globalt tegne-lag over hele hero-seksjonen */
 #heroCanvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   cursor: crosshair;
+  z-index: 3;
 }
 
-/* liten forklarende tekst under firkanten, hvis du vil bruke den */
-.hero-draw-note {
-  margin-top: 10px;
+/* liten fargepanel (cheat: COLOR) */
+.color-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(250, 250, 248, 0.96);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: var(--color-text-light);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 20;
+}
+
+.color-panel.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.color-panel input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  padding: 0;
+  background: transparent;
+}
+
+.color-panel input[type="color"]::-webkit-color-swatch {
+  border-radius: 50%;
+  border: none;
+}
+
+.color-panel input[type="color"]::-moz-color-swatch {
+  border-radius: 50%;
+  border: none;
 }
 
 .landing-footer {
@@ -239,6 +316,7 @@ nav a:hover {
   gap: 6px;
   font-family: var(--font-mono);
   text-transform: lowercase;
+  cursor: pointer;
 }
 
 .scroll-hint::after {
@@ -565,6 +643,11 @@ footer {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+
+  .hero-blob {
+    width: 420px;
+    height: 420px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -623,6 +706,11 @@ footer {
     flex-direction: column;
     gap: 14px;
   }
+
+  .hero-blob {
+    width: 340px;
+    height: 340px;
+  }
 }
   </style>
 </head>
@@ -660,14 +748,17 @@ footer {
   </div>
   
   <div class="landing-hero">
-    <div>
-      <div class="hero-draw-wrapper">
-        <div class="hero-draw-bg"></div>
-        <canvas id="heroCanvas"></canvas>
-      </div>
-      <div class="hero-draw-note">
-        tegn videre på et utsnitt fra et prosjekt
-      </div>
+    <!-- bakgrunnsform -->
+    <svg class="hero-blob" viewBox="0 0 400 400" aria-hidden="true">
+      <path d="M76,136 C116,52 220,36 292,76 C349,108 366,182 340,242 C311,309 239,338 176,330 C119,323 68,290 50,244 C33,200 45,170 76,136 Z" />
+    </svg>
+
+    <!-- globalt tegne-lag -->
+    <canvas id="heroCanvas"></canvas>
+
+    <!-- utsnitt/prosjektbakgrunn -->
+    <div class="hero-draw-wrapper">
+      <div class="hero-draw-bg"></div>
     </div>
   </div>
   
@@ -675,6 +766,12 @@ footer {
     <div class="landing-tagline">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
     <div class="scroll-hint">scroll</div>
   </div>
+</div>
+
+<!-- fargepanel (cheat: COLOR) -->
+<div class="color-panel" id="colorPanel">
+  <span>color</span>
+  <input type="color" id="colorPicker" value="#111111">
 </div>
 
 <!-- CONTENT -->
@@ -925,11 +1022,24 @@ window.addEventListener('resize', () => {
   landingHeight = landing.offsetHeight;
 });
 
-// enkel tegne-funksjon på landingssiden
+// scroll-hint klikker ned til "Om"
+const scrollHint = document.querySelector('.scroll-hint');
+if (scrollHint) {
+  scrollHint.addEventListener('click', () => {
+    const about = document.getElementById('about');
+    if (about) {
+      about.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
+// enkel tegne-funksjon på landingssiden med cheat codes
 document.addEventListener('DOMContentLoaded', () => {
   const bg = document.querySelector('.hero-draw-bg');
   const canvas = document.getElementById('heroCanvas');
-  if (!bg || !canvas) return;
+  const colorPanel = document.getElementById('colorPanel');
+  const colorPicker = document.getElementById('colorPicker');
+  if (!bg || !canvas || !colorPanel || !colorPicker) return;
 
   // liste med bilder som kan ligge bak
   const images = [
@@ -939,7 +1049,6 @@ document.addEventListener('DOMContentLoaded', () => {
     'img/SQUARE18.jpg',
     'img/SQUARE19.jpg'
   ];
-
   const randomImage = images[Math.floor(Math.random() * images.length)];
   bg.style.backgroundImage = `url('${randomImage}')`;
 
@@ -948,14 +1057,34 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastX = 0;
   let lastY = 0;
 
+  // farger i en litt nedtonet palett
+  const palette = [
+    '#1f3b4d',
+    '#3c5a40',
+    '#7a4b3a',
+    '#334155',
+    '#5b4b6a',
+    '#745b40',
+    '#1f4b46'
+  ];
+  let currentColor = palette[Math.floor(Math.random() * palette.length)];
+  let isErasing = false;
+
+  function applyStrokeStyle() {
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = Math.max(2, canvas.width * 0.004);
+    ctx.globalCompositeOperation = isErasing ? 'destination-out' : 'source-over';
+    if (!isErasing) {
+      ctx.strokeStyle = currentColor;
+    }
+  }
+
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#111111';
-    ctx.lineWidth = Math.max(2, rect.width * 0.004); // skalerer litt med størrelsen
+    applyStrokeStyle();
   }
 
   resizeCanvas();
@@ -1010,6 +1139,54 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.addEventListener('touchend', endDraw, { passive: false });
   canvas.addEventListener('touchcancel', endDraw, { passive: false });
   canvas.addEventListener('touchmove', draw, { passive: false });
+
+  // color picker endrer tusjfarge
+  colorPicker.addEventListener('input', (e) => {
+    currentColor = e.target.value;
+    isErasing = false;
+    applyStrokeStyle();
+  });
+
+  // cheat codes
+  let keyBuffer = '';
+
+  function setRandomColor() {
+    currentColor = palette[Math.floor(Math.random() * palette.length)];
+    isErasing = false;
+    applyStrokeStyle();
+  }
+
+  function toggleColorPanel() {
+    colorPanel.classList.toggle('visible');
+  }
+
+  function toggleEraser() {
+    isErasing = !isErasing;
+    applyStrokeStyle();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    // bare bokstaver inn i bufferen
+    if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-12);
+    }
+
+    if (keyBuffer.includes('ava')) {
+      setRandomColor();
+      // tøm litt så den ikke trigger hele tiden
+      keyBuffer = '';
+    }
+
+    if (keyBuffer.includes('color')) {
+      toggleColorPanel();
+      keyBuffer = '';
+    }
+
+    if (keyBuffer.includes('erase')) {
+      toggleEraser();
+      keyBuffer = '';
+    }
+  });
 });
 </script>
 
