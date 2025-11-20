@@ -293,8 +293,8 @@ nav a:hover {
   position: fixed;
   top: 80px;
   left: 80px;
-  min-width: 220px;
-  max-width: 260px;
+  min-width: 230px;
+  max-width: 270px;
   padding: 8px 10px 10px;
   border-radius: 12px;
   background: rgba(250, 250, 248, 0.97);
@@ -372,6 +372,7 @@ nav a:hover {
 
 .draw-menu-button-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   margin-top: 4px;
 }
@@ -390,13 +391,11 @@ nav a:hover {
   background: #ecece6;
 }
 
-/* liten markering når viskelær er aktiv */
 .draw-menu button.active {
   background: #2a2a2a;
   color: #fafaf8;
 }
 
-/* toggle info-tekst */
 .draw-menu-small {
   opacity: 0.55;
   margin-top: 4px;
@@ -895,6 +894,16 @@ footer {
   </div>
 
   <div class="draw-menu-group">
+    <div class="draw-menu-label">presets</div>
+    <div class="draw-menu-button-row">
+      <button type="button" id="presetHairline">hairline</button>
+      <button type="button" id="presetAnnotation">annotation</button>
+      <button type="button" id="presetMarker">marker</button>
+      <button type="button" id="presetCharcoal">charcoal</button>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
     <div class="draw-menu-label">stroke</div>
     <div class="draw-menu-row">
       <select id="strokeStyleSelect">
@@ -936,8 +945,19 @@ footer {
         <option value="mono">mono</option>
       </select>
     </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">text color</div>
+    <div class="draw-menu-row">
+      <input type="color" id="textColorPicker" value="#2a2a2a">
+      <button type="button" id="textColorDefaultBtn">default</button>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
     <div class="draw-menu-small">
-      right-click again to move this panel.
+      right-click anywhere to reposition · long-press on touch to draw.
     </div>
   </div>
 </div>
@@ -1221,6 +1241,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const eraserSizeRange = document.getElementById('eraserSizeRange');
   const eraserSizeValue = document.getElementById('eraserSizeValue');
   const fontTypeSelect = document.getElementById('fontTypeSelect');
+  const textColorPicker = document.getElementById('textColorPicker');
+  const textColorDefaultBtn = document.getElementById('textColorDefaultBtn');
+
+  const presetHairline = document.getElementById('presetHairline');
+  const presetAnnotation = document.getElementById('presetAnnotation');
+  const presetMarker = document.getElementById('presetMarker');
+  const presetCharcoal = document.getElementById('presetCharcoal');
 
   if (!bg || !canvas || !colorPanel || !colorPicker || !drawMenu) return;
 
@@ -1266,6 +1293,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const MOVE_TOLERANCE = 8;
   let longPressActivated = false;
 
+  // helpers for tekstfarge justering
+  const DEFAULT_TEXT_COLOR = '#2a2a2a';
+  const DEFAULT_TEXT_SECONDARY = '#5a5a5a';
+  const DEFAULT_TEXT_MUTED = '#8a8a8a';
+  const DEFAULT_TEXT_LIGHT = '#b0b0b0';
+
+  function hexToRgb(hex) {
+    let h = hex.replace('#', '');
+    if (h.length === 3) {
+      h = h.split('').map(c => c + c).join('');
+    }
+    if (h.length !== 6) return null;
+    const num = parseInt(h, 16);
+    return {
+      r: (num >> 16) & 255,
+      g: (num >> 8) & 255,
+      b: num & 255
+    };
+  }
+
+  function rgbToHex(r, g, b) {
+    const toHex = (v) => ('0' + v.toString(16)).slice(-2);
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+  }
+
+  function mixWithWhite(hex, factor) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return hex;
+    const r = Math.round(rgb.r + (255 - rgb.r) * factor);
+    const g = Math.round(rgb.g + (255 - rgb.g) * factor);
+    const b = Math.round(rgb.b + (255 - rgb.b) * factor);
+    return rgbToHex(r, g, b);
+  }
+
   function applyStrokeStyle() {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
@@ -1294,7 +1355,6 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.width = rect.width;
     canvas.height = rect.height;
 
-    // juster startverdier omtrent til størrelsen
     currentStrokeWidth = Math.max(2, Math.round(rect.width * 0.004));
     strokeWidthRange.value = currentStrokeWidth;
     strokeWidthValue.textContent = currentStrokeWidth + 'px';
@@ -1349,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // MUS
   canvas.addEventListener('mousedown', (e) => {
-    if (e.button !== 0) return; // bare venstreklikk for tegning
+    if (e.button !== 0) return;
     e.preventDefault();
     applyStrokeStyle();
     const pos = getPos(e);
@@ -1359,10 +1419,10 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('mouseup', endDraw);
   canvas.addEventListener('mousemove', draw);
 
-  // TOUCH – prioriter scroll, aktiver tegning kun ved lang-press
+  // TOUCH – lang-press for tegning
   canvas.addEventListener('touchstart', (e) => {
     if (!isTouch) return;
-    if (e.touches.length !== 1) return; // flere fingre → la OS håndtere zoom/scroll
+    if (e.touches.length !== 1) return;
     touchStartTime = Date.now();
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
@@ -1379,18 +1439,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!longPressActivated) {
       if (now - touchStartTime > LONG_PRESS_MS && dist <= MOVE_TOLERANCE) {
-        // aktiver tegning
         longPressActivated = true;
         applyStrokeStyle();
         const pos = getPos(e);
         startDrawAtPosition(pos);
         e.preventDefault();
       } else {
-        // fortsatt scroll
         return;
       }
     } else {
-      // allerede tegning
       draw(e);
     }
   }, { passive: false });
@@ -1407,7 +1464,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuColorPicker.value = currentColor;
   });
 
-  // toolbox – stroke
+  // stroke controls
   strokeWidthRange.addEventListener('input', (e) => {
     currentStrokeWidth = parseInt(e.target.value, 10) || 1;
     strokeWidthValue.textContent = currentStrokeWidth + 'px';
@@ -1419,7 +1476,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isErasing) applyStrokeStyle();
   });
 
-  // toolbox – color
+  // color controls
   menuColorPicker.addEventListener('input', (e) => {
     currentColor = e.target.value;
     isErasing = false;
@@ -1445,7 +1502,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
-  // toolbox – eraser
+  // eraser
   function updateEraserButtonState() {
     if (isErasing) {
       eraserToggleBtn.classList.add('active');
@@ -1468,20 +1525,106 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isErasing) applyStrokeStyle();
   });
 
-  // toolbox – font
-  fontTypeSelect.addEventListener('change', (e) => {
-    const value = e.target.value;
-    const root = document.documentElement;
-    if (value === 'system') {
-      root.style.setProperty('--font-sans', '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif');
-      root.style.setProperty('--font-mono', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
-    } else if (value === 'serif') {
-      root.style.setProperty('--font-sans', 'Georgia, "Times New Roman", serif');
-      root.style.setProperty('--font-mono', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
-    } else if (value === 'mono') {
-      root.style.setProperty('--font-sans', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
-      root.style.setProperty('--font-mono', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
+  // presets – litt InDesign vibes
+  function applyPreset(name) {
+    isErasing = false;
+    updateEraserButtonState();
+
+    if (name === 'hairline') {
+      currentStrokeWidth = 1;
+      currentLineStyle = 'solid';
+      currentColor = '#222222';
+    } else if (name === 'annotation') {
+      currentStrokeWidth = 2;
+      currentLineStyle = 'dashed';
+      currentColor = '#7a4b3a';
+    } else if (name === 'marker') {
+      currentStrokeWidth = 12;
+      currentLineStyle = 'solid';
+      currentColor = '#c2783b';
+    } else if (name === 'charcoal') {
+      currentStrokeWidth = 6;
+      currentLineStyle = 'dotted';
+      currentColor = '#111111';
     }
+
+    strokeWidthRange.value = currentStrokeWidth;
+    strokeWidthValue.textContent = currentStrokeWidth + 'px';
+    strokeStyleSelect.value = currentLineStyle;
+    colorPicker.value = currentColor;
+    menuColorPicker.value = currentColor;
+    applyStrokeStyle();
+  }
+
+  presetHairline.addEventListener('click', () => applyPreset('hairline'));
+  presetAnnotation.addEventListener('click', () => applyPreset('annotation'));
+  presetMarker.addEventListener('click', () => applyPreset('marker'));
+  presetCharcoal.addEventListener('click', () => applyPreset('charcoal'));
+
+  // font / typografi – påvirker hele siden
+  function applyFontType(type) {
+    const root = document.documentElement;
+    let sans, mono;
+
+    if (type === 'system') {
+      sans = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+      mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
+    } else if (type === 'serif') {
+      sans = 'Georgia, "Times New Roman", serif';
+      mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
+    } else if (type === 'mono') {
+      sans = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
+      mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
+    }
+
+    root.style.setProperty('--font-sans', sans);
+    root.style.setProperty('--font-mono', mono);
+
+    // sikre at body og overskrifter tar det med en gang
+    document.body.style.fontFamily = 'var(--font-sans)';
+    const monoElements = document.querySelectorAll(
+      '.site-title, nav a, .section-number, .project-meta, .project-tools, .contact-block h3, footer, .landing-title, .scroll-hint'
+    );
+    monoElements.forEach(el => {
+      el.style.fontFamily = 'var(--font-mono)';
+    });
+  }
+
+  fontTypeSelect.addEventListener('change', (e) => {
+    applyFontType(e.target.value);
+  });
+
+  // text color – endre tekstfarge på hele siden
+  function applyTextColor(hex) {
+    const root = document.documentElement;
+    const rgb = hexToRgb(hex);
+    if (!rgb) return;
+
+    const secondary = mixWithWhite(hex, 0.35);
+    const muted = mixWithWhite(hex, 0.55);
+    const light = mixWithWhite(hex, 0.72);
+
+    root.style.setProperty('--color-text', hex);
+    root.style.setProperty('--color-text-secondary', secondary);
+    root.style.setProperty('--color-text-muted', muted);
+    root.style.setProperty('--color-text-light', light);
+
+    // tving body til å bruke den nye
+    document.body.style.color = 'var(--color-text)';
+  }
+
+  textColorPicker.addEventListener('input', (e) => {
+    applyTextColor(e.target.value);
+  });
+
+  textColorDefaultBtn.addEventListener('click', () => {
+    const root = document.documentElement;
+    root.style.setProperty('--color-text', DEFAULT_TEXT_COLOR);
+    root.style.setProperty('--color-text-secondary', DEFAULT_TEXT_SECONDARY);
+    root.style.setProperty('--color-text-muted', DEFAULT_TEXT_MUTED);
+    root.style.setProperty('--color-text-light', DEFAULT_TEXT_LIGHT);
+    textColorPicker.value = DEFAULT_TEXT_COLOR;
+    document.body.style.color = 'var(--color-text)';
   });
 
   // cheat codes
@@ -1587,6 +1730,7 @@ document.addEventListener('DOMContentLoaded', () => {
   menuColorPicker.value = currentColor;
   strokeWidthValue.textContent = currentStrokeWidth + 'px';
   eraserSizeValue.textContent = currentEraserSize + 'px';
+  textColorPicker.value = DEFAULT_TEXT_COLOR;
 });
 </script>
 
