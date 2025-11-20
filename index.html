@@ -6,18 +6,18 @@
   <title>studio av·a</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
 :root {
-  --color-bg: #f0f0ec;
-  --color-text: #0a0a0a;
-  --color-text-secondary: #3a3a3a;
-  --color-text-muted: #6a6a6a;
-  --color-border: #0a0a0a;
-  --color-border-light: rgba(0,0,0,0.15);
-  --color-accent: #ff3b00;
-  --font-mono: 'Space Mono', 'Courier New', monospace;
-  --font-sans: 'Inter', -apple-system, sans-serif;
+  --color-bg: #fafaf8;
+  --color-text: #2a2a2a;
+  --color-text-secondary: #5a5a5a;
+  --color-text-muted: #8a8a8a;
+  --color-text-light: #b0b0b0;
+  --color-border: #e0e0dc;
+  --color-border-light: #ececea;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
 }
 
 * {
@@ -36,19 +36,20 @@ body {
   line-height: 1.6;
   color: var(--color-text);
   background: var(--color-bg);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
-/* GRAIN / NOISE TEXTURE */
+/* SUBTLE DOT PATTERN - like the PDF */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: -1;
   pointer-events: none;
-  opacity: 0.08;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  background-image: radial-gradient(circle, #c0c0c0 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
 }
 
 ::selection {
@@ -59,10 +60,15 @@ body::before {
 a {
   color: inherit;
   text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.5;
 }
 
 /* ==================== */
-/* HEADER - APPEARS ON SCROLL */
+/* HEADER               */
 /* ==================== */
 header {
   position: fixed;
@@ -70,10 +76,12 @@ header {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--color-bg);
-  border-bottom: 2px solid var(--color-border);
+  background: rgba(250, 250, 248, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
   transform: translateY(-100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease;
 }
 
 header.visible {
@@ -84,36 +92,36 @@ header.visible {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 30px;
-  max-width: 1200px;
+  padding: 18px 40px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 .site-title {
   font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 30px;
+  gap: 32px;
 }
 
 nav a {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  transition: color 0.15s ease;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
 }
 
 nav a:hover {
-  color: var(--color-accent);
+  opacity: 1;
+  color: var(--color-text);
 }
 
 /* ==================== */
@@ -123,41 +131,39 @@ nav a:hover {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  border-bottom: 2px solid var(--color-border);
 }
 
 .landing-header {
-  padding: 25px 30px;
+  padding: 28px 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border-bottom: 1px solid var(--color-border-light);
 }
 
 .landing-title {
   font-family: var(--font-mono);
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
 }
 
 .landing-nav ul {
   list-style: none;
   display: flex;
-  gap: 25px;
+  gap: 28px;
 }
 
 .landing-nav a {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   color: var(--color-text-secondary);
 }
 
 .landing-nav a:hover {
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .landing-hero {
@@ -165,25 +171,12 @@ nav a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 30px;
-  position: relative;
+  padding: 40px;
 }
 
 .hero-image-wrapper {
-  max-width: 550px;
+  max-width: 480px;
   width: 100%;
-  position: relative;
-}
-
-.hero-image-wrapper::before {
-  content: '001';
-  position: absolute;
-  top: -25px;
-  left: 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--color-text-muted);
-  letter-spacing: 0.1em;
 }
 
 .hero-image {
@@ -191,44 +184,39 @@ nav a:hover {
   aspect-ratio: 1/1;
   object-fit: cover;
   display: block;
-  filter: grayscale(20%) contrast(1.05);
-  border: 2px solid var(--color-border);
 }
 
 .landing-footer {
-  padding: 20px 30px;
+  padding: 24px 40px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--color-border-light);
+  align-items: flex-end;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
-.manifesto {
-  max-width: 400px;
-  line-height: 1.6;
+.landing-tagline {
+  max-width: 320px;
+  line-height: 1.7;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-style: italic;
   color: var(--color-text-secondary);
 }
 
-.scroll-indicator {
+.scroll-hint {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-family: var(--font-mono);
+  text-transform: lowercase;
 }
 
-.scroll-indicator::after {
+.scroll-hint::after {
   content: '↓';
-  font-size: 16px;
-  animation: bounce 1.5s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
+  font-size: 12px;
 }
 
 /* ==================== */
@@ -236,12 +224,13 @@ nav a:hover {
 /* ==================== */
 .content {
   position: relative;
+  border-top: 1px solid var(--color-border);
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 0 30px;
+  padding: 0 40px;
 }
 
 main {
@@ -250,28 +239,15 @@ main {
 
 /* INTRO */
 .intro {
-  max-width: 700px;
-  margin: 0 auto 120px;
-  padding: 60px 0;
-  border-bottom: 1px solid var(--color-border-light);
+  max-width: 600px;
+  margin: 0 auto 100px;
 }
 
 .intro p {
-  font-size: 17px;
-  line-height: 1.8;
+  font-size: 15px;
+  line-height: 1.85;
   color: var(--color-text-secondary);
   margin-bottom: 20px;
-}
-
-.intro p:first-child::first-letter {
-  font-family: var(--font-mono);
-  font-size: 48px;
-  font-weight: 700;
-  float: left;
-  line-height: 1;
-  margin-right: 12px;
-  margin-top: 4px;
-  color: var(--color-text);
 }
 
 .intro p:last-child {
@@ -280,52 +256,45 @@ main {
 
 /* SECTIONS */
 section {
-  margin-bottom: 120px;
+  margin-bottom: 100px;
 }
 
 .section-header {
   display: flex;
   align-items: baseline;
-  gap: 20px;
+  gap: 16px;
   margin-bottom: 50px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .section-number {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-muted);
+  font-size: 10px;
+  color: var(--color-text-light);
   letter-spacing: 0.05em;
 }
 
 .section-title {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
 }
 
 /* PROJECTS */
 .project-list {
   list-style: none;
   display: grid;
-  gap: 80px;
+  gap: 70px;
 }
 
 .project-item {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 50px;
   align-items: start;
-  padding-bottom: 80px;
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-.project-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
 }
 
 .project-item:nth-child(even) {
@@ -340,64 +309,66 @@ section {
   position: relative;
 }
 
-.project-image-wrapper::before {
-  content: attr(data-index);
-  position: absolute;
-  top: -20px;
-  left: 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--color-text-muted);
-  letter-spacing: 0.1em;
-}
-
 .project-image {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
   display: block;
-  filter: grayscale(15%) contrast(1.02);
-  border: 2px solid var(--color-border);
-  transition: filter 0.3s ease;
 }
 
-.project-item:hover .project-image {
-  filter: grayscale(0%) contrast(1);
+.project-image-caption {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
 }
 
 .project-content {
-  padding-top: 30px;
+  padding-top: 10px;
+}
+
+.project-header {
+  margin-bottom: 20px;
+}
+
+.project-title {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 4px;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.project-subtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
 }
 
 .project-meta {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: 15px;
-}
-
-.project-title {
-  font-family: var(--font-sans);
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 6px;
-  line-height: 1.2;
-}
-
-.project-subtitle {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-muted);
-  margin-bottom: 25px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  color: var(--color-text-light);
 }
 
 .project-description {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.75;
   color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+
+.project-tools {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-light);
+  letter-spacing: 0.02em;
 }
 
 /* APPROACH */
@@ -408,8 +379,8 @@ section {
 }
 
 .approach-intro {
-  font-size: 16px;
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.85;
   color: var(--color-text-secondary);
 }
 
@@ -418,61 +389,44 @@ section {
 }
 
 .approach-item {
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--color-text-secondary);
-  padding: 14px 0;
+  padding: 12px 0;
   border-bottom: 1px solid var(--color-border-light);
-  display: flex;
-  gap: 15px;
-}
-
-.approach-item::before {
-  content: '→';
-  color: var(--color-text-muted);
 }
 
 /* ACADEMIC */
 .research-list {
   list-style: none;
   display: grid;
-  gap: 50px;
+  gap: 40px;
 }
 
 .research-item {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 180px 1fr;
   gap: 40px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-.research-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
 }
 
 .research-meta {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
+  letter-spacing: 0.03em;
+  color: var(--color-text-light);
   line-height: 1.8;
 }
 
-.research-content {}
-
 .research-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   line-height: 1.4;
+  color: var(--color-text);
 }
 
 .research-description {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.75;
   color: var(--color-text-secondary);
 }
@@ -488,63 +442,79 @@ section {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 20px;
-  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+  color: var(--color-text-light);
 }
 
 .contact-block p,
 .contact-block a {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.8;
   display: block;
-}
-
-.contact-block a:hover {
-  color: var(--color-accent);
+  color: var(--color-text-secondary);
 }
 
 .contact-block ul {
   list-style: none;
   font-size: 13px;
-  line-height: 1.9;
+  line-height: 1.8;
   color: var(--color-text-secondary);
+}
+
+.contact-location {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-light);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
 }
 
 /* FOOTER */
 footer {
-  margin-top: 80px;
-  padding: 25px 30px;
-  border-top: 2px solid var(--color-border);
+  margin-top: 60px;
+  padding: 24px 40px;
+  border-top: 1px solid var(--color-border);
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-light);
 }
 
 .footer-inner {
-  max-width: 1000px;
+  max-width: 960px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--color-text-muted);
 }
 
 .footer-links {
   display: flex;
-  gap: 25px;
+  gap: 24px;
 }
 
-.footer-links a:hover {
-  color: var(--color-accent);
+.footer-links a {
+  color: var(--color-text-muted);
 }
 
 /* ==================== */
 /* RESPONSIVE           */
 /* ==================== */
 @media (max-width: 900px) {
+  .container {
+    padding: 0 24px;
+  }
+  
+  .landing-header,
+  .landing-footer {
+    padding: 20px 24px;
+  }
+  
+  .header-inner {
+    padding: 16px 24px;
+  }
+  
   .project-item {
     grid-template-columns: 1fr;
     gap: 25px;
@@ -556,51 +526,46 @@ footer {
   
   .approach-content {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 35px;
   }
   
   .research-item {
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 12px;
   }
   
   .contact-content {
     grid-template-columns: 1fr;
-    gap: 35px;
+    gap: 30px;
   }
 }
 
 @media (max-width: 600px) {
   .landing-header {
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
   }
   
   .landing-nav ul {
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 16px;
   }
   
   .landing-footer {
     flex-direction: column;
     gap: 20px;
-    text-align: center;
-  }
-  
-  .manifesto {
-    max-width: 100%;
+    align-items: flex-start;
   }
   
   .header-inner {
     flex-direction: column;
-    gap: 15px;
-    text-align: center;
+    gap: 14px;
   }
   
   nav ul {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 16px;
   }
   
   main {
@@ -608,16 +573,11 @@ footer {
   }
   
   .intro {
-    margin-bottom: 80px;
-    padding: 40px 0;
-  }
-  
-  .intro p:first-child::first-letter {
-    font-size: 36px;
+    margin-bottom: 70px;
   }
   
   section {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
   }
   
   .project-list {
@@ -625,17 +585,16 @@ footer {
   }
   
   .project-title {
-    font-size: 20px;
+    font-size: 18px;
   }
   
   footer {
-    padding: 20px;
+    padding: 20px 24px;
   }
   
   .footer-inner {
     flex-direction: column;
-    gap: 15px;
-    text-align: center;
+    gap: 14px;
   }
 }
   </style>
@@ -680,8 +639,8 @@ footer {
   </div>
   
   <div class="landing-footer">
-    <div class="manifesto">Det som finnes er utgangspunktet. Transformasjon fremfor riving. Gjenbruk fremfor nybygg.</div>
-    <div class="scroll-indicator">Scroll</div>
+    <div class="landing-tagline">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
+    <div class="scroll-hint">scroll</div>
   </div>
 </div>
 
@@ -703,72 +662,91 @@ footer {
         
         <ul class="project-list">
           <li class="project-item">
-            <div class="project-image-wrapper" data-index="001">
+            <div class="project-image-wrapper">
               <img src="img/SQUARE10.jpg" alt="Suburban City Center – Rågsved" class="project-image">
+              <div class="project-image-caption">Axonometriske illustrationer</div>
             </div>
             <div class="project-content">
-              <div class="project-meta">Masteroppgave, 2023</div>
-              <div class="project-title">Suburban City Center – Rågsved</div>
-              <div class="project-subtitle">Reinterpreting the Periphery</div>
+              <div class="project-header">
+                <div class="project-title">Suburban City Center – Rågsved</div>
+                <div class="project-subtitle">Reinterpreting the Periphery</div>
+                <div class="project-meta">Masteroppgave, 2023</div>
+              </div>
               <div class="project-description">
                 Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.
               </div>
+              <div class="project-tools">Autocad & Rhinocerous 7, 3D-scanner, Vray & Adobe-suite</div>
             </div>
           </li>
           
           <li class="project-item">
-            <div class="project-image-wrapper" data-index="002">
+            <div class="project-image-wrapper">
               <img src="img/SQUARE11.jpg" alt="Skjønsbergvegen 14" class="project-image">
+              <div class="project-image-caption">Exterior visualisation</div>
             </div>
             <div class="project-content">
-              <div class="project-meta">Privatoppdrag, 2024</div>
-              <div class="project-title">Skjønsbergvegen 14</div>
-              <div class="project-subtitle">Shifts in Structure</div>
+              <div class="project-header">
+                <div class="project-title">Skjønsbergvegen 14</div>
+                <div class="project-subtitle">Shifts in Structure</div>
+                <div class="project-meta">Privatoppdrag, 2024</div>
+              </div>
               <div class="project-description">
                 Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.
               </div>
+              <div class="project-tools">BIM/Archicad, Rhinocerous 7, Enscape, Vray & Adobe-suite</div>
             </div>
           </li>
           
           <li class="project-item">
-            <div class="project-image-wrapper" data-index="003">
+            <div class="project-image-wrapper">
               <img src="img/SQUARE14.jpg" alt="Remaking Hauberg" class="project-image">
+              <div class="project-image-caption">Fine carpentry, woodwork and construction</div>
             </div>
             <div class="project-content">
-              <div class="project-meta">Akademisk arbeid, 2022</div>
-              <div class="project-title">Remaking Hauberg</div>
-              <div class="project-subtitle">Royal Academy</div>
+              <div class="project-header">
+                <div class="project-title">Remaking Hauberg</div>
+                <div class="project-subtitle">Royal Academy</div>
+                <div class="project-meta">Akademisk arbeid, 2022</div>
+              </div>
               <div class="project-description">
                 1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.
               </div>
+              <div class="project-tools">Fine carpentry, woodwork and construction</div>
             </div>
           </li>
           
           <li class="project-item">
-            <div class="project-image-wrapper" data-index="004">
+            <div class="project-image-wrapper">
               <img src="img/SQUARE18.jpg" alt="Material Practice – Dæmpegård Skovriddergård" class="project-image">
             </div>
             <div class="project-content">
-              <div class="project-meta">Akademisk arbeid, 2022</div>
-              <div class="project-title">Material Practice</div>
-              <div class="project-subtitle">Dæmpegård Skovriddergård</div>
+              <div class="project-header">
+                <div class="project-title">Material Practice</div>
+                <div class="project-subtitle">Dæmpegård Skovriddergård</div>
+                <div class="project-meta">Akademisk arbeid, 2022</div>
+              </div>
               <div class="project-description">
                 Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.
               </div>
+              <div class="project-tools">Rhinocerous 7 & Autocad, Enscape, Vray & Adobe-suite</div>
             </div>
           </li>
           
           <li class="project-item">
-            <div class="project-image-wrapper" data-index="005">
+            <div class="project-image-wrapper">
               <img src="img/SQUARE19.jpg" alt="Recasting the Void – Østerbrogade 146" class="project-image">
+              <div class="project-image-caption">Visualisering af det udvendige</div>
             </div>
             <div class="project-content">
-              <div class="project-meta">Akademisk arbeid, 2021</div>
-              <div class="project-title">Recasting the Void</div>
-              <div class="project-subtitle">Østerbrogade 146</div>
+              <div class="project-header">
+                <div class="project-title">Recasting the Void</div>
+                <div class="project-subtitle">Østerbrogade 146</div>
+                <div class="project-meta">Akademisk arbeid, 2021</div>
+              </div>
               <div class="project-description">
                 Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.
               </div>
+              <div class="project-tools">Rhinocerous 7, Autocad & Adobe-suite</div>
             </div>
           </li>
         </ul>
@@ -853,18 +831,20 @@ footer {
         <div class="contact-content">
           <div class="contact-block">
             <h3>Adresse</h3>
-            <p>
-              Frejasgade 15, 3.tv<br>
-              København
-              Brennbakkvegen 19A<br>
-              Hamar
-            </p>
+            <p>Frejasgade 2, 3.tv</p>
+            <p>2200 København N</p>
+            <div class="contact-location">Danmark</div>
+            <br>
+            <p>Brennbakkvegen 19A</p>
+            <p>2318 Hamar</p>
+            <div class="contact-location">Norge</div>
           </div>
           
           <div class="contact-block">
             <h3>Kontakt</h3>
-            <a href="mailto:posts@av-a.no">post@av-a.no</a>
+            <a href="mailto:post@av-a.no">post@av-a.no</a>
             <a href="tel:+4522883055">+45 22 88 30 55</a>
+            <a href="tel:+4741165450">+47 411 65 450</a>
           </div>
           
           <div class="contact-block">
@@ -887,7 +867,7 @@ footer {
     <div class="footer-inner">
       <div>© 2025 studio av·a — A. Vold Arkitektur AS</div>
       <div class="footer-links">
-        <a href="https://www.linkedin.com/company/a-vold-arkitektur/" target="_blank">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
         <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
       </div>
     </div>
@@ -901,7 +881,7 @@ const landing = document.querySelector('.landing');
 let landingHeight = landing.offsetHeight;
 
 window.addEventListener('scroll', () => {
-  if (window.scrollY > landingHeight * 0.8) {
+  if (window.scrollY > landingHeight * 0.7) {
     header.classList.add('visible');
   } else {
     header.classList.remove('visible');
