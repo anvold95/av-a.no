@@ -1,97 +1,195 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A. Vold Arkitektur AS</title>
-  <meta name="description" content="A. Vold Arkitektur AS – arkitektur, transformasjon og objekter.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>A. Vold Arkitektur</title>
   <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="https://use.typekit.net/ydm1hnc.css">
 </head>
 <body>
-  <div class="dragon-cursor"></div>
+
+<!-- BACKGROUND SHAPE -->
+<div class="background-shape"></div>
+
+<div class="container">
+
+<header>
+  <div class="site-title">A. Vold Arkitektur</div>
+  <nav>
+    <ul>
+      <li><a href="#intro">Om</a></li>
+      <li><a href="#works">Prosjekter</a></li>
+      <li><a href="#approach">Tilnærming</a></li>
+      <li><a href="#research">Forskning</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<section id="intro" class="intro">
+  <p>A. Vold Arkitektur arbeider med transformasjon, restaurering og gjenbruk av eksisterende strukturer. Vi tror på en arkitektur som respekterer tradisjoner, materialer og fellesskap.</p>
   
-  <a class="skiplink" href="#main">Hopp til innhold</a>
-  
-  <!-- HEADER full width -->
-  <header class="site-header">
-    <div class="header-inner container">
-      <a class="logo" href="#top">a. - vold</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#top">Works</a></li>
-          <li><a href="#studio">Studio</a></li>
-          <li><a href="#journal">Journal</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  
-  <main id="main">
-<!-- HERO -->
-<section id="top" class="hero">
-  <div class="hero-inner container">
-    <div id="hero-images" class="hero-container">
-      <!-- Fjernet alle statiske <img> her -->
-    </div>
-    <div id="hero-counter" class="hero-counter">0 / 0</div>
-  </div>
+  <p>Vår tilnærming springer ut av en kritisk holdning til byggeindustriens ressursbruk og en tro på at arkitekturen kan bidra til sosial bærekraft.</p>
 </section>
-    
-<!-- PROJECTS GRID -->
-<section id="prosjekter" class="projects-section container">
+
+<section id="works">
   <h2 class="section-title">Prosjekter</h2>
-  <div id="projects-grid" class="projects-grid">
-    <!-- Fjernet alle statiske <article class="project"> her -->
+  
+  <ul class="project-list">
+    <li class="project-item">
+      <img src="Img/SQUARE10.jpg" alt="Suburban City Center – Rågsved" class="project-image">
+      <div class="project-number">01</div>
+      <div class="project-title">Suburban City Center – Rågsved</div>
+      <div class="project-subtitle">Reinterpreting the Periphery</div>
+      <div class="project-description">
+        Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet.
+      </div>
+      <div class="project-meta">Masteroppgave, 2023</div>
+    </li>
+    
+    <li class="project-item">
+      <img src="Img/SQUARE11.jpg" alt="Skjønsbergvegen 14" class="project-image">
+      <div class="project-number">02</div>
+      <div class="project-title">Skjønsbergvegen 14</div>
+      <div class="project-subtitle">Shifts in Structure</div>
+      <div class="project-description">
+        Transformasjon av et etterkrigsenebolig. Prosjektet genfortolker hverdagens rom gjennom små arkitektoniske forskyvninger.
+      </div>
+      <div class="project-meta">Privatoppdrag, 2024</div>
+    </li>
+    
+    <li class="project-item">
+      <img src="Img/SQUARE14.jpg" alt="Remaking Hauberg" class="project-image">
+      <div class="project-number">03</div>
+      <div class="project-title">Remaking Hauberg</div>
+      <div class="project-subtitle">Royal Academy</div>
+      <div class="project-description">
+        1:1-bygg som undersøkelse av materialkultur og byggeteknisk hukommelse.
+      </div>
+      <div class="project-meta">Akademisk arbeid, 2022</div>
+    </li>
+    
+    <li class="project-item">
+      <img src="Img/SQUARE18.jpg" alt="Material Practice – Dæmpegård Skovriddergård" class="project-image">
+      <div class="project-number">04</div>
+      <div class="project-title">Material Practice</div>
+      <div class="project-subtitle">Dæmpegård Skovriddergård</div>
+      <div class="project-description">
+        Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet.
+      </div>
+      <div class="project-meta">Akademisk arbeid, 2022</div>
+    </li>
+    
+    <li class="project-item">
+      <img src="Img/SQUARE19.jpg" alt="Recasting the Void – Østerbrogade 146" class="project-image">
+      <div class="project-number">05</div>
+      <div class="project-title">Recasting the Void</div>
+      <div class="project-subtitle">Østerbrogade 146</div>
+      <div class="project-description">
+        Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens.
+      </div>
+      <div class="project-meta">Akademisk arbeid, 2021</div>
+    </li>
+  </ul>
+</section>
+
+<section id="approach">
+  <h2 class="section-title">Tilnærming</h2>
+  
+  <div class="approach-text">
+    <p>Mitt arbeid springer ut av en forståelse av at arkitektur ikke oppstår i tomrom, men formes av de spor, materialer og historier som allerede finnes.</p>
+    
+    <p>Vårt arbeid er forankret i verdier om:</p>
+    
+    <ul class="approach-list">
+      <li>— Respekt for eksisterende strukturer og bygningers historie</li>
+      <li>— Gjenbruk av materialer og reduksjon av avfall</li>
+      <li>— Sosial bærekraft og inkluderende prosesser</li>
+      <li>— Kritisk refleksjon over arkitektens rolle</li>
+      <li>— Samarbeid med lokale håndverkere</li>
+      <li>— Langsiktige løsninger fremfor kortsiktig profitt</li>
+    </ul>
   </div>
 </section>
-    
-    <hr class="divider">
-    
-    <!-- STUDIO + INSTAGRAM -->
-    <section class="studio-social container">
-      <div class="text-col" id="studio">
-        <h2>Studio</h2>
-        <p class="studio-intro"><b>A. VOLD ARKITEKTUR AS</b> er et arkitektkontor med vekt på transformasjon, restaurering og gjenbruk. Vi fokuserer på praktisk ombruk og lokal tilpasning med solid håndverk for varige løsninger.</p>
-        <h3>Tjenester</h3>
-        <ul id="services-list">
-          <li>Arkitektonisk design og planlegging</li>
-          <li>Transformasjon og restaurering</li>
-          <li>Bærekraftig gjenbruk av materialer</li>
-          <li>Prosjektledelse og byggeoppføling</li>
-          <li>Konseptutvikling og visualisering</li>
-        </ul>
-      </div>
-      
-      <aside class="journal" id="journal">
-        <h2>Journal</h2>
-        <iframe
-          src="https://www.instagram.com/p/C_fTkIOu-nR/embed/?cr=1&v=14"
-          frameborder="0"
-          allowtransparency="true"
-          allowfullscreen
-          class="insta-iframe">
-        </iframe>
-      </aside>
-    </section>
-  </main>
+
+<section id="research">
+  <h2 class="section-title">Forskning</h2>
   
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-inner container">
-    <div class="footer-left">© 2025</div>
-    <div class="footer-center">
-      <a href="mailto:post@av-a.no" class="footer-mail">post@av-a.no</a>
+  <ul class="research-list">
+    <li class="research-item">
+      <div class="research-meta">Masteroppgave, KADK, 2023</div>
+      <div class="research-title">Gjenbruk som metode: Materialitet og mening i transformasjonsprosjekter</div>
+      <div class="research-description">
+        En undersøkelse av hvordan gjenbruk av materialer kan bidra til både miljømessig og kulturell bærekraft i arkitekturen.
+      </div>
+      <a href="#" class="research-link">Les mer</a>
+    </li>
+    
+    <li class="research-item">
+      <div class="research-meta">Artikkel, Arkitektur N, 2024</div>
+      <div class="research-title">Arkitektur og fellesskap: Mot en sosial bærekraftspraksis</div>
+      <div class="research-description">
+        En kritisk artikkel om arkitektens ansvar for å skape inkluderende rom og prosesser.
+      </div>
+      <a href="#" class="research-link">Les mer</a>
+    </li>
+    
+    <li class="research-item">
+      <div class="research-meta">Workshop, NSAC, 2024</div>
+      <div class="research-title">Circular Architecture in Practice</div>
+      <div class="research-description">
+        Presentasjon av praktiske metoder for sirkulær arkitektur, med eksempler fra egne prosjekter.
+      </div>
+      <a href="#" class="research-link">Les mer</a>
+    </li>
+  </ul>
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Kontakt</h2>
+  
+  <div class="contact-grid">
+    <div class="contact-block">
+      <h3>Adresse</h3>
+      <p>
+        A. Vold Arkitektur AS<br>
+        Frejasgade 15, 3.tv<br>
+        København
+      </p>
     </div>
-    <nav class="social-nav footer-right">
+    
+    <div class="contact-block">
+      <h3>Kontakt</h3>
+      <a href="mailto:vold.andreas@gmail.com">vold.andreas@gmail.com</a>
+      <a href="tel:+4522883055">+45 22 88 30 55</a>
+    </div>
+    
+    <div class="contact-block">
+      <h3>Tjenester</h3>
       <ul>
-        <li><a id="https://www.linkedin.com/company/a-vold-arkitektur/" href="#" target="_blank">LinkedIn</a></li>
-        <li><a id="https://www.instagram.com/arkitekt_av_a/" href="#" target="_blank">Instagram</a></li>
+        <li>Transformasjon og rehabilitering</li>
+        <li>Restaurering av eldre bygninger</li>
+        <li>Materialanalyse og gjenbruksvurdering</li>
+        <li>Medvirkningsprosesser</li>
+        <li>BIM-modellering</li>
       </ul>
-    </nav>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>© 2025 A. Vold Arkitektur AS</div>
+  <div style="margin-top: 10px;">
+    <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
+    <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
   </div>
 </footer>
-  
-  <script defer src="script.js"></script>
+
+</div>
+
 </body>
 </html>
