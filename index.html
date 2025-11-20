@@ -233,7 +233,6 @@ nav a:hover {
   background-position: center;
   filter: grayscale(0.2);
   opacity: 0.9;
-  transition: opacity 0.3s ease;
 }
 
 /* globalt tegne-lag over hele hero-seksjonen */
@@ -835,6 +834,7 @@ footer {
 </head>
 <body>
 
+<!-- STICKY HEADER (appears on scroll) -->
 <header id="header">
   <div class="header-inner">
     <div class="site-title">studio av·a</div>
@@ -850,6 +850,7 @@ footer {
   </div>
 </header>
 
+<!-- LANDING -->
 <div class="landing" id="top">
   <div class="landing-header">
     <div class="landing-title">studio av·a</div>
@@ -865,12 +866,15 @@ footer {
   </div>
   
   <div class="landing-hero">
+    <!-- bakgrunnsform -->
     <svg class="hero-blob" viewBox="0 0 400 400" aria-hidden="true">
       <path d="M76,136 C116,52 220,36 292,76 C349,108 366,182 340,242 C311,309 239,338 176,330 C119,323 68,290 50,244 C33,200 45,170 76,136 Z" />
     </svg>
 
+    <!-- globalt tegne-lag -->
     <canvas id="heroCanvas"></canvas>
 
+    <!-- utsnitt/prosjektbakgrunn -->
     <div class="hero-draw-wrapper">
       <div class="hero-draw-bg"></div>
     </div>
@@ -882,11 +886,13 @@ footer {
   </div>
 </div>
 
+<!-- fargepanel (cheat: COLOR) -->
 <div class="color-panel" id="colorPanel">
   <span>color</span>
   <input type="color" id="colorPicker" value="#111111">
 </div>
 
+<!-- flytende toolbox -->
 <div class="draw-menu" id="drawMenu">
   <div class="draw-menu-header" id="drawMenuHeader">
     <div class="draw-menu-title">studio av·a · tools</div>
@@ -979,7 +985,7 @@ footer {
       <button type="button" id="toggle3DBtn">enable 3d</button>
     </div>
     <div class="draw-menu-small">
-      simple wrapped cube · drag to rotate
+      simple massing study · opt-in
     </div>
   </div>
 
@@ -990,6 +996,7 @@ footer {
   </div>
 </div>
 
+<!-- CONTENT -->
 <div class="content">
   <main>
     <div class="container">
@@ -1220,7 +1227,7 @@ footer {
 </div>
 
 <script>
-// sticky header
+// Show header on scroll
 const header = document.getElementById('header');
 const landing = document.querySelector('.landing');
 let landingHeight = landing.offsetHeight;
@@ -1237,7 +1244,7 @@ window.addEventListener('resize', () => {
   landingHeight = landing.offsetHeight;
 });
 
-// scroll hint
+// scroll-hint klikker ned til "Om"
 const scrollHint = document.querySelector('.scroll-hint');
 if (scrollHint) {
   scrollHint.addEventListener('click', () => {
@@ -1248,6 +1255,7 @@ if (scrollHint) {
   });
 }
 
+// tegne-funksjon på landingssiden med cheat codes + toolbox + mobil-langpress + 3D opt-in
 document.addEventListener('DOMContentLoaded', () => {
   const bg = document.querySelector('.hero-draw-bg');
   const canvas = document.getElementById('heroCanvas');
@@ -1285,7 +1293,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const docEl = document.documentElement;
 
-  // tilfeldig prosjektbilde (også brukt til å "wrappe" 3D-kuben)
+  // bakgrunnsbilde – inkludert Rågsved-bildet
   const images = [
     'img/SQUARE-2-.jpg',
     'img/SQUARE11.jpg',
@@ -1302,6 +1310,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastX = 0;
   let lastY = 0;
 
+  // stil-variabler
   const palette = [
     '#1f3b4d',
     '#3c5a40',
@@ -1317,6 +1326,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentEraserSize = 12;
   let currentLineStyle = 'solid';
 
+  // mobil-langpress-variabler
   let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   let touchStartTime = 0;
   let touchStartX = 0;
@@ -1325,6 +1335,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const MOVE_TOLERANCE = 8;
   let longPressActivated = false;
 
+  // text color defaults
   const DEFAULT_TEXT_COLOR = '#2a2a2a';
   const DEFAULT_TEXT_SECONDARY = '#5a5a5a';
   const DEFAULT_TEXT_MUTED = '#8a8a8a';
@@ -1399,11 +1410,13 @@ document.addEventListener('DOMContentLoaded', () => {
     eraserSizeValue.textContent = currentEraserSize + 'px';
 
     applyStrokeStyle();
-    resizeThree();
   }
 
   resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    resizeThree();
+  });
 
   function getPos(e) {
     const rect = canvas.getBoundingClientRect();
@@ -1431,7 +1444,7 @@ document.addEventListener('DOMContentLoaded', () => {
     longPressActivated = false;
   }
 
-  function drawStroke(e) {
+  function draw(e) {
     if (!drawing) return;
     if (e && e.preventDefault) e.preventDefault();
     const pos = getPos(e);
@@ -1443,9 +1456,8 @@ document.addEventListener('DOMContentLoaded', () => {
     lastY = pos.y;
   }
 
-  // mus-tegning
+  // MUS
   canvas.addEventListener('mousedown', (e) => {
-    // venstre knapp
     if (e.button !== 0) return;
     e.preventDefault();
     applyStrokeStyle();
@@ -1454,9 +1466,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('mousemove', drawStroke);
+  canvas.addEventListener('mousemove', draw);
 
-  // touch – lang-press for å tegne (for å bevare scrolling)
+  // TOUCH – lang-press for tegning
   canvas.addEventListener('touchstart', (e) => {
     if (!isTouch) return;
     if (e.touches.length !== 1) return;
@@ -1485,14 +1497,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
     } else {
-      drawStroke(e);
+      draw(e);
     }
   }, { passive: false });
 
   canvas.addEventListener('touchend', endDraw, { passive: false });
   canvas.addEventListener('touchcancel', endDraw, { passive: false });
 
-  // color panel
+  // color panel endrer tusjfarge
   colorPicker.addEventListener('input', (e) => {
     currentColor = e.target.value;
     isErasing = false;
@@ -1531,7 +1543,9 @@ document.addEventListener('DOMContentLoaded', () => {
     applyStrokeStyle();
   }
 
-  randomColorBtn.addEventListener('click', setRandomColor);
+  randomColorBtn.addEventListener('click', () => {
+    setRandomColor();
+  });
 
   clearCanvasBtn.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1560,7 +1574,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isErasing) applyStrokeStyle();
   });
 
-  // presets
+  // presets – litt InDesign vibes
   function applyPreset(name) {
     isErasing = false;
     updateEraserButtonState();
@@ -1596,7 +1610,7 @@ document.addEventListener('DOMContentLoaded', () => {
   presetMarker.addEventListener('click', () => applyPreset('marker'));
   presetCharcoal.addEventListener('click', () => applyPreset('charcoal'));
 
-  // typografi
+  // font / typografi – påvirker hele siden
   function applyFontType(type) {
     let sans = '';
     let mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
@@ -1631,6 +1645,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFontType(e.target.value);
   });
 
+  // type size – endre fontstørrelser via CSS-variabler
   function applyBodySize(px) {
     docEl.style.setProperty('--font-size-body', px + 'px');
     docEl.style.setProperty('--font-size-intro', (px + 1) + 'px');
@@ -1654,6 +1669,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyHeadingSize(v);
   });
 
+  // text color – endre tekstfarge på hele siden
   function applyTextColor(hex) {
     const rgb = hexToRgb(hex);
     if (!rgb) return;
@@ -1747,7 +1763,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drawMenu.classList.remove('visible');
   });
 
-  // dra toolbox
+  // dra toolbox rundt
   let draggingMenu = false;
   let dragOffsetX = 0;
   let dragOffsetY = 0;
@@ -1780,13 +1796,12 @@ document.addEventListener('DOMContentLoaded', () => {
     draggingMenu = false;
   });
 
-  // ==== Three.js: 3D kube pakket inn i prosjektbildet ====
+  // ==== Three.js 3D massing – lazy-load, opt-in ====
   let threeRenderer = null;
   let threeScene = null;
   let threeCamera = null;
   let threeAnimating = false;
   let threeLoaded = false;
-  let threeCube = null;
 
   function loadThreeAndInit(callback) {
     if (threeLoaded) {
@@ -1802,78 +1817,80 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   }
 
-  function initThreeScene() {
-    if (!drawWrapper || !window.THREE || threeRenderer) return;
+function initThreeScene() {
+  if (!drawWrapper || !window.THREE || threeRenderer) return;
 
-    threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-    threeRenderer.setClearColor(0x000000, 0);
-    threeRenderer.domElement.style.position = 'absolute';
-    threeRenderer.domElement.style.inset = '0';
-    threeRenderer.domElement.style.width = '100%';
-    threeRenderer.domElement.style.height = '100%';
-    threeRenderer.domElement.style.zIndex = '4'; // over bildet, under heroCanvas
-    threeRenderer.domElement.style.cursor = 'grab';
-    drawWrapper.appendChild(threeRenderer.domElement);
+  threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  threeRenderer.setClearColor(0x000000, 0); // transparent
+  threeRenderer.domElement.style.position = 'absolute';
+  threeRenderer.domElement.style.inset = '0';
+  threeRenderer.domElement.style.width = '100%';
+  threeRenderer.domElement.style.height = '100%';
+  threeRenderer.domElement.style.pointerEvents = 'none'; // canvas tar input
+  drawWrapper.appendChild(threeRenderer.domElement);
 
-    threeScene = new THREE.Scene();
+  threeScene = new THREE.Scene();
+  threeCamera = new THREE.PerspectiveCamera(
+    30,
+    drawWrapper.clientWidth / drawWrapper.clientHeight,
+    0.1,
+    100
+  );
+  threeCamera.position.set(3, 3, 4);
 
-    threeCamera = new THREE.PerspectiveCamera(
-      35,
-      drawWrapper.clientWidth / drawWrapper.clientHeight,
-      0.1,
-      100
-    );
-    threeCamera.position.set(2.4, 2.1, 3);
-    threeCamera.lookAt(0, 0.6, 0);
+  const light = new THREE.DirectionalLight(0xffffff, 0.9);
+  light.position.set(4, 8, 6);
+  threeScene.add(light);
+  threeScene.add(new THREE.AmbientLight(0xffffff, 0.35));
 
-    const light = new THREE.DirectionalLight(0xffffff, 0.9);
-    light.position.set(4, 8, 6);
-    threeScene.add(light);
-    threeScene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  // baseplate
+  const plateGeo = new THREE.PlaneGeometry(6, 6);
+  const plateMat = new THREE.MeshStandardMaterial({
+    color: 0xe6e4dd,
+    roughness: 1,
+    metalness: 0
+  });
+  const plate = new THREE.Mesh(plateGeo, plateMat);
+  plate.rotation.x = -Math.PI / 2;
+  threeScene.add(plate);
 
-    const plateGeo = new THREE.PlaneGeometry(4, 4);
-    const plateMat = new THREE.MeshStandardMaterial({
-      color: 0xe6e4dd,
-      roughness: 1,
-      metalness: 0
-    });
-    const plate = new THREE.Mesh(plateGeo, plateMat);
-    plate.rotation.x = -Math.PI / 2;
-    plate.position.y = 0;
-    threeScene.add(plate);
+  // enkel massing
+  const mat1 = new THREE.MeshStandardMaterial({
+    color: 0xb8c7be,
+    roughness: 0.85,
+    metalness: 0.05
+  });
+  const box1 = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.2), mat1);
+  box1.position.y = 0.5;
+  threeScene.add(box1);
 
-    const size = 1.5;
-    const baseMat = new THREE.MeshStandardMaterial({
-      color: 0xb8c7be,
-      roughness: 0.9,
-      metalness: 0.05
-    });
-    threeCube = new THREE.Mesh(
-      new THREE.BoxGeometry(size, size, size),
-      baseMat
-    );
-    threeCube.position.set(0, size * 0.5, 0);
-    threeScene.add(threeCube);
+  const mat2 = mat1.clone();
+  mat2.color = new THREE.Color(0xa0b3a9);
+  const box2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 0.9), mat2);
+  box2.position.set(0.4, 1.2, -0.1);
+  threeScene.add(box2);
 
-    // pakk kuben inn i prosjektbildet
-    if (randomImage) {
-      const loader = new THREE.TextureLoader();
-      loader.load(randomImage, (texture) => {
-        texture.encoding = THREE.sRGBEncoding;
-        texture.anisotropy = 4;
-        threeCube.material = new THREE.MeshStandardMaterial({
-          map: texture,
-          roughness: 0.9,
-          metalness: 0.05
-        });
+  // BAKVEGG MED PROSJEKTBILDE
+  if (randomImage) {
+    const texLoader = new THREE.TextureLoader();
+    texLoader.load(randomImage, (texture) => {
+      texture.encoding = THREE.sRGBEncoding;
+      const wallGeo = new THREE.PlaneGeometry(4.5, 4.5);
+      const wallMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        toneMapped: false
       });
-    }
-
-    resizeThree();
-    window.addEventListener('resize', resizeThree);
-    setupThreeDragControls(threeScene, threeRenderer.domElement);
+      const wall = new THREE.Mesh(wallGeo, wallMat);
+      wall.position.set(0, 2.1, -1.2); // bak volumet
+      threeScene.add(wall);
+    });
   }
+
+  resizeThree();
+  window.addEventListener('resize', resizeThree);
+}
+
 
   function resizeThree() {
     if (!threeRenderer || !threeCamera || !drawWrapper) return;
@@ -1884,49 +1901,20 @@ document.addEventListener('DOMContentLoaded', () => {
     threeCamera.updateProjectionMatrix();
   }
 
-  function setupThreeDragControls(scene, domElement) {
-    let isDragging3D = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    domElement.addEventListener('mousedown', (e) => {
-      isDragging3D = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      domElement.style.cursor = 'grabbing';
-      e.preventDefault();
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging3D || !scene) return;
-      const dx = e.clientX - lastX;
-      const dy = e.clientY - lastY;
-      lastX = e.clientX;
-      lastY = e.clientY;
-
-      scene.rotation.y += dx * 0.005;
-      scene.rotation.x += dy * 0.005;
-    });
-
-    window.addEventListener('mouseup', () => {
-      isDragging3D = false;
-      if (domElement) domElement.style.cursor = 'grab';
-    });
-  }
-
   function animateThree() {
     if (!threeAnimating || !threeRenderer || !threeScene || !threeCamera) return;
     requestAnimationFrame(animateThree);
+    threeScene.rotation.y += 0.002;
     threeRenderer.render(threeScene, threeCamera);
   }
 
   if (toggle3DBtn) {
     toggle3DBtn.addEventListener('click', () => {
       if (!threeRenderer) {
+        // første gang: last Three.js, init scene
         loadThreeAndInit(() => {
           initThreeScene();
           if (threeRenderer) {
-            bg.style.opacity = 0; // skjul bildet
             threeRenderer.domElement.style.display = 'block';
             threeAnimating = true;
             animateThree();
@@ -1934,23 +1922,23 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       } else if (!threeAnimating) {
-        bg.style.opacity = 0;
+        // re-aktivere
         threeRenderer.domElement.style.display = 'block';
         threeAnimating = true;
         animateThree();
         toggle3DBtn.textContent = 'disable 3d';
       } else {
+        // slå av
         threeAnimating = false;
         if (threeRenderer) {
           threeRenderer.domElement.style.display = 'none';
         }
-        bg.style.opacity = 0.9; // vis bildet igjen
         toggle3DBtn.textContent = 'enable 3d';
       }
     });
   }
 
-  // init
+  // init tilstand
   updateEraserButtonState();
   colorPicker.value = currentColor;
   menuColorPicker.value = currentColor;
