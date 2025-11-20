@@ -16,6 +16,11 @@
 
   --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+
+  --font-size-body: 14px;
+  --font-size-intro: 15px;
+  --font-size-section-title: 13px;
+  --font-size-project-title: 20px;
 }
 
 * {
@@ -30,7 +35,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: var(--font-size-body);
   line-height: 1.6;
   color: var(--color-text);
   background: var(--color-bg);
@@ -294,7 +299,7 @@ nav a:hover {
   top: 80px;
   left: 80px;
   min-width: 230px;
-  max-width: 270px;
+  max-width: 280px;
   padding: 8px 10px 10px;
   border-radius: 12px;
   background: rgba(250, 250, 248, 0.97);
@@ -353,6 +358,7 @@ nav a:hover {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: nowrap;
 }
 
 .draw-menu select,
@@ -461,7 +467,7 @@ main {
 }
 
 .intro p {
-  font-size: 15px;
+  font-size: var(--font-size-intro);
   line-height: 1.85;
   color: var(--color-text-secondary);
   margin-bottom: 20px;
@@ -494,7 +500,7 @@ section {
 
 .section-title {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: var(--font-size-section-title);
   font-weight: 400;
   letter-spacing: 0.02em;
   color: var(--color-text-secondary);
@@ -552,7 +558,7 @@ section {
 
 .project-title {
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: var(--font-size-project-title);
   font-weight: 400;
   margin-bottom: 4px;
   line-height: 1.25;
@@ -910,6 +916,8 @@ footer {
         <option value="solid">solid</option>
         <option value="dashed">dashed</option>
         <option value="dotted">dotted</option>
+        <option value="dashdot">dash-dot</option>
+        <option value="fine">fine</option>
       </select>
       <input type="range" id="strokeWidthRange" min="1" max="24" value="4">
       <span id="strokeWidthValue">4px</span>
@@ -943,7 +951,23 @@ footer {
         <option value="system">system</option>
         <option value="serif">serif</option>
         <option value="mono">mono</option>
+        <option value="modern">modern</option>
+        <option value="narrow">narrow</option>
       </select>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">type size</div>
+    <div class="draw-menu-row">
+      <span>body</span>
+      <input type="range" id="bodySizeRange" min="12" max="18" value="14">
+      <span id="bodySizeValue">14px</span>
+    </div>
+    <div class="draw-menu-row">
+      <span>titles</span>
+      <input type="range" id="headingSizeRange" min="18" max="26" value="20">
+      <span id="headingSizeValue">20px</span>
     </div>
   </div>
 
@@ -952,6 +976,16 @@ footer {
     <div class="draw-menu-row">
       <input type="color" id="textColorPicker" value="#2a2a2a">
       <button type="button" id="textColorDefaultBtn">default</button>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">3d model</div>
+    <div class="draw-menu-row">
+      <button type="button" id="toggle3DBtn">enable 3d</button>
+    </div>
+    <div class="draw-menu-small">
+      simple massing study · opt-in
     </div>
   </div>
 
@@ -1221,12 +1255,13 @@ if (scrollHint) {
   });
 }
 
-// tegne-funksjon på landingssiden med cheat codes + toolbox + mobil-langpress
+// tegne-funksjon på landingssiden med cheat codes + toolbox + mobil-langpress + 3D opt-in
 document.addEventListener('DOMContentLoaded', () => {
   const bg = document.querySelector('.hero-draw-bg');
   const canvas = document.getElementById('heroCanvas');
   const colorPanel = document.getElementById('colorPanel');
   const colorPicker = document.getElementById('colorPicker');
+  const drawWrapper = document.querySelector('.hero-draw-wrapper');
 
   const drawMenu = document.getElementById('drawMenu');
   const drawMenuHeader = document.getElementById('drawMenuHeader');
@@ -1243,6 +1278,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const fontTypeSelect = document.getElementById('fontTypeSelect');
   const textColorPicker = document.getElementById('textColorPicker');
   const textColorDefaultBtn = document.getElementById('textColorDefaultBtn');
+  const bodySizeRange = document.getElementById('bodySizeRange');
+  const bodySizeValue = document.getElementById('bodySizeValue');
+  const headingSizeRange = document.getElementById('headingSizeRange');
+  const headingSizeValue = document.getElementById('headingSizeValue');
+  const toggle3DBtn = document.getElementById('toggle3DBtn');
 
   const presetHairline = document.getElementById('presetHairline');
   const presetAnnotation = document.getElementById('presetAnnotation');
@@ -1251,11 +1291,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!bg || !canvas || !colorPanel || !colorPicker || !drawMenu) return;
 
-  // bakgrunnsbilde
+  const docEl = document.documentElement;
+
+  // bakgrunnsbilde – inkludert Rågsved-bildet
   const images = [
-    'img/SQUARE10.jpg',
-    'img/SQUARE11.jpg',
     'img/SQUARE-2-.jpg',
+    'img/SQUARE11.jpg',
+    'img/SQUARE14.jpg',
     'img/SQUARE18.jpg',
     'img/SQUARE19.jpg'
   ];
@@ -1293,7 +1335,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const MOVE_TOLERANCE = 8;
   let longPressActivated = false;
 
-  // helpers for tekstfarge justering
+  // text color defaults
   const DEFAULT_TEXT_COLOR = '#2a2a2a';
   const DEFAULT_TEXT_SECONDARY = '#5a5a5a';
   const DEFAULT_TEXT_MUTED = '#8a8a8a';
@@ -1344,6 +1386,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.setLineDash([12, 8]);
       } else if (currentLineStyle === 'dotted') {
         ctx.setLineDash([2, 6]);
+      } else if (currentLineStyle === 'dashdot') {
+        ctx.setLineDash([10, 6, 2, 6]);
+      } else if (currentLineStyle === 'fine') {
+        ctx.setLineDash([1, 5]);
       }
     } else {
       ctx.setLineDash([]);
@@ -1367,7 +1413,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    resizeThree();
+  });
 
   function getPos(e) {
     const rect = canvas.getBoundingClientRect();
@@ -1563,24 +1612,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // font / typografi – påvirker hele siden
   function applyFontType(type) {
-    const root = document.documentElement;
-    let sans, mono;
+    let sans = '';
+    let mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
 
     if (type === 'system') {
       sans = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-      mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
     } else if (type === 'serif') {
       sans = 'Georgia, "Times New Roman", serif';
-      mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
     } else if (type === 'mono') {
       sans = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
-      mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
+    } else if (type === 'modern') {
+      sans = '"Helvetica Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    } else if (type === 'narrow') {
+      sans = '"Roboto Condensed", "Helvetica Neue Condensed", "Arial Narrow", system-ui, sans-serif';
+    } else {
+      sans = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
     }
 
-    root.style.setProperty('--font-sans', sans);
-    root.style.setProperty('--font-mono', mono);
+    docEl.style.setProperty('--font-sans', sans);
+    docEl.style.setProperty('--font-mono', mono);
 
-    // sikre at body og overskrifter tar det med en gang
     document.body.style.fontFamily = 'var(--font-sans)';
     const monoElements = document.querySelectorAll(
       '.site-title, nav a, .section-number, .project-meta, .project-tools, .contact-block h3, footer, .landing-title, .scroll-hint'
@@ -1594,9 +1645,32 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFontType(e.target.value);
   });
 
+  // type size – endre fontstørrelser via CSS-variabler
+  function applyBodySize(px) {
+    docEl.style.setProperty('--font-size-body', px + 'px');
+    docEl.style.setProperty('--font-size-intro', (px + 1) + 'px');
+  }
+
+  function applyHeadingSize(px) {
+    docEl.style.setProperty('--font-size-project-title', px + 'px');
+    const sectionSize = Math.max(11, px - 7);
+    docEl.style.setProperty('--font-size-section-title', sectionSize + 'px');
+  }
+
+  bodySizeRange.addEventListener('input', (e) => {
+    const v = parseInt(e.target.value, 10) || 14;
+    bodySizeValue.textContent = v + 'px';
+    applyBodySize(v);
+  });
+
+  headingSizeRange.addEventListener('input', (e) => {
+    const v = parseInt(e.target.value, 10) || 20;
+    headingSizeValue.textContent = v + 'px';
+    applyHeadingSize(v);
+  });
+
   // text color – endre tekstfarge på hele siden
   function applyTextColor(hex) {
-    const root = document.documentElement;
     const rgb = hexToRgb(hex);
     if (!rgb) return;
 
@@ -1604,12 +1678,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const muted = mixWithWhite(hex, 0.55);
     const light = mixWithWhite(hex, 0.72);
 
-    root.style.setProperty('--color-text', hex);
-    root.style.setProperty('--color-text-secondary', secondary);
-    root.style.setProperty('--color-text-muted', muted);
-    root.style.setProperty('--color-text-light', light);
+    docEl.style.setProperty('--color-text', hex);
+    docEl.style.setProperty('--color-text-secondary', secondary);
+    docEl.style.setProperty('--color-text-muted', muted);
+    docEl.style.setProperty('--color-text-light', light);
 
-    // tving body til å bruke den nye
     document.body.style.color = 'var(--color-text)';
   }
 
@@ -1618,11 +1691,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   textColorDefaultBtn.addEventListener('click', () => {
-    const root = document.documentElement;
-    root.style.setProperty('--color-text', DEFAULT_TEXT_COLOR);
-    root.style.setProperty('--color-text-secondary', DEFAULT_TEXT_SECONDARY);
-    root.style.setProperty('--color-text-muted', DEFAULT_TEXT_MUTED);
-    root.style.setProperty('--color-text-light', DEFAULT_TEXT_LIGHT);
+    docEl.style.setProperty('--color-text', DEFAULT_TEXT_COLOR);
+    docEl.style.setProperty('--color-text-secondary', DEFAULT_TEXT_SECONDARY);
+    docEl.style.setProperty('--color-text-muted', DEFAULT_TEXT_MUTED);
+    docEl.style.setProperty('--color-text-light', DEFAULT_TEXT_LIGHT);
     textColorPicker.value = DEFAULT_TEXT_COLOR;
     document.body.style.color = 'var(--color-text)';
   });
@@ -1724,6 +1796,130 @@ document.addEventListener('DOMContentLoaded', () => {
     draggingMenu = false;
   });
 
+  // ==== Three.js 3D massing – lazy-load, opt-in ====
+  let threeRenderer = null;
+  let threeScene = null;
+  let threeCamera = null;
+  let threeAnimating = false;
+  let threeLoaded = false;
+
+  function loadThreeAndInit(callback) {
+    if (threeLoaded) {
+      if (callback) callback();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/three@0.160.0/build/three.min.js';
+    script.onload = () => {
+      threeLoaded = true;
+      if (callback) callback();
+    };
+    document.head.appendChild(script);
+  }
+
+  function initThreeScene() {
+    if (!drawWrapper || !window.THREE || threeRenderer) return;
+
+    threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    threeRenderer.setClearColor(0x000000, 0);
+    threeRenderer.domElement.style.position = 'absolute';
+    threeRenderer.domElement.style.inset = '0';
+    threeRenderer.domElement.style.width = '100%';
+    threeRenderer.domElement.style.height = '100%';
+    threeRenderer.domElement.style.pointerEvents = 'none'; // 3D er visuelt, canvas tar input
+    drawWrapper.appendChild(threeRenderer.domElement);
+
+    threeScene = new THREE.Scene();
+    threeCamera = new THREE.PerspectiveCamera(
+      30,
+      drawWrapper.clientWidth / drawWrapper.clientHeight,
+      0.1,
+      100
+    );
+    threeCamera.position.set(3, 3, 4);
+
+    const light = new THREE.DirectionalLight(0xffffff, 0.9);
+    light.position.set(4, 8, 6);
+    threeScene.add(light);
+    threeScene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+    // enkel massing: to bokser på en plate
+    const mat1 = new THREE.MeshStandardMaterial({
+      color: 0xb8c7be,
+      roughness: 0.85,
+      metalness: 0.05
+    });
+    const box1 = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.2), mat1);
+    box1.position.y = 0.5;
+    threeScene.add(box1);
+
+    const mat2 = mat1.clone();
+    mat2.color = new THREE.Color(0xa0b3a9);
+    const box2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 0.9), mat2);
+    box2.position.set(0.4, 1.2, -0.1);
+    threeScene.add(box2);
+
+    const plateGeo = new THREE.PlaneGeometry(6, 6);
+    const plateMat = new THREE.MeshStandardMaterial({
+      color: 0xe6e4dd,
+      roughness: 1,
+      metalness: 0
+    });
+    const plate = new THREE.Mesh(plateGeo, plateMat);
+    plate.rotation.x = -Math.PI / 2;
+    threeScene.add(plate);
+
+    resizeThree();
+    window.addEventListener('resize', resizeThree);
+  }
+
+  function resizeThree() {
+    if (!threeRenderer || !threeCamera || !drawWrapper) return;
+    const w = drawWrapper.clientWidth;
+    const h = drawWrapper.clientHeight;
+    threeRenderer.setSize(w, h);
+    threeCamera.aspect = w / h;
+    threeCamera.updateProjectionMatrix();
+  }
+
+  function animateThree() {
+    if (!threeAnimating || !threeRenderer || !threeScene || !threeCamera) return;
+    requestAnimationFrame(animateThree);
+    threeScene.rotation.y += 0.002;
+    threeRenderer.render(threeScene, threeCamera);
+  }
+
+  if (toggle3DBtn) {
+    toggle3DBtn.addEventListener('click', () => {
+      if (!threeRenderer) {
+        // første gang: last Three.js, init scene
+        loadThreeAndInit(() => {
+          initThreeScene();
+          if (threeRenderer) {
+            threeRenderer.domElement.style.display = 'block';
+            threeAnimating = true;
+            animateThree();
+            toggle3DBtn.textContent = 'disable 3d';
+          }
+        });
+      } else if (!threeAnimating) {
+        // re-aktivere
+        threeRenderer.domElement.style.display = 'block';
+        threeAnimating = true;
+        animateThree();
+        toggle3DBtn.textContent = 'disable 3d';
+      } else {
+        // slå av
+        threeAnimating = false;
+        if (threeRenderer) {
+          threeRenderer.domElement.style.display = 'none';
+        }
+        toggle3DBtn.textContent = 'enable 3d';
+      }
+    });
+  }
+
   // init tilstand
   updateEraserButtonState();
   colorPicker.value = currentColor;
@@ -1731,6 +1927,11 @@ document.addEventListener('DOMContentLoaded', () => {
   strokeWidthValue.textContent = currentStrokeWidth + 'px';
   eraserSizeValue.textContent = currentEraserSize + 'px';
   textColorPicker.value = DEFAULT_TEXT_COLOR;
+  bodySizeValue.textContent = bodySizeRange.value + 'px';
+  headingSizeValue.textContent = headingSizeRange.value + 'px';
+  applyFontType('system');
+  applyBodySize(parseInt(bodySizeRange.value, 10) || 14);
+  applyHeadingSize(parseInt(headingSizeRange.value, 10) || 20);
 });
 </script>
 
