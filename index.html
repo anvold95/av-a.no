@@ -4,7 +4,348 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>A. Vold Arkitektur</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #fff;
+  padding: 50px 30px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* PAPER TEXTURE BACKGROUND */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="200" height="200" filter="url(%23noise)" opacity="0.03"/></svg>');
+  pointer-events: none;
+}
+
+/* MORPHING SHAPE */
+.background-shape {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  opacity: 0.15;
+  pointer-events: none;
+  background: #d8d8d6;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  filter: blur(60px);
+  animation: morph 15s ease-in-out infinite;
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+    transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
+  }
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+    transform: translate(-50%, -50%) rotate(90deg) scale(0.9);
+  }
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+    transform: translate(-50%, -50%) rotate(135deg) scale(1.05);
+  }
+  100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: translate(-50%, -50%) rotate(180deg) scale(1);
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.5;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.site-title {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: 40px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+nav a {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* INTRO */
+.intro {
+  text-align: center;
+  margin-bottom: 120px;
+}
+
+.intro p {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* SECTION */
+section {
+  margin-bottom: 120px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 70px;
+  color: #999;
+}
+
+/* PROJECTS */
+.project-list {
+  list-style: none;
+}
+
+.project-item {
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+.project-image {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin: 0 auto 30px;
+  display: block;
+}
+
+.project-number {
+  font-size: 10px;
+  color: #ccc;
+  margin-bottom: 12px;
+}
+
+.project-title {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.project-subtitle {
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.project-description {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #555;
+  max-width: 500px;
+  margin: 0 auto 15px;
+}
+
+.project-meta {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* APPROACH */
+.approach-text {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.approach-text p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  color: #444;
+}
+
+.approach-list {
+  list-style: none;
+  margin-top: 40px;
+  font-size: 13px;
+  line-height: 2;
+  color: #555;
+  text-align: left;
+}
+
+.approach-list li {
+  margin-bottom: 8px;
+}
+
+/* RESEARCH */
+.research-list {
+  list-style: none;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.research-item {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.research-meta {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.research-title {
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.research-description {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.research-link {
+  font-size: 11px;
+  color: #999;
+  text-decoration: underline;
+}
+
+/* CONTACT */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-block h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 15px;
+  font-weight: 400;
+  color: #999;
+}
+
+.contact-block p,
+.contact-block a {
+  font-size: 13px;
+  line-height: 1.8;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.contact-block ul {
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.contact-block li {
+  margin-bottom: 3px;
+}
+
+/* FOOTER */
+footer {
+  margin-top: 100px;
+  padding-top: 30px;
+  border-top: 1px solid #e8e8e8;
+  text-align: center;
+  font-size: 11px;
+  color: #bbb;
+}
+
+footer a {
+  color: #999;
+  margin: 0 15px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  body {
+    padding: 40px 20px;
+  }
+  
+  header {
+    margin-bottom: 70px;
+  }
+  
+  nav ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .intro {
+    margin-bottom: 80px;
+  }
+  
+  section {
+    margin-bottom: 80px;
+  }
+  
+  .project-item {
+    margin-bottom: 70px;
+  }
+  
+  .approach-list {
+    text-align: center;
+  }
+}
+  </style>
 </head>
 <body>
 
@@ -39,7 +380,7 @@
   
   <ul class="project-list">
     <li class="project-item">
-      <img src="Img/SQUARE10.jpg" alt="Suburban City Center – Rågsved" class="project-image">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=85" alt="" class="project-image">
       <div class="project-number">01</div>
       <div class="project-title">Suburban City Center – Rågsved</div>
       <div class="project-subtitle">Reinterpreting the Periphery</div>
@@ -50,7 +391,7 @@
     </li>
     
     <li class="project-item">
-      <img src="Img/SQUARE11.jpg" alt="Skjønsbergvegen 14" class="project-image">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85" alt="" class="project-image">
       <div class="project-number">02</div>
       <div class="project-title">Skjønsbergvegen 14</div>
       <div class="project-subtitle">Shifts in Structure</div>
@@ -61,7 +402,7 @@
     </li>
     
     <li class="project-item">
-      <img src="Img/SQUARE14.jpg" alt="Remaking Hauberg" class="project-image">
+      <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=85" alt="" class="project-image">
       <div class="project-number">03</div>
       <div class="project-title">Remaking Hauberg</div>
       <div class="project-subtitle">Royal Academy</div>
@@ -72,7 +413,7 @@
     </li>
     
     <li class="project-item">
-      <img src="Img/SQUARE18.jpg" alt="Material Practice – Dæmpegård Skovriddergård" class="project-image">
+      <img src="https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=800&q=85" alt="" class="project-image">
       <div class="project-number">04</div>
       <div class="project-title">Material Practice</div>
       <div class="project-subtitle">Dæmpegård Skovriddergård</div>
@@ -83,7 +424,7 @@
     </li>
     
     <li class="project-item">
-      <img src="Img/SQUARE19.jpg" alt="Recasting the Void – Østerbrogade 146" class="project-image">
+      <img src="https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&q=85" alt="" class="project-image">
       <div class="project-number">05</div>
       <div class="project-title">Recasting the Void</div>
       <div class="project-subtitle">Østerbrogade 146</div>
@@ -162,7 +503,7 @@
     
     <div class="contact-block">
       <h3>Kontakt</h3>
-      <a href="mailto:vold.andreas@gmail.com">vold.andreas@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#f0869f9c94de919e9482959183b0979d91999cde939f9d"><span class="__cf_email__" data-cfemail="f781989b93d996999385929684b7909a969e9bd994989a">[email&#160;protected]</span></a>
       <a href="tel:+4522883055">+45 22 88 30 55</a>
     </div>
     
@@ -184,12 +525,4 @@
 <footer>
   <div>© 2025 A. Vold Arkitektur AS</div>
   <div style="margin-top: 10px;">
-    <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
-    <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
-  </div>
-</footer>
-
-</div>
-
-</body>
-</html>
+    <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">L
