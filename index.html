@@ -14,7 +14,6 @@
   --color-border: #e0e0dc;
   --color-border-light: #ececea;
 
-  /* standard/system-fonter, i tråd med porteføljen */
   --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
@@ -39,7 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* SUBTLE DOT PATTERN - like the PDF */
+/* SUBTLE DOT PATTERN */
 body::before {
   content: '';
   position: fixed;
@@ -191,7 +190,6 @@ nav a:hover {
 }
 
 .hero-blob path {
-  /* veldig lett grønnblå linolie-skjær */
   fill: rgba(186, 210, 202, 0.75);
 }
 
@@ -290,6 +288,121 @@ nav a:hover {
   border: none;
 }
 
+/* flytende toolbox (right-click) */
+.draw-menu {
+  position: fixed;
+  top: 80px;
+  left: 80px;
+  min-width: 220px;
+  max-width: 260px;
+  padding: 8px 10px 10px;
+  border-radius: 12px;
+  background: rgba(250, 250, 248, 0.97);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  z-index: 30;
+  display: none;
+}
+
+.draw-menu.visible {
+  display: block;
+}
+
+.draw-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  cursor: move;
+}
+
+.draw-menu-title {
+  white-space: nowrap;
+}
+
+.draw-menu-close {
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.draw-menu-close:hover {
+  opacity: 1;
+}
+
+.draw-menu-group {
+  padding: 6px 0;
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.draw-menu-label {
+  opacity: 0.7;
+}
+
+.draw-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.draw-menu select,
+.draw-menu input[type="range"],
+.draw-menu input[type="color"] {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.draw-menu input[type="color"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+}
+
+.draw-menu-button-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.draw-menu button {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: #f6f6f2;
+  cursor: pointer;
+}
+
+.draw-menu button:hover {
+  background: #ecece6;
+}
+
+/* liten markering når viskelær er aktiv */
+.draw-menu button.active {
+  background: #2a2a2a;
+  color: #fafaf8;
+}
+
+/* toggle info-tekst */
+.draw-menu-small {
+  opacity: 0.55;
+  margin-top: 4px;
+}
+
+/* footer landing */
 .landing-footer {
   padding: 24px 40px;
   display: flex;
@@ -774,6 +887,61 @@ footer {
   <input type="color" id="colorPicker" value="#111111">
 </div>
 
+<!-- flytende toolbox -->
+<div class="draw-menu" id="drawMenu">
+  <div class="draw-menu-header" id="drawMenuHeader">
+    <div class="draw-menu-title">studio av·a · tools</div>
+    <button class="draw-menu-close" id="drawMenuClose" aria-label="close">×</button>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">stroke</div>
+    <div class="draw-menu-row">
+      <select id="strokeStyleSelect">
+        <option value="solid">solid</option>
+        <option value="dashed">dashed</option>
+        <option value="dotted">dotted</option>
+      </select>
+      <input type="range" id="strokeWidthRange" min="1" max="24" value="4">
+      <span id="strokeWidthValue">4px</span>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">color</div>
+    <div class="draw-menu-row">
+      <input type="color" id="menuColorPicker" value="#111111">
+    </div>
+    <div class="draw-menu-button-row">
+      <button type="button" id="randomColorBtn">random</button>
+      <button type="button" id="clearCanvasBtn">clear</button>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">eraser</div>
+    <div class="draw-menu-row">
+      <button type="button" id="eraserToggleBtn">eraser</button>
+      <input type="range" id="eraserSizeRange" min="4" max="40" value="12">
+      <span id="eraserSizeValue">12px</span>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">typography</div>
+    <div class="draw-menu-row">
+      <select id="fontTypeSelect">
+        <option value="system">system</option>
+        <option value="serif">serif</option>
+        <option value="mono">mono</option>
+      </select>
+    </div>
+    <div class="draw-menu-small">
+      right-click again to move this panel.
+    </div>
+  </div>
+</div>
+
 <!-- CONTENT -->
 <div class="content">
   <main>
@@ -805,7 +973,7 @@ footer {
               <div class="project-description">
                 Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.
               </div>
-              <div class="project-tools">Autocad & Rhinocerous 7, 3D-scanner, Vray & Adobe-suite</div>
+              <div class="project-tools">Autocad &amp; Rhinocerous 7, 3D-scanner, Vray &amp; Adobe-suite</div>
             </div>
           </li>
           
@@ -823,7 +991,7 @@ footer {
               <div class="project-description">
                 Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.
               </div>
-              <div class="project-tools">BIM/Archicad, Rhinocerous 7, Enscape, Vray & Adobe-suite</div>
+              <div class="project-tools">BIM/Archicad, Rhinocerous 7, Enscape, Vray &amp; Adobe-suite</div>
             </div>
           </li>
           
@@ -858,7 +1026,7 @@ footer {
               <div class="project-description">
                 Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.
               </div>
-              <div class="project-tools">Rhinocerous 7 & Autocad, Enscape, Vray & Adobe-suite</div>
+              <div class="project-tools">Rhinocerous 7 &amp; Autocad, Enscape, Vray &amp; Adobe-suite</div>
             </div>
           </li>
           
@@ -876,7 +1044,7 @@ footer {
               <div class="project-description">
                 Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.
               </div>
-              <div class="project-tools">Rhinocerous 7, Autocad & Adobe-suite</div>
+              <div class="project-tools">Rhinocerous 7, Autocad &amp; Adobe-suite</div>
             </div>
           </li>
         </ul>
@@ -1033,15 +1201,30 @@ if (scrollHint) {
   });
 }
 
-// enkel tegne-funksjon på landingssiden med cheat codes
+// tegne-funksjon på landingssiden med cheat codes + toolbox + mobil-langpress
 document.addEventListener('DOMContentLoaded', () => {
   const bg = document.querySelector('.hero-draw-bg');
   const canvas = document.getElementById('heroCanvas');
   const colorPanel = document.getElementById('colorPanel');
   const colorPicker = document.getElementById('colorPicker');
-  if (!bg || !canvas || !colorPanel || !colorPicker) return;
 
-  // liste med bilder som kan ligge bak
+  const drawMenu = document.getElementById('drawMenu');
+  const drawMenuHeader = document.getElementById('drawMenuHeader');
+  const drawMenuClose = document.getElementById('drawMenuClose');
+  const strokeStyleSelect = document.getElementById('strokeStyleSelect');
+  const strokeWidthRange = document.getElementById('strokeWidthRange');
+  const strokeWidthValue = document.getElementById('strokeWidthValue');
+  const menuColorPicker = document.getElementById('menuColorPicker');
+  const randomColorBtn = document.getElementById('randomColorBtn');
+  const clearCanvasBtn = document.getElementById('clearCanvasBtn');
+  const eraserToggleBtn = document.getElementById('eraserToggleBtn');
+  const eraserSizeRange = document.getElementById('eraserSizeRange');
+  const eraserSizeValue = document.getElementById('eraserSizeValue');
+  const fontTypeSelect = document.getElementById('fontTypeSelect');
+
+  if (!bg || !canvas || !colorPanel || !colorPicker || !drawMenu) return;
+
+  // bakgrunnsbilde
   const images = [
     'img/SQUARE10.jpg',
     'img/SQUARE11.jpg',
@@ -1053,11 +1236,12 @@ document.addEventListener('DOMContentLoaded', () => {
   bg.style.backgroundImage = `url('${randomImage}')`;
 
   const ctx = canvas.getContext('2d');
+
   let drawing = false;
   let lastX = 0;
   let lastY = 0;
 
-  // farger i en litt nedtonet palett
+  // stil-variabler
   const palette = [
     '#1f3b4d',
     '#3c5a40',
@@ -1069,14 +1253,39 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   let currentColor = palette[Math.floor(Math.random() * palette.length)];
   let isErasing = false;
+  let currentStrokeWidth = 4;
+  let currentEraserSize = 12;
+  let currentLineStyle = 'solid';
+
+  // mobil-langpress-variabler
+  let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  let touchStartTime = 0;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const LONG_PRESS_MS = 260;
+  const MOVE_TOLERANCE = 8;
+  let longPressActivated = false;
 
   function applyStrokeStyle() {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    ctx.lineWidth = Math.max(2, canvas.width * 0.004);
+
+    const width = isErasing ? currentEraserSize : currentStrokeWidth;
+    ctx.lineWidth = width;
+
     ctx.globalCompositeOperation = isErasing ? 'destination-out' : 'source-over';
+
     if (!isErasing) {
       ctx.strokeStyle = currentColor;
+      if (currentLineStyle === 'solid') {
+        ctx.setLineDash([]);
+      } else if (currentLineStyle === 'dashed') {
+        ctx.setLineDash([12, 8]);
+      } else if (currentLineStyle === 'dotted') {
+        ctx.setLineDash([2, 6]);
+      }
+    } else {
+      ctx.setLineDash([]);
     }
   }
 
@@ -1084,6 +1293,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
+
+    // juster startverdier omtrent til størrelsen
+    currentStrokeWidth = Math.max(2, Math.round(rect.width * 0.004));
+    strokeWidthRange.value = currentStrokeWidth;
+    strokeWidthValue.textContent = currentStrokeWidth + 'px';
+
+    currentEraserSize = Math.max(8, Math.round(rect.width * 0.008));
+    eraserSizeRange.value = currentEraserSize;
+    eraserSizeValue.textContent = currentEraserSize + 'px';
+
     applyStrokeStyle();
   }
 
@@ -1104,22 +1323,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  function startDraw(e) {
-    e.preventDefault();
+  function startDrawAtPosition(pos) {
     drawing = true;
-    const pos = getPos(e);
     lastX = pos.x;
     lastY = pos.y;
   }
 
   function endDraw(e) {
-    if (e) e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     drawing = false;
+    longPressActivated = false;
   }
 
   function draw(e) {
     if (!drawing) return;
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     const pos = getPos(e);
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
@@ -1129,32 +1347,145 @@ document.addEventListener('DOMContentLoaded', () => {
     lastY = pos.y;
   }
 
-  // mus
-  canvas.addEventListener('mousedown', startDraw);
+  // MUS
+  canvas.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return; // bare venstreklikk for tegning
+    e.preventDefault();
+    applyStrokeStyle();
+    const pos = getPos(e);
+    startDrawAtPosition(pos);
+  });
+
   window.addEventListener('mouseup', endDraw);
   canvas.addEventListener('mousemove', draw);
 
-  // touch
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  // TOUCH – prioriter scroll, aktiver tegning kun ved lang-press
+  canvas.addEventListener('touchstart', (e) => {
+    if (!isTouch) return;
+    if (e.touches.length !== 1) return; // flere fingre → la OS håndtere zoom/scroll
+    touchStartTime = Date.now();
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    longPressActivated = false;
+    drawing = false;
+  }, { passive: true });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (!isTouch) return;
+    const now = Date.now();
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (!longPressActivated) {
+      if (now - touchStartTime > LONG_PRESS_MS && dist <= MOVE_TOLERANCE) {
+        // aktiver tegning
+        longPressActivated = true;
+        applyStrokeStyle();
+        const pos = getPos(e);
+        startDrawAtPosition(pos);
+        e.preventDefault();
+      } else {
+        // fortsatt scroll
+        return;
+      }
+    } else {
+      // allerede tegning
+      draw(e);
+    }
+  }, { passive: false });
+
   canvas.addEventListener('touchend', endDraw, { passive: false });
   canvas.addEventListener('touchcancel', endDraw, { passive: false });
-  canvas.addEventListener('touchmove', draw, { passive: false });
 
-  // color picker endrer tusjfarge
+  // color panel endrer tusjfarge
   colorPicker.addEventListener('input', (e) => {
     currentColor = e.target.value;
     isErasing = false;
+    eraserToggleBtn.classList.remove('active');
     applyStrokeStyle();
+    menuColorPicker.value = currentColor;
   });
 
-  // cheat codes
-  let keyBuffer = '';
+  // toolbox – stroke
+  strokeWidthRange.addEventListener('input', (e) => {
+    currentStrokeWidth = parseInt(e.target.value, 10) || 1;
+    strokeWidthValue.textContent = currentStrokeWidth + 'px';
+    if (!isErasing) applyStrokeStyle();
+  });
+
+  strokeStyleSelect.addEventListener('change', (e) => {
+    currentLineStyle = e.target.value;
+    if (!isErasing) applyStrokeStyle();
+  });
+
+  // toolbox – color
+  menuColorPicker.addEventListener('input', (e) => {
+    currentColor = e.target.value;
+    isErasing = false;
+    eraserToggleBtn.classList.remove('active');
+    colorPicker.value = currentColor;
+    applyStrokeStyle();
+  });
 
   function setRandomColor() {
     currentColor = palette[Math.floor(Math.random() * palette.length)];
     isErasing = false;
+    eraserToggleBtn.classList.remove('active');
+    colorPicker.value = currentColor;
+    menuColorPicker.value = currentColor;
     applyStrokeStyle();
   }
+
+  randomColorBtn.addEventListener('click', () => {
+    setRandomColor();
+  });
+
+  clearCanvasBtn.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+
+  // toolbox – eraser
+  function updateEraserButtonState() {
+    if (isErasing) {
+      eraserToggleBtn.classList.add('active');
+      eraserToggleBtn.textContent = 'eraser on';
+    } else {
+      eraserToggleBtn.classList.remove('active');
+      eraserToggleBtn.textContent = 'eraser';
+    }
+  }
+
+  eraserToggleBtn.addEventListener('click', () => {
+    isErasing = !isErasing;
+    updateEraserButtonState();
+    applyStrokeStyle();
+  });
+
+  eraserSizeRange.addEventListener('input', (e) => {
+    currentEraserSize = parseInt(e.target.value, 10) || 4;
+    eraserSizeValue.textContent = currentEraserSize + 'px';
+    if (isErasing) applyStrokeStyle();
+  });
+
+  // toolbox – font
+  fontTypeSelect.addEventListener('change', (e) => {
+    const value = e.target.value;
+    const root = document.documentElement;
+    if (value === 'system') {
+      root.style.setProperty('--font-sans', '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif');
+      root.style.setProperty('--font-mono', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
+    } else if (value === 'serif') {
+      root.style.setProperty('--font-sans', 'Georgia, "Times New Roman", serif');
+      root.style.setProperty('--font-mono', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
+    } else if (value === 'mono') {
+      root.style.setProperty('--font-sans', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
+      root.style.setProperty('--font-mono', '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace');
+    }
+  });
+
+  // cheat codes
+  let keyBuffer = '';
 
   function toggleColorPanel() {
     colorPanel.classList.toggle('visible');
@@ -1162,18 +1493,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function toggleEraser() {
     isErasing = !isErasing;
+    updateEraserButtonState();
     applyStrokeStyle();
   }
 
   document.addEventListener('keydown', (e) => {
-    // bare bokstaver inn i bufferen
     if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
       keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-12);
     }
 
     if (keyBuffer.includes('ava')) {
       setRandomColor();
-      // tøm litt så den ikke trigger hele tiden
       keyBuffer = '';
     }
 
@@ -1187,6 +1517,76 @@ document.addEventListener('DOMContentLoaded', () => {
       keyBuffer = '';
     }
   });
+
+  // høyreklikk → toolbox
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+
+    const menu = drawMenu;
+    const menuRect = menu.getBoundingClientRect();
+
+    let x = e.clientX;
+    let y = e.clientY;
+
+    const padding = 10;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    if (x + menuRect.width + padding > vw) {
+      x = vw - menuRect.width - padding;
+    }
+    if (y + menuRect.height + padding > vh) {
+      y = vh - menuRect.height - padding;
+    }
+
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+    menu.classList.add('visible');
+  });
+
+  drawMenuClose.addEventListener('click', () => {
+    drawMenu.classList.remove('visible');
+  });
+
+  // dra toolbox rundt
+  let draggingMenu = false;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+
+  drawMenuHeader.addEventListener('mousedown', (e) => {
+    draggingMenu = true;
+    const rect = drawMenu.getBoundingClientRect();
+    dragOffsetX = e.clientX - rect.left;
+    dragOffsetY = e.clientY - rect.top;
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!draggingMenu) return;
+    let x = e.clientX - dragOffsetX;
+    let y = e.clientY - dragOffsetY;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const rect = drawMenu.getBoundingClientRect();
+
+    x = Math.max(4, Math.min(vw - rect.width - 4, x));
+    y = Math.max(4, Math.min(vh - rect.height - 4, y));
+
+    drawMenu.style.left = x + 'px';
+    drawMenu.style.top = y + 'px';
+  });
+
+  window.addEventListener('mouseup', () => {
+    draggingMenu = false;
+  });
+
+  // init tilstand
+  updateEraserButtonState();
+  colorPicker.value = currentColor;
+  menuColorPicker.value = currentColor;
+  strokeWidthValue.textContent = currentStrokeWidth + 'px';
+  eraserSizeValue.textContent = currentEraserSize + 'px';
 });
 </script>
 
