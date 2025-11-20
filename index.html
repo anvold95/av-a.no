@@ -174,16 +174,43 @@ nav a:hover {
   padding: 40px;
 }
 
-.hero-image-wrapper {
+/* ny tegne-firkant på landingssiden */
+.hero-draw-wrapper {
   max-width: 480px;
   width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  border: 1px solid var(--color-border);
+  background: #f4f4f0;
+  overflow: hidden;
 }
 
-.hero-image {
+.hero-draw-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(0.2);
+  opacity: 0.9;
+}
+
+/* selve tegne-canvas */
+#heroCanvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  display: block;
+  height: 100%;
+  cursor: crosshair;
+}
+
+/* liten forklarende tekst under firkanten, hvis du vil bruke den */
+.hero-draw-note {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--color-text-light);
 }
 
 .landing-footer {
@@ -633,8 +660,14 @@ footer {
   </div>
   
   <div class="landing-hero">
-    <div class="hero-image-wrapper">
-      <img src="img/SQUARE10.jpg" alt="studio av·a" class="hero-image">
+    <div>
+      <div class="hero-draw-wrapper">
+        <div class="hero-draw-bg"></div>
+        <canvas id="heroCanvas"></canvas>
+      </div>
+      <div class="hero-draw-note">
+        tegn videre på et utsnitt fra et prosjekt
+      </div>
     </div>
   </div>
   
@@ -890,6 +923,93 @@ window.addEventListener('scroll', () => {
 
 window.addEventListener('resize', () => {
   landingHeight = landing.offsetHeight;
+});
+
+// enkel tegne-funksjon på landingssiden
+document.addEventListener('DOMContentLoaded', () => {
+  const bg = document.querySelector('.hero-draw-bg');
+  const canvas = document.getElementById('heroCanvas');
+  if (!bg || !canvas) return;
+
+  // liste med bilder som kan ligge bak
+  const images = [
+    'img/SQUARE10.jpg',
+    'img/SQUARE11.jpg',
+    'img/SQUARE14.jpg',
+    'img/SQUARE18.jpg',
+    'img/SQUARE19.jpg'
+  ];
+
+  const randomImage = images[Math.floor(Math.random() * images.length)];
+  bg.style.backgroundImage = `url('${randomImage}')`;
+
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+  let lastX = 0;
+  let lastY = 0;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111111';
+    ctx.lineWidth = Math.max(2, rect.width * 0.004); // skalerer litt med størrelsen
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    if (e.touches && e.touches[0]) {
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    }
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+
+  function startDraw(e) {
+    e.preventDefault();
+    drawing = true;
+    const pos = getPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function endDraw(e) {
+    if (e) e.preventDefault();
+    drawing = false;
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  // mus
+  canvas.addEventListener('mousedown', startDraw);
+  window.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('mousemove', draw);
+
+  // touch
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchend', endDraw, { passive: false });
+  canvas.addEventListener('touchcancel', endDraw, { passive: false });
+  canvas.addEventListener('touchmove', draw, { passive: false });
 });
 </script>
 
