@@ -1817,62 +1817,80 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   }
 
-  function initThreeScene() {
-    if (!drawWrapper || !window.THREE || threeRenderer) return;
+function initThreeScene() {
+  if (!drawWrapper || !window.THREE || threeRenderer) return;
 
-    threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-    threeRenderer.setClearColor(0x000000, 0);
-    threeRenderer.domElement.style.position = 'absolute';
-    threeRenderer.domElement.style.inset = '0';
-    threeRenderer.domElement.style.width = '100%';
-    threeRenderer.domElement.style.height = '100%';
-    threeRenderer.domElement.style.pointerEvents = 'none'; // 3D er visuelt, canvas tar input
-    drawWrapper.appendChild(threeRenderer.domElement);
+  threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  threeRenderer.setClearColor(0x000000, 0); // transparent
+  threeRenderer.domElement.style.position = 'absolute';
+  threeRenderer.domElement.style.inset = '0';
+  threeRenderer.domElement.style.width = '100%';
+  threeRenderer.domElement.style.height = '100%';
+  threeRenderer.domElement.style.pointerEvents = 'none'; // canvas tar input
+  drawWrapper.appendChild(threeRenderer.domElement);
 
-    threeScene = new THREE.Scene();
-    threeCamera = new THREE.PerspectiveCamera(
-      30,
-      drawWrapper.clientWidth / drawWrapper.clientHeight,
-      0.1,
-      100
-    );
-    threeCamera.position.set(3, 3, 4);
+  threeScene = new THREE.Scene();
+  threeCamera = new THREE.PerspectiveCamera(
+    30,
+    drawWrapper.clientWidth / drawWrapper.clientHeight,
+    0.1,
+    100
+  );
+  threeCamera.position.set(3, 3, 4);
 
-    const light = new THREE.DirectionalLight(0xffffff, 0.9);
-    light.position.set(4, 8, 6);
-    threeScene.add(light);
-    threeScene.add(new THREE.AmbientLight(0xffffff, 0.35));
+  const light = new THREE.DirectionalLight(0xffffff, 0.9);
+  light.position.set(4, 8, 6);
+  threeScene.add(light);
+  threeScene.add(new THREE.AmbientLight(0xffffff, 0.35));
 
-    // enkel massing: to bokser på en plate
-    const mat1 = new THREE.MeshStandardMaterial({
-      color: 0xb8c7be,
-      roughness: 0.85,
-      metalness: 0.05
+  // baseplate
+  const plateGeo = new THREE.PlaneGeometry(6, 6);
+  const plateMat = new THREE.MeshStandardMaterial({
+    color: 0xe6e4dd,
+    roughness: 1,
+    metalness: 0
+  });
+  const plate = new THREE.Mesh(plateGeo, plateMat);
+  plate.rotation.x = -Math.PI / 2;
+  threeScene.add(plate);
+
+  // enkel massing
+  const mat1 = new THREE.MeshStandardMaterial({
+    color: 0xb8c7be,
+    roughness: 0.85,
+    metalness: 0.05
+  });
+  const box1 = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.2), mat1);
+  box1.position.y = 0.5;
+  threeScene.add(box1);
+
+  const mat2 = mat1.clone();
+  mat2.color = new THREE.Color(0xa0b3a9);
+  const box2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 0.9), mat2);
+  box2.position.set(0.4, 1.2, -0.1);
+  threeScene.add(box2);
+
+  // BAKVEGG MED PROSJEKTBILDE
+  if (randomImage) {
+    const texLoader = new THREE.TextureLoader();
+    texLoader.load(randomImage, (texture) => {
+      texture.encoding = THREE.sRGBEncoding;
+      const wallGeo = new THREE.PlaneGeometry(4.5, 4.5);
+      const wallMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        toneMapped: false
+      });
+      const wall = new THREE.Mesh(wallGeo, wallMat);
+      wall.position.set(0, 2.1, -1.2); // bak volumet
+      threeScene.add(wall);
     });
-    const box1 = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.2), mat1);
-    box1.position.y = 0.5;
-    threeScene.add(box1);
-
-    const mat2 = mat1.clone();
-    mat2.color = new THREE.Color(0xa0b3a9);
-    const box2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 0.9), mat2);
-    box2.position.set(0.4, 1.2, -0.1);
-    threeScene.add(box2);
-
-    const plateGeo = new THREE.PlaneGeometry(6, 6);
-    const plateMat = new THREE.MeshStandardMaterial({
-      color: 0xe6e4dd,
-      roughness: 1,
-      metalness: 0
-    });
-    const plate = new THREE.Mesh(plateGeo, plateMat);
-    plate.rotation.x = -Math.PI / 2;
-    threeScene.add(plate);
-
-    resizeThree();
-    window.addEventListener('resize', resizeThree);
   }
+
+  resizeThree();
+  window.addEventListener('resize', resizeThree);
+}
+
 
   function resizeThree() {
     if (!threeRenderer || !threeCamera || !drawWrapper) return;
