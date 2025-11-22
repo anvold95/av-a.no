@@ -830,6 +830,168 @@ footer {
     height: 340px;
   }
 }
+
+/* ===== editor ui (kun aktiv i editor-modus) ===== */
+body.editor-active [contenteditable="true"] {
+  outline: 1px dashed rgba(0,0,0,0.2);
+  outline-offset: 2px;
+}
+
+.editor-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(250,250,248,0.97);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  z-index: 9999;
+  max-width: 260px;
+}
+
+.editor-panel h3 {
+  font-size: 10px;
+  margin-bottom: 6px;
+  text-transform: lowercase;
+}
+
+.editor-panel-row {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editor-panel label {
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.editor-panel input[type="color"],
+.editor-panel select,
+.editor-panel input[type="text"] {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.editor-panel input[type="color"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+}
+
+.editor-panel input[type="text"] {
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  padding: 3px 6px;
+  flex: 1;
+}
+
+.editor-panel select {
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  padding: 3px 6px;
+  max-width: 150px;
+}
+
+.editor-panel button {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: #f6f6f2;
+  cursor: pointer;
+}
+
+.editor-panel button:hover {
+  background: #ecece6;
+}
+
+.editor-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.editor-panel-small {
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+/* login overlay */
+.editor-login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.editor-login-box {
+  background: #f9f9f6;
+  border-radius: 16px;
+  padding: 18px 20px 16px;
+  border: 1px solid rgba(0,0,0,0.14);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+  max-width: 320px;
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.editor-login-box h2 {
+  font-size: 11px;
+  margin-bottom: 10px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.editor-login-box label {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  opacity: 0.8;
+}
+
+.editor-login-box input[type="email"],
+.editor-login-box input[type="password"] {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  padding: 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.editor-login-box button {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: #2a2a2a;
+  color: #fafaf8;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.editor-login-error {
+  margin-top: 6px;
+  color: #b04040;
+  font-size: 10px;
+}
   </style>
 </head>
 <body>
@@ -837,7 +999,7 @@ footer {
 <!-- STICKY HEADER (appears on scroll) -->
 <header id="header">
   <div class="header-inner">
-    <div class="site-title">studio a.-vold</div>
+    <div class="site-title editable-text">studio a.-vold</div>
     <nav>
       <ul>
         <li><a href="#about">Om</a></li>
@@ -853,7 +1015,7 @@ footer {
 <!-- LANDING -->
 <div class="landing" id="top">
   <div class="landing-header">
-    <div class="landing-title">studio a.-vold</div>
+    <div class="landing-title editable-text">studio a.-vold</div>
     <nav class="landing-nav">
       <ul>
         <li><a href="#about">Om</a></li>
@@ -881,7 +1043,7 @@ footer {
   </div>
   
   <div class="landing-footer">
-    <div class="landing-tagline">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
+    <div class="landing-tagline editable-text">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
     <div class="scroll-hint">scroll</div>
   </div>
 </div>
@@ -1002,68 +1164,68 @@ footer {
     <div class="container">
 
       <section id="about" class="intro">
-        <p>studio a.-vold arbeider med transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse i eksisterende bygningsmasse.</p>
-        <p>Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes, fremfor å starte på nytt.</p>
+        <p class="editable-text">studio a.-vold arbeider med transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse i eksisterende bygningsmasse.</p>
+        <p class="editable-text">Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes, fremfor å starte på nytt.</p>
       </section>
 
       <section id="works">
         <div class="section-header">
-          <span class="section-number">01</span>
-          <h2 class="section-title">Prosjekter</h2>
+          <span class="section-number editable-text">01</span>
+          <h2 class="section-title editable-text">Prosjekter</h2>
         </div>
         
         <ul class="project-list">
           <li class="project-item">
             <div class="project-image-wrapper">
               <img src="img/SQUARE-2-.jpg" alt="Suburban City Center – Rågsved" class="project-image">
-              <div class="project-image-caption">Axonometriske illustrationer</div>
+              <div class="project-image-caption editable-text">Axonometriske illustrationer</div>
             </div>
             <div class="project-content">
               <div class="project-header">
-                <div class="project-title">Suburban City Center – Rågsved</div>
-                <div class="project-subtitle">Reinterpreting the Periphery</div>
-                <div class="project-meta">Masteroppgave, 2023</div>
+                <div class="project-title editable-text">Suburban City Center – Rågsved</div>
+                <div class="project-subtitle editable-text">Reinterpreting the Periphery</div>
+                <div class="project-meta editable-text">Masteroppgave, 2023</div>
               </div>
-              <div class="project-description">
+              <div class="project-description editable-text">
                 Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.
               </div>
-              <div class="project-tools">Autocad &amp; Rhinocerous 7, 3D-scanner, Vray &amp; Adobe-suite</div>
+              <div class="project-tools editable-text">Autocad &amp; Rhinocerous 7, 3D-scanner, Vray &amp; Adobe-suite</div>
             </div>
           </li>
           
           <li class="project-item">
             <div class="project-image-wrapper">
               <img src="img/SQUARE11.jpg" alt="Skjønsbergvegen 14" class="project-image">
-              <div class="project-image-caption">Exterior visualisation</div>
+              <div class="project-image-caption editable-text">Exterior visualisation</div>
             </div>
             <div class="project-content">
               <div class="project-header">
-                <div class="project-title">Skjønsbergvegen 14</div>
-                <div class="project-subtitle">Shifts in Structure</div>
-                <div class="project-meta">Privatoppdrag, 2024</div>
+                <div class="project-title editable-text">Skjønsbergvegen 14</div>
+                <div class="project-subtitle editable-text">Shifts in Structure</div>
+                <div class="project-meta editable-text">Privatoppdrag, 2024</div>
               </div>
-              <div class="project-description">
+              <div class="project-description editable-text">
                 Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.
               </div>
-              <div class="project-tools">BIM/Archicad, Rhinocerous 7, Enscape, Vray &amp; Adobe-suite</div>
+              <div class="project-tools editable-text">BIM/Archicad, Rhinocerous 7, Enscape, Vray &amp; Adobe-suite</div>
             </div>
           </li>
           
           <li class="project-item">
             <div class="project-image-wrapper">
               <img src="img/Haubarg03 (1).jpg" alt="Remaking Hauberg" class="project-image">
-              <div class="project-image-caption">Fine carpentry, woodwork and construction, credits: Nicolai Bo Andersen</div>
+              <div class="project-image-caption editable-text">Fine carpentry, woodwork and construction, credits: Nicolai Bo Andersen</div>
             </div>
             <div class="project-content">
               <div class="project-header">
-                <div class="project-title">Remaking Hauberg</div>
-                <div class="project-subtitle">Royal Academy</div>
-                <div class="project-meta">Akademisk arbeid, 2022</div>
+                <div class="project-title editable-text">Remaking Hauberg</div>
+                <div class="project-subtitle editable-text">Royal Academy</div>
+                <div class="project-meta editable-text">Akademisk arbeid, 2022</div>
               </div>
-              <div class="project-description">
+              <div class="project-description editable-text">
                 1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.
               </div>
-              <div class="project-tools">Fine carpentry, woodwork and construction</div>
+              <div class="project-tools editable-text">Fine carpentry, woodwork and construction</div>
             </div>
           </li>
           
@@ -1073,32 +1235,32 @@ footer {
             </div>
             <div class="project-content">
               <div class="project-header">
-                <div class="project-title">Material Practice</div>
-                <div class="project-subtitle">Dæmpegård Skovriddergård</div>
-                <div class="project-meta">Akademisk arbeid, 2022</div>
+                <div class="project-title editable-text">Material Practice</div>
+                <div class="project-subtitle editable-text">Dæmpegård Skovriddergård</div>
+                <div class="project-meta editable-text">Akademisk arbeid, 2022</div>
               </div>
-              <div class="project-description">
+              <div class="project-description editable-text">
                 Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.
               </div>
-              <div class="project-tools">Rhinocerous 7 &amp; Autocad, Enscape, Vray &amp; Adobe-suite</div>
+              <div class="project-tools editable-text">Rhinocerous 7 &amp; Autocad, Enscape, Vray &amp; Adobe-suite</div>
             </div>
           </li>
           
           <li class="project-item">
             <div class="project-image-wrapper">
               <img src="img/SQUARE19.jpg" alt="Recasting the Void – Østerbrogade 146" class="project-image">
-              <div class="project-image-caption">Visualisering af det udvendige</div>
+              <div class="project-image-caption editable-text">Visualisering af det udvendige</div>
             </div>
             <div class="project-content">
               <div class="project-header">
-                <div class="project-title">Recasting the Void</div>
-                <div class="project-subtitle">Østerbrogade 146</div>
-                <div class="project-meta">Akademisk arbeid, 2021</div>
+                <div class="project-title editable-text">Recasting the Void</div>
+                <div class="project-subtitle editable-text">Østerbrogade 146</div>
+                <div class="project-meta editable-text">Akademisk arbeid, 2021</div>
               </div>
-              <div class="project-description">
+              <div class="project-description editable-text">
                 Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.
               </div>
-              <div class="project-tools">Rhinocerous 7, Autocad &amp; Adobe-suite</div>
+              <div class="project-tools editable-text">Rhinocerous 7, Autocad &amp; Adobe-suite</div>
             </div>
           </li>
         </ul>
@@ -1106,67 +1268,67 @@ footer {
 
       <section id="approach">
         <div class="section-header">
-          <span class="section-number">02</span>
-          <h2 class="section-title">Tilnærming</h2>
+          <span class="section-number editable-text">02</span>
+          <h2 class="section-title editable-text">Tilnærming</h2>
         </div>
         
         <div class="approach-content">
-          <p class="approach-intro">
+          <p class="approach-intro editable-text">
             Arbeidet tar utgangspunkt i en enkel tanke: å bruke det som allerede finnes, både fysisk og kunnskapsmessig, før man legger til noe nytt. Det innebærer en langsom lesning av sted, bygning og materiale – og en nøkternhet i grepet.
           </p>
           
           <ul class="approach-list">
-            <li class="approach-item">Transformasjon og rehabilitering av boliger og næringsbygg</li>
-            <li class="approach-item">Gjenbruk av materialer og strategier for forlengelse av levetid</li>
-            <li class="approach-item">Etterkrigsarkitektur og velferdsbygg som kulturarv</li>
-            <li class="approach-item">Oppmåling, verdianalyse og dokumentasjon</li>
-            <li class="approach-item">Tett dialog med håndverkere, byggherrer og myndigheter</li>
-            <li class="approach-item">Prosjektering i Revit og Archicad</li>
+            <li class="approach-item editable-text">Transformasjon og rehabilitering av boliger og næringsbygg</li>
+            <li class="approach-item editable-text">Gjenbruk av materialer og strategier for forlengelse av levetid</li>
+            <li class="approach-item editable-text">Etterkrigsarkitektur og velferdsbygg som kulturarv</li>
+            <li class="approach-item editable-text">Oppmåling, verdianalyse og dokumentasjon</li>
+            <li class="approach-item editable-text">Tett dialog med håndverkere, byggherrer og myndigheter</li>
+            <li class="approach-item editable-text">Prosjektering i Revit og Archicad</li>
           </ul>
         </div>
       </section>
 
       <section id="academic">
         <div class="section-header">
-          <span class="section-number">03</span>
-          <h2 class="section-title">Faglig arbeid</h2>
+          <span class="section-number editable-text">03</span>
+          <h2 class="section-title editable-text">Faglig arbeid</h2>
         </div>
         
         <ul class="research-list">
           <li class="research-item">
-            <div class="research-meta">
+            <div class="research-meta editable-text">
               Masteroppgave<br>
               Det Kongelige Akademi<br>
               2023
             </div>
             <div class="research-content">
-              <div class="research-title">Suburban City Center – Rågsved. Reinterpreting the Periphery</div>
-              <div class="research-description">
+              <div class="research-title editable-text">Suburban City Center – Rågsved. Reinterpreting the Periphery</div>
+              <div class="research-description editable-text">
                 En studie av transformasjon i et svensk etterkrigsbysenter, med fokus på sosial sårbarhet, materialitet og hvordan eksisterende strukturer kan fungere som ramme for nye former for fellesskap.
               </div>
             </div>
           </li>
           
           <li class="research-item">
-            <div class="research-meta">
+            <div class="research-meta editable-text">
               Pågående<br>
               faglig utvikling
             </div>
             <div class="research-content">
-              <div class="research-title">Metoder for verdianalyse i eksisterende bygningsmasse</div>
-              <div class="research-description">
+              <div class="research-title editable-text">Metoder for verdianalyse i eksisterende bygningsmasse</div>
+              <div class="research-description editable-text">
                 Videreføring av arbeidet med å forstå hvordan bevaringsverdi, brukskvalitet og klimahensyn kan vektes sammen i tidligfase. Målet er å utvikle praktiske verktøy som kan brukes i små og mellomstore prosjekter.
               </div>
             </div>
           </li>
           
           <li class="research-item">
-            <div class="research-meta">
+            <div class="research-meta editable-text">
               Interesser
             </div>
             <div class="research-content">
-              <div class="research-title">Praksis som kunnskapsfelt</div>
-              <div class="research-description">
+              <div class="research-title editable-text">Praksis som kunnskapsfelt</div>
+              <div class="research-description editable-text">
                 Langsiktig interesse for hvordan arkitektpraksis kan kobles til kritisk og akademisk refleksjon – særlig innen transformasjon, etterkrigsarkitektur og sirkulær materialbruk.
               </div>
             </div>
@@ -1176,37 +1338,37 @@ footer {
 
       <section id="contact">
         <div class="section-header">
-          <span class="section-number">04</span>
-          <h2 class="section-title">Kontakt</h2>
+          <span class="section-number editable-text">04</span>
+          <h2 class="section-title editable-text">Kontakt</h2>
         </div>
         
         <div class="contact-content">
           <div class="contact-block">
-            <h3>Adresse</h3>
-            <p>Frejasgade 2, 3.tv</p>
-            <p>2200 København N</p>
-            <div class="contact-location">Danmark</div>
+            <h3 class="editable-text">Adresse</h3>
+            <p class="editable-text">Frejasgade 2, 3.tv</p>
+            <p class="editable-text">2200 København N</p>
+            <div class="contact-location editable-text">Danmark</div>
             <br>
-            <p>Brennbakkvegen 19A</p>
-            <p>2318 Hamar</p>
-            <div class="contact-location">Norge</div>
+            <p class="editable-text">Brennbakkvegen 19A</p>
+            <p class="editable-text">2318 Hamar</p>
+            <div class="contact-location editable-text">Norge</div>
           </div>
           
           <div class="contact-block">
-            <h3>Kontakt</h3>
-            <a href="mailto:post@av-a.no">post@av-a.no</a>
-            <a href="tel:+4522883055">+45 22 88 30 55</a>
-            <a href="tel:+4741165450">+47 411 65 450</a>
+            <h3 class="editable-text">Kontakt</h3>
+            <a class="editable-text" href="mailto:post@av-a.no">post@av-a.no</a>
+            <a class="editable-text" href="tel:+4522883055">+45 22 88 30 55</a>
+            <a class="editable-text" href="tel:+4741165450">+47 411 65 450</a>
           </div>
           
           <div class="contact-block">
-            <h3>Tjenester</h3>
+            <h3 class="editable-text">Tjenester</h3>
             <ul>
-              <li>Transformasjon og rehabilitering</li>
-              <li>Restaurering i bevaringsverdige miljøer</li>
-              <li>Oppmåling og digital modellering</li>
-              <li>Byggesøknader og myndighetsdialog</li>
-              <li>Visualisering og tidligfasestudier</li>
+              <li class="editable-text">Transformasjon og rehabilitering</li>
+              <li class="editable-text">Restaurering i bevaringsverdige miljøer</li>
+              <li class="editable-text">Oppmåling og digital modellering</li>
+              <li class="editable-text">Byggesøknader og myndighetsdialog</li>
+              <li class="editable-text">Visualisering og tidligfasestudier</li>
             </ul>
           </div>
         </div>
@@ -1217,7 +1379,7 @@ footer {
 
   <footer>
     <div class="footer-inner">
-      <div>© 2025 studio a.-vold — A. Vold Arkitektur AS</div>
+      <div class="editable-text">© 2025 studio a.-vold — A. Vold Arkitektur AS</div>
       <div class="footer-links">
         <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
         <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
@@ -1964,6 +2126,294 @@ function initThreeScene() {
   applyBodySize(parseInt(bodySizeRange.value, 10) || 14);
   applyHeadingSize(parseInt(headingSizeRange.value, 10) || 20);
 });
+</script>
+
+<!-- EDITOR-MODUS: LOGIN + PANEL + EXPORT -->
+<script>
+(function() {
+  // juster disse hvis du vil
+  const EDIT_EMAIL = 'post@av-a.no';
+  const EDIT_CODE = 'av-editor';
+
+  function createLoginOverlay(onSuccess) {
+    const overlay = document.createElement('div');
+    overlay.className = 'editor-login-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'editor-login-box';
+
+    const title = document.createElement('h2');
+    title.textContent = 'editor login';
+
+    const info = document.createElement('div');
+    info.textContent = 'kun for deg – for å redigere innhold og laste ned ny index.html.';
+
+    const labelEmail = document.createElement('label');
+    labelEmail.textContent = 'e-post';
+
+    const inputEmail = document.createElement('input');
+    inputEmail.type = 'email';
+    inputEmail.value = EDIT_EMAIL;
+
+    const labelCode = document.createElement('label');
+    labelCode.textContent = 'kode';
+
+    const inputCode = document.createElement('input');
+    inputCode.type = 'password';
+    inputCode.placeholder = 'for eksempel "av-editor"';
+
+    const btn = document.createElement('button');
+    btn.textContent = 'låse opp editor';
+
+    const error = document.createElement('div');
+    error.className = 'editor-login-error';
+    error.style.display = 'none';
+
+    btn.addEventListener('click', () => {
+      const mail = inputEmail.value.trim();
+      const code = inputCode.value.trim();
+      if (mail === EDIT_EMAIL && code === EDIT_CODE) {
+        localStorage.setItem('av_editor_unlocked', '1');
+        document.body.removeChild(overlay);
+        onSuccess();
+      } else {
+        error.textContent = 'feil e-post eller kode';
+        error.style.display = 'block';
+      }
+    });
+
+    box.appendChild(title);
+    box.appendChild(info);
+    box.appendChild(labelEmail);
+    box.appendChild(inputEmail);
+    box.appendChild(labelCode);
+    box.appendChild(inputCode);
+    box.appendChild(btn);
+    box.appendChild(error);
+
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    inputCode.focus();
+  }
+
+  function enableTextEditing() {
+    document.body.classList.add('editor-active');
+    document.querySelectorAll('.editable-text').forEach(el => {
+      el.setAttribute('contenteditable', 'true');
+    });
+  }
+
+  function createEditorPanel() {
+    const panel = document.createElement('div');
+    panel.className = 'editor-panel';
+
+    const title = document.createElement('h3');
+    title.textContent = 'studio editor';
+
+    // bakgrunnsfarge
+    const rowBg = document.createElement('div');
+    rowBg.className = 'editor-panel-row';
+    const labelBg = document.createElement('label');
+    labelBg.textContent = 'bg';
+    const inputBg = document.createElement('input');
+    inputBg.type = 'color';
+    // prøv å hente nåværende bg-farge hvis mulig
+    inputBg.value = '#fafaf8';
+    rowBg.appendChild(labelBg);
+    rowBg.appendChild(inputBg);
+
+    inputBg.addEventListener('input', () => {
+      document.documentElement.style.setProperty('--color-bg', inputBg.value);
+      document.body.style.background = 'var(--color-bg)';
+    });
+
+    // tekstfarge
+    const rowText = document.createElement('div');
+    rowText.className = 'editor-panel-row';
+    const labelText = document.createElement('label');
+    labelText.textContent = 'text';
+    const inputText = document.createElement('input');
+    inputText.type = 'color';
+    inputText.value = '#2a2a2a';
+    rowText.appendChild(labelText);
+    rowText.appendChild(inputText);
+
+    inputText.addEventListener('input', () => {
+      const hex = inputText.value;
+      // enkel versjon av applyTextColor, bare for eksport
+      function hexToRgb(hex) {
+        let h = hex.replace('#', '');
+        if (h.length === 3) h = h.split('').map(c => c + c).join('');
+        if (h.length !== 6) return null;
+        const num = parseInt(h, 16);
+        return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+      }
+      function rgbToHex(r,g,b) {
+        const t = v => ('0' + v.toString(16)).slice(-2);
+        return '#' + t(r)+t(g)+t(b);
+      }
+      function mixWithWhite(h, f) {
+        const rgb = hexToRgb(h); if (!rgb) return h;
+        const r = Math.round(rgb.r + (255 - rgb.r)*f);
+        const g = Math.round(rgb.g + (255 - rgb.g)*f);
+        const b = Math.round(rgb.b + (255 - rgb.b)*f);
+        return rgbToHex(r,g,b);
+      }
+      const secondary = mixWithWhite(hex, 0.35);
+      const muted = mixWithWhite(hex, 0.55);
+      const light = mixWithWhite(hex, 0.72);
+      const root = document.documentElement;
+      root.style.setProperty('--color-text', hex);
+      root.style.setProperty('--color-text-secondary', secondary);
+      root.style.setProperty('--color-text-muted', muted);
+      root.style.setProperty('--color-text-light', light);
+      document.body.style.color = 'var(--color-text)';
+    });
+
+    // prosjekt-bildevalg
+    const rowProj = document.createElement('div');
+    rowProj.className = 'editor-panel-row';
+    const labelProj = document.createElement('label');
+    labelProj.textContent = 'prosjekt';
+    const selectProj = document.createElement('select');
+    const projects = Array.from(document.querySelectorAll('.project-item'));
+    projects.forEach((item, idx) => {
+      const opt = document.createElement('option');
+      const titleEl = item.querySelector('.project-title');
+      opt.value = String(idx);
+      opt.textContent = titleEl ? titleEl.textContent.trim() || `Prosjekt ${idx+1}` : `Prosjekt ${idx+1}`;
+      selectProj.appendChild(opt);
+    });
+    rowProj.appendChild(labelProj);
+    rowProj.appendChild(selectProj);
+
+    const rowImg = document.createElement('div');
+    rowImg.className = 'editor-panel-row';
+    const labelImg = document.createElement('label');
+    labelImg.textContent = 'bilde';
+    const inputImg = document.createElement('input');
+    inputImg.type = 'text';
+    inputImg.placeholder = 'f.eks SQUARE11.jpg';
+    rowImg.appendChild(labelImg);
+    rowImg.appendChild(inputImg);
+
+    function syncImageField() {
+      const idx = parseInt(selectProj.value, 10);
+      const item = projects[idx];
+      if (!item) return;
+      const img = item.querySelector('.project-image');
+      if (!img) return;
+      const src = img.getAttribute('src') || '';
+      const match = src.match(/img\/(.+)$/i);
+      inputImg.value = match ? match[1] : src;
+    }
+    selectProj.addEventListener('change', syncImageField);
+    syncImageField();
+
+    inputImg.addEventListener('change', () => {
+      const idx = parseInt(selectProj.value, 10);
+      const item = projects[idx];
+      if (!item) return;
+      const img = item.querySelector('.project-image');
+      if (!img) return;
+      const filename = inputImg.value.trim();
+      if (filename) {
+        img.setAttribute('src', 'img/' + filename);
+      }
+    });
+
+    // actions
+    const actions = document.createElement('div');
+    actions.className = 'editor-panel-actions';
+
+    const btnAdd = document.createElement('button');
+    btnAdd.textContent = '+ prosjekt';
+    btnAdd.addEventListener('click', () => {
+      const list = document.querySelector('.project-list');
+      const last = list ? list.querySelector('.project-item:last-child') : null;
+      if (!list || !last) return;
+      const clone = last.cloneNode(true);
+      // reset tekst litt
+      const title = clone.querySelector('.project-title');
+      if (title) title.textContent = 'Nytt prosjekt';
+      const subtitle = clone.querySelector('.project-subtitle');
+      if (subtitle) subtitle.textContent = '';
+      const meta = clone.querySelector('.project-meta');
+      if (meta) meta.textContent = '';
+      const desc = clone.querySelector('.project-description');
+      if (desc) desc.textContent = '';
+      const tools = clone.querySelector('.project-tools');
+      if (tools) tools.textContent = '';
+      const img = clone.querySelector('.project-image');
+      if (img) img.setAttribute('src', 'img/SQUARE-2-.jpg');
+
+      list.appendChild(clone);
+
+      // oppdatere prosjektliste i editoren (enkelt: reload siden i editor-modus for å få den inn)
+      alert('Nytt prosjekt lagt til nederst. Rediger tekst og bilde, og last ned HTML når du er ferdig. (For å få det i nedtrekkslisten kan du oppdatere siden.)');
+    });
+
+    const btnDownload = document.createElement('button');
+    btnDownload.textContent = 'last ned html';
+    btnDownload.addEventListener('click', () => {
+      // slå av contenteditable & outline før eksport
+      document.querySelectorAll('.editable-text').forEach(el => {
+        el.removeAttribute('contenteditable');
+      });
+      document.body.classList.remove('editor-active');
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      // etter eksport kan vi godt re-aktivere editor i denne sesjonen
+      enableTextEditing();
+      document.body.classList.add('editor-active');
+    });
+
+    actions.appendChild(btnAdd);
+    actions.appendChild(btnDownload);
+
+    const small = document.createElement('div');
+    small.className = 'editor-panel-small';
+    small.textContent = '#edit → login → rediger → last ned → commit til GitHub.';
+
+    panel.appendChild(title);
+    panel.appendChild(rowBg);
+    panel.appendChild(rowText);
+    if (projects.length > 0) {
+      panel.appendChild(rowProj);
+      panel.appendChild(rowImg);
+    }
+    panel.appendChild(actions);
+    panel.appendChild(small);
+    document.body.appendChild(panel);
+  }
+
+  function startEditor() {
+    enableTextEditing();
+    createEditorPanel();
+  }
+
+  function maybeStartEditor() {
+    const hashEdit = window.location.hash === '#edit';
+    const unlocked = localStorage.getItem('av_editor_unlocked') === '1';
+    if (!hashEdit && !unlocked) return;
+    if (unlocked) {
+      startEditor();
+    } else {
+      createLoginOverlay(startEditor);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', maybeStartEditor);
+})();
 </script>
 
 </body>
