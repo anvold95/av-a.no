@@ -6,17 +6,6 @@
   <title>A. Vold Arkitektur</title>
   <meta name="description" content="Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger.">
   <style>
-:root {
-  --color-bg: #8a8177;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #2a2a2a;
-  --color-text-muted: #4a4a4a;
-  --color-text-light: #6a6a6a;
-  --color-border: rgba(0,0,0,0.15);
-  --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -28,1089 +17,512 @@ html, body {
 }
 
 body {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-text);
-  background: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #7d7a2e;
+  color: #fff;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;
 }
 
-/* No dot pattern - solid background */
-
 a {
-  color: inherit;
+  color: #fff;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  opacity: 0.5;
+  color: #000;
 }
 
-/* ==================== */
-/* LANDING LAYOUT       */
-/* ==================== */
-.landing {
-  height: 100vh;
+/* Layout */
+.page {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.landing-header {
+/* Header */
+header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  padding: 24px 32px;
+  padding: 28px 36px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   z-index: 100;
-  pointer-events: none;
 }
 
-.landing-header > * {
-  pointer-events: auto;
-}
-
-.landing-title {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-}
-
-.landing-nav {
-  display: flex;
-  gap: 24px;
-}
-
-.landing-nav a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--color-text-secondary);
-}
-
-/* ==================== */
-/* HERO AREA            */
-/* ==================== */
-.landing-hero {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Animated blob */
-.hero-blob {
-  position: absolute;
-  width: 520px;
-  height: 520px;
-  max-width: 70vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.45;
-  z-index: 0;
-  filter: blur(0.2px);
-  pointer-events: none;
-  animation: blobDrift 22s ease-in-out infinite alternate;
-}
-
-.hero-blob path {
-  fill: rgba(120, 115, 105, 0.4);
-}
-
-@keyframes blobDrift {
-  0% { transform: translate(-52%, -48%) scale(1) rotate(0deg); }
-  50% { transform: translate(-48%, -52%) scale(1.05) rotate(2deg); }
-  100% { transform: translate(-51%, -49%) scale(1) rotate(-1deg); }
-}
-
-/* Drawing canvas - fullscreen */
-#heroCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  cursor: crosshair;
-  z-index: 3;
-}
-
-/* Image frame */
-.hero-frame {
-  position: relative;
-  max-width: 460px;
-  width: 85vw;
-  aspect-ratio: 1/1;
-  border: none;
-  background: #000;
-  overflow: hidden;
-  z-index: 2;
-  cursor: pointer;
-}
-
-.hero-frame-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: grayscale(0.15);
-  opacity: 0.92;
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.hero-frame:hover .hero-frame-bg {
-  transform: scale(1.02);
-}
-
-.hero-frame-counter {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: white;
-  background: rgba(0,0,0,0.4);
-  padding: 4px 8px;
-  border-radius: 2px;
-  z-index: 5;
-}
-
-.hero-frame-hint {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: white;
-  background: rgba(0,0,0,0.4);
-  padding: 4px 8px;
-  border-radius: 2px;
-  z-index: 5;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.hero-frame:hover .hero-frame-hint {
-  opacity: 1;
-}
-
-/* ==================== */
-/* FOOTER               */
-/* ==================== */
-.landing-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  color: var(--color-text-muted);
-  z-index: 100;
-  pointer-events: none;
-}
-
-.landing-footer > * {
-  pointer-events: auto;
-}
-
-.landing-tagline {
-  max-width: 320px;
-  font-family: var(--font-sans);
+.logo {
   font-size: 12px;
-  font-style: italic;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-.landing-contact {
-  text-align: right;
-}
-
-.landing-contact a {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--color-text-muted);
-}
-
-/* ==================== */
-/* COLOR PANEL          */
-/* ==================== */
-.color-panel {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 200;
-}
-
-.color-panel.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.color-panel input[type="color"] {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid var(--color-border);
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.color-panel input[type="color"]::-webkit-color-swatch {
-  border-radius: 50%;
-  border: none;
-}
-
-/* ==================== */
-/* DRAW MENU (toolbox)  */
-/* ==================== */
-.draw-menu {
-  position: fixed;
-  top: 80px;
-  left: 80px;
-  min-width: 230px;
-  max-width: 280px;
-  padding: 8px 10px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.97);
-  border: 1px solid var(--color-border);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
-  z-index: 300;
-  display: none;
-}
-
-.draw-menu.visible {
-  display: block;
-}
-
-.draw-menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
-  cursor: move;
-}
-
-.draw-menu-title {
-  white-space: nowrap;
-}
-
-.draw-menu-close {
-  border: none;
-  background: transparent;
-  font-size: 11px;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.draw-menu-close:hover {
-  opacity: 1;
-}
-
-.draw-menu-group {
-  padding: 6px 0;
-  border-top: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.draw-menu-label {
-  opacity: 0.7;
-}
-
-.draw-menu-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: nowrap;
-}
-
-.draw-menu select,
-.draw-menu input[type="range"],
-.draw-menu input[type="color"] {
-  font-family: var(--font-mono);
-  font-size: 10px;
-}
-
-.draw-menu input[type="color"] {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  cursor: pointer;
-}
-
-.draw-menu-button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.draw-menu button {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  padding: 3px 6px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: #f6f6f2;
-  cursor: pointer;
-}
-
-.draw-menu button:hover {
-  background: #ecece6;
-}
-
-.draw-menu button.active {
-  background: #2a2a2a;
-  color: #fafaf8;
-}
-
-.draw-menu-small {
-  opacity: 0.55;
-  margin-top: 4px;
-}
-
-/* ==================== */
-/* INFO OVERLAY         */
-/* ==================== */
-.info-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(138, 129, 119, 0.98);
-  z-index: 400;
-  display: none;
-  overflow-y: auto;
-  padding: 80px 32px;
-}
-
-.info-overlay.visible {
-  display: block;
-}
-
-.info-close {
-  position: fixed;
-  top: 24px;
-  right: 32px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  cursor: pointer;
-  z-index: 401;
-  letter-spacing: 0.04em;
-}
-
-.info-content {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.info-content h1 {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  margin-bottom: 48px;
-}
-
-.info-section {
-  margin-bottom: 48px;
-}
-
-.info-section h2 {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: var(--color-text-light);
-  margin-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.info-section p {
-  font-size: 14px;
-  line-height: 1.85;
-  color: var(--color-text-secondary);
+/* Info flip card */
+.info-trigger {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.info-card {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 380px;
+  height: auto;
+  perspective: 1000px;
+  z-index: 200;
+}
+
+.info-card-inner {
+  position: relative;
+  width: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.info-card.flipped .info-card-inner {
+  transform: rotateY(180deg);
+}
+
+.info-card-front,
+.info-card-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.info-card-front {
+  padding: 8px 16px;
+  text-align: right;
+}
+
+.info-card-front span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.info-card-front span:hover {
+  color: #000;
+}
+
+.info-card-back {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 380px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #fff;
+  color: #1a1a1a;
+  padding: 32px;
+  transform: rotateY(180deg);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.info-card-back h2 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+  margin-top: 28px;
   margin-bottom: 12px;
 }
 
-.info-section ul {
+.info-card-back h2:first-child {
+  margin-top: 0;
+}
+
+.info-card-back p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.info-card-back ul {
   list-style: none;
   font-size: 14px;
-  line-height: 2;
-  color: var(--color-text-secondary);
+  line-height: 1.9;
+  color: #333;
 }
 
 .info-contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 24px;
+  margin-top: 8px;
 }
 
 .info-contact-block h3 {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  color: var(--color-text-light);
-  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #666;
+  margin-bottom: 8px;
 }
 
 .info-contact-block p,
 .info-contact-block a {
   font-size: 13px;
-  line-height: 1.8;
+  line-height: 1.7;
   display: block;
-  color: var(--color-text-secondary);
+  color: #333;
+}
+
+.info-contact-block a:hover {
+  color: #7d7a2e;
 }
 
 .info-cert {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-border);
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
 }
 
 .info-cert img {
-  width: 48px;
+  width: 44px;
   height: auto;
 }
 
 .info-cert p {
   font-size: 12px;
-  color: var(--color-text-muted);
-  line-height: 1.6;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* ==================== */
-/* RESPONSIVE           */
-/* ==================== */
-@media (max-width: 768px) {
-  .landing-header,
-  .landing-footer {
+.info-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.info-close:hover {
+  color: #000;
+}
+
+/* Main content */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 80px;
+  text-align: center;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1/1;
+  margin-bottom: 40px;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+}
+
+.carousel-prev,
+.carousel-next {
+  flex: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.carousel:hover .carousel-prev,
+.carousel:hover .carousel-next {
+  opacity: 1;
+}
+
+.carousel-prev {
+  justify-content: flex-start;
+  padding-left: 16px;
+}
+
+.carousel-next {
+  justify-content: flex-end;
+  padding-right: 16px;
+}
+
+.carousel-prev span,
+.carousel-next span {
+  font-size: 28px;
+  font-weight: 300;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+}
+
+.carousel-prev:hover span {
+  transform: translateX(-4px);
+}
+
+.carousel-next:hover span {
+  transform: translateX(4px);
+}
+
+.carousel-counter {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: rgba(0,0,0,0.4);
+  padding: 6px 12px;
+}
+
+/* Contact */
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header {
     padding: 20px 20px;
   }
 
-  .hero-frame {
+  .carousel {
     max-width: 85vw;
   }
 
-  .hero-blob {
-    width: 380px;
-    height: 380px;
+  .info-card {
+    width: calc(100vw - 40px);
+    right: 20px;
+    left: 20px;
   }
 
-  .landing-tagline {
-    max-width: 200px;
-    font-size: 11px;
+  .info-card-back {
+    width: 100%;
   }
 
   .info-contact-grid {
     grid-template-columns: 1fr;
   }
 }
-
-@media (max-width: 500px) {
-  .landing-header {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .landing-footer {
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .landing-contact {
-    text-align: left;
-  }
-
-  .hero-blob {
-    width: 300px;
-    height: 300px;
-  }
-}
   </style>
 </head>
 <body>
 
-<!-- Header -->
-<header class="landing-header">
-  <div class="landing-title">A. VOLD ARKITEKTUR</div>
-  <nav class="landing-nav">
-    <a href="projects.html">Prosjekter</a>
-    <a href="#" id="infoBtn">Info</a>
-  </nav>
-</header>
-
-<!-- Hero -->
-<div class="landing-hero">
-  <!-- Animated blob -->
-  <svg class="hero-blob" viewBox="0 0 400 400" aria-hidden="true">
-    <path d="M76,136 C116,52 220,36 292,76 C349,108 366,182 340,242 C311,309 239,338 176,330 C119,323 68,290 50,244 C33,200 45,170 76,136 Z" />
-  </svg>
-
-  <!-- Drawing canvas -->
-  <canvas id="heroCanvas"></canvas>
-
-  <!-- Image frame -->
-  <a href="projects.html" class="hero-frame" id="heroFrame">
-    <div class="hero-frame-bg" id="heroFrameBg"></div>
-    <div class="hero-frame-counter" id="heroCounter">1 / 18</div>
-    <div class="hero-frame-hint">se prosjekter →</div>
-  </a>
-</div>
-
-<!-- Footer -->
-<footer class="landing-footer">
-  <div class="landing-tagline">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
-  <div class="landing-contact">
-    <a href="mailto:post@av-a.no">post@av-a.no</a>
-    <a href="tel:+4741165450">+47 411 65 450</a>
-  </div>
-</footer>
-
-<!-- Color panel (cheat: COLOR) -->
-<div class="color-panel" id="colorPanel">
-  <span>color</span>
-  <input type="color" id="colorPicker" value="#111111">
-</div>
-
-<!-- Draw menu (right-click toolbox) -->
-<div class="draw-menu" id="drawMenu">
-  <div class="draw-menu-header" id="drawMenuHeader">
-    <div class="draw-menu-title">a. vold · tools</div>
-    <button class="draw-menu-close" id="drawMenuClose" aria-label="close">×</button>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">presets</div>
-    <div class="draw-menu-button-row">
-      <button type="button" id="presetHairline">hairline</button>
-      <button type="button" id="presetAnnotation">annotation</button>
-      <button type="button" id="presetMarker">marker</button>
-      <button type="button" id="presetCharcoal">charcoal</button>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">stroke</div>
-    <div class="draw-menu-row">
-      <select id="strokeStyleSelect">
-        <option value="solid">solid</option>
-        <option value="dashed">dashed</option>
-        <option value="dotted">dotted</option>
-        <option value="dashdot">dash-dot</option>
-        <option value="fine">fine</option>
-      </select>
-      <input type="range" id="strokeWidthRange" min="1" max="24" value="4">
-      <span id="strokeWidthValue">4px</span>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">color</div>
-    <div class="draw-menu-row">
-      <input type="color" id="menuColorPicker" value="#111111">
-    </div>
-    <div class="draw-menu-button-row">
-      <button type="button" id="randomColorBtn">random</button>
-      <button type="button" id="clearCanvasBtn">clear</button>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">eraser</div>
-    <div class="draw-menu-row">
-      <button type="button" id="eraserToggleBtn">eraser</button>
-      <input type="range" id="eraserSizeRange" min="4" max="40" value="12">
-      <span id="eraserSizeValue">12px</span>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-small">
-      right-click anywhere to reposition · long-press on touch to draw
-    </div>
-  </div>
-</div>
-
-<!-- Info overlay -->
-<div class="info-overlay" id="infoOverlay">
-  <div class="info-close" id="infoClose">Lukk</div>
-  <div class="info-content">
-    <h1>A. Vold Arkitektur</h1>
-
-    <div class="info-section">
-      <h2>Om</h2>
-      <p>Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse.</p>
-      <p>Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes.</p>
-    </div>
-
-    <div class="info-section">
-      <h2>Tjenester</h2>
-      <ul>
-        <li>Transformasjon og rehabilitering</li>
-        <li>Restaurering i bevaringsverdige miljøer</li>
-        <li>Oppmåling og digital modellering</li>
-        <li>Byggesøknader og myndighetsdialog</li>
-        <li>Visualisering og tidligfasestudier</li>
-      </ul>
-    </div>
-
-    <div class="info-section">
-      <h2>Kontakt</h2>
-      <div class="info-contact-grid">
-        <div class="info-contact-block">
-          <h3>Norge</h3>
-          <p>Brennbakkvegen 19A</p>
-          <p>2318 Hamar</p>
-          <a href="tel:+4741165450">+47 411 65 450</a>
+<div class="page">
+  <header>
+    <div class="logo">A. Vold Arkitektur AS</div>
+    <div class="info-card" id="infoCard">
+      <div class="info-card-inner">
+        <div class="info-card-front">
+          <span id="infoTrigger">Info</span>
         </div>
-        <div class="info-contact-block">
-          <h3>Danmark</h3>
-          <p>Frejasgade 2, 3.tv</p>
-          <p>2200 København N</p>
-          <a href="tel:+4522883055">+45 22 88 30 55</a>
+        <div class="info-card-back">
+          <div class="info-close" id="infoClose">Lukk</div>
+
+          <h2>Om</h2>
+          <p>Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse.</p>
+          <p>Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes.</p>
+
+          <h2>Tjenester</h2>
+          <ul>
+            <li>Transformasjon og rehabilitering</li>
+            <li>Restaurering i bevaringsverdige miljøer</li>
+            <li>Oppmåling og digital modellering</li>
+            <li>Byggesøknader og myndighetsdialog</li>
+            <li>Visualisering og tidligfasestudier</li>
+          </ul>
+
+          <h2>Kontakt</h2>
+          <div class="info-contact-grid">
+            <div class="info-contact-block">
+              <h3>Norge</h3>
+              <p>Brennbakkvegen 19A</p>
+              <p>2318 Hamar</p>
+              <a href="tel:+4741165450">+47 411 65 450</a>
+            </div>
+            <div class="info-contact-block">
+              <h3>Danmark</h3>
+              <p>Frejasgade 15, 2.tv</p>
+              <p>2200 København N</p>
+              <a href="tel:+4522883055">+45 22 88 30 55</a>
+            </div>
+          </div>
+
+          <h2>Sentral godkjenning</h2>
+          <div class="info-cert">
+            <img src="img/SG_GULL_HVITBOKS.png" alt="Sentral godkjenning">
+            <p>A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).</p>
+          </div>
         </div>
       </div>
     </div>
+  </header>
 
-    <div class="info-cert">
-      <img src="img/SG_GULL_HVITBOKS.png" alt="Sentral godkjenning">
-      <p>A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).</p>
+  <main>
+    <h1 class="title">Arkitekt Andreas Vold</h1>
+
+    <div class="carousel" id="carousel">
+      <img class="carousel-image" id="carouselImage" src="" alt="Prosjekt">
+      <div class="carousel-nav">
+        <div class="carousel-prev" id="prevBtn"><span>&larr;</span></div>
+        <div class="carousel-next" id="nextBtn"><span>&rarr;</span></div>
+      </div>
+      <div class="carousel-counter" id="counter">1 / 29</div>
     </div>
-  </div>
+
+    <div class="contact">
+      <a href="mailto:post@av-a.no">post@av-a.no</a>
+      <a href="tel:+4741165450">+47 411 65 450</a>
+    </div>
+  </main>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const canvas = document.getElementById('heroCanvas');
-  const heroFrame = document.getElementById('heroFrame');
-  const heroFrameBg = document.getElementById('heroFrameBg');
-  const heroCounter = document.getElementById('heroCounter');
-  const colorPanel = document.getElementById('colorPanel');
-  const colorPicker = document.getElementById('colorPicker');
-  const drawMenu = document.getElementById('drawMenu');
-  const drawMenuHeader = document.getElementById('drawMenuHeader');
-  const drawMenuClose = document.getElementById('drawMenuClose');
-  const strokeStyleSelect = document.getElementById('strokeStyleSelect');
-  const strokeWidthRange = document.getElementById('strokeWidthRange');
-  const strokeWidthValue = document.getElementById('strokeWidthValue');
-  const menuColorPicker = document.getElementById('menuColorPicker');
-  const randomColorBtn = document.getElementById('randomColorBtn');
-  const clearCanvasBtn = document.getElementById('clearCanvasBtn');
-  const eraserToggleBtn = document.getElementById('eraserToggleBtn');
-  const eraserSizeRange = document.getElementById('eraserSizeRange');
-  const eraserSizeValue = document.getElementById('eraserSizeValue');
-  const presetHairline = document.getElementById('presetHairline');
-  const presetAnnotation = document.getElementById('presetAnnotation');
-  const presetMarker = document.getElementById('presetMarker');
-  const presetCharcoal = document.getElementById('presetCharcoal');
-  const infoBtn = document.getElementById('infoBtn');
-  const infoOverlay = document.getElementById('infoOverlay');
-  const infoClose = document.getElementById('infoClose');
-
-  // Image carousel
   const images = [
     'img/SQUARE-2-.jpg',
+    'img/SQUARE2.jpg',
+    'img/SQUARE5.jpg',
+    'img/SQUARE7.jpg',
+    'img/SQUARE10.jpg',
     'img/SQUARE11.jpg',
     'img/SQUARE14.jpg',
+    'img/SQUARE16.jpg',
     'img/SQUARE18.jpg',
     'img/SQUARE19.jpg',
-    'img/SQUARE44.jpg',
-    'img/SQUARE49.jpg',
+    'img/SQUARE21.jpg',
     'img/SQUARE30.jpg',
-    'img/SQUARE52.jpg',
-    'img/SQUARE58.jpg',
-    'img/SQUARE5.jpg',
-    'img/SQUARE16.jpg',
     'img/SQUARE37.jpg',
-    'img/SQUARE57.jpg',
+    'img/SQUARE41.jpg',
     'img/SQUARE42.jpg',
+    'img/SQUARE43.jpg',
+    'img/SQUARE44.jpg',
+    'img/SQUARE48.jpg',
+    'img/SQUARE49.jpg',
+    'img/SQUARE50.jpg',
+    'img/SQUARE52.jpg',
+    'img/SQUARE53.jpg',
+    'img/SQUARE57.jpg',
+    'img/SQUARE58.jpg',
+    'img/SQUARE63.jpg',
+    'img/SQUARE64.jpg',
+    'img/SQUARE67.jpg',
     'img/Haubarg03 (1).jpg',
-    'img/9-768x935.jpg',
-    'img/SQUARE41.jpg'
+    'img/9-768x935.jpg'
   ];
 
-  let currentImage = Math.floor(Math.random() * images.length);
+  let current = 0;
+  const carouselImage = document.getElementById('carouselImage');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const infoCard = document.getElementById('infoCard');
+  const infoTrigger = document.getElementById('infoTrigger');
+  const infoClose = document.getElementById('infoClose');
 
   function showImage(idx) {
-    currentImage = idx;
-    heroFrameBg.style.backgroundImage = `url('${images[idx]}')`;
-    heroCounter.textContent = `${idx + 1} / ${images.length}`;
+    current = idx;
+    carouselImage.src = images[idx];
+    counter.textContent = `${idx + 1} / ${images.length}`;
   }
 
-  showImage(currentImage);
-
-  // Auto-advance every 6 seconds
-  let autoAdvance = setInterval(() => {
-    showImage((currentImage + 1) % images.length);
-  }, 6000);
-
-  // Click on frame to go to projects (but allow drawing)
-  let frameClickStart = null;
-  heroFrame.addEventListener('mousedown', (e) => {
-    frameClickStart = { x: e.clientX, y: e.clientY, time: Date.now() };
-  });
-
-  heroFrame.addEventListener('mouseup', (e) => {
-    if (!frameClickStart) return;
-    const dx = Math.abs(e.clientX - frameClickStart.x);
-    const dy = Math.abs(e.clientY - frameClickStart.y);
-    const dt = Date.now() - frameClickStart.time;
-    // If it was a quick click with no movement, navigate
-    if (dx < 5 && dy < 5 && dt < 300) {
-      // Let the link work naturally
-    }
-    frameClickStart = null;
-  });
-
-  // Pause auto-advance on hover
-  heroFrame.addEventListener('mouseenter', () => clearInterval(autoAdvance));
-  heroFrame.addEventListener('mouseleave', () => {
-    autoAdvance = setInterval(() => {
-      showImage((currentImage + 1) % images.length);
-    }, 6000);
-  });
-
-  // Drawing setup
-  const ctx = canvas.getContext('2d');
-  let drawing = false;
-  let lastX = 0;
-  let lastY = 0;
-
-  const palette = ['#1f3b4d', '#3c5a40', '#7a4b3a', '#334155', '#5b4b6a', '#745b40', '#1f4b46'];
-  let currentColor = palette[Math.floor(Math.random() * palette.length)];
-  let isErasing = false;
-  let currentStrokeWidth = 4;
-  let currentEraserSize = 12;
-  let currentLineStyle = 'solid';
-
-  // Touch support
-  let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  let touchStartTime = 0;
-  let touchStartX = 0;
-  let touchStartY = 0;
-  const LONG_PRESS_MS = 260;
-  const MOVE_TOLERANCE = 8;
-  let longPressActivated = false;
-
-  function applyStrokeStyle() {
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    const width = isErasing ? currentEraserSize : currentStrokeWidth;
-    ctx.lineWidth = width;
-    ctx.globalCompositeOperation = isErasing ? 'destination-out' : 'source-over';
-
-    if (!isErasing) {
-      ctx.strokeStyle = currentColor;
-      if (currentLineStyle === 'solid') ctx.setLineDash([]);
-      else if (currentLineStyle === 'dashed') ctx.setLineDash([12, 8]);
-      else if (currentLineStyle === 'dotted') ctx.setLineDash([2, 6]);
-      else if (currentLineStyle === 'dashdot') ctx.setLineDash([10, 6, 2, 6]);
-      else if (currentLineStyle === 'fine') ctx.setLineDash([1, 5]);
-    } else {
-      ctx.setLineDash([]);
-    }
+  function nextImage() {
+    showImage((current + 1) % images.length);
   }
 
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    currentStrokeWidth = Math.max(2, Math.round(rect.width * 0.004));
-    strokeWidthRange.value = currentStrokeWidth;
-    strokeWidthValue.textContent = currentStrokeWidth + 'px';
-    currentEraserSize = Math.max(8, Math.round(rect.width * 0.008));
-    eraserSizeRange.value = currentEraserSize;
-    eraserSizeValue.textContent = currentEraserSize + 'px';
-    applyStrokeStyle();
+  function prevImage() {
+    showImage((current - 1 + images.length) % images.length);
   }
 
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  // Initialize
+  showImage(0);
 
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    if (e.touches && e.touches[0]) {
-      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-    }
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  }
+  // Navigation
+  nextBtn.addEventListener('click', nextImage);
+  prevBtn.addEventListener('click', prevImage);
 
-  function startDraw(pos) {
-    drawing = true;
-    lastX = pos.x;
-    lastY = pos.y;
-  }
+  // Click on image to go next
+  carouselImage.addEventListener('click', nextImage);
 
-  function endDraw(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    drawing = false;
-    longPressActivated = false;
-  }
-
-  function draw(e) {
-    if (!drawing) return;
-    if (e && e.preventDefault) e.preventDefault();
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    lastX = pos.x;
-    lastY = pos.y;
-  }
-
-  // Mouse events
-  canvas.addEventListener('mousedown', (e) => {
-    if (e.button !== 0) return;
-    e.preventDefault();
-    applyStrokeStyle();
-    startDraw(getPos(e));
-  });
-
-  window.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('mousemove', draw);
-
-  // Touch events (long-press to draw)
-  canvas.addEventListener('touchstart', (e) => {
-    if (!isTouch || e.touches.length !== 1) return;
-    touchStartTime = Date.now();
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    longPressActivated = false;
-    drawing = false;
-  }, { passive: true });
-
-  canvas.addEventListener('touchmove', (e) => {
-    if (!isTouch) return;
-    const now = Date.now();
-    const dx = e.touches[0].clientX - touchStartX;
-    const dy = e.touches[0].clientY - touchStartY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (!longPressActivated) {
-      if (now - touchStartTime > LONG_PRESS_MS && dist <= MOVE_TOLERANCE) {
-        longPressActivated = true;
-        applyStrokeStyle();
-        startDraw(getPos(e));
-        e.preventDefault();
-      }
-    } else {
-      draw(e);
-    }
-  }, { passive: false });
-
-  canvas.addEventListener('touchend', endDraw, { passive: false });
-  canvas.addEventListener('touchcancel', endDraw, { passive: false });
-
-  // Color picker
-  colorPicker.addEventListener('input', (e) => {
-    currentColor = e.target.value;
-    isErasing = false;
-    eraserToggleBtn.classList.remove('active');
-    applyStrokeStyle();
-    menuColorPicker.value = currentColor;
-  });
-
-  // Stroke controls
-  strokeWidthRange.addEventListener('input', (e) => {
-    currentStrokeWidth = parseInt(e.target.value, 10) || 1;
-    strokeWidthValue.textContent = currentStrokeWidth + 'px';
-    if (!isErasing) applyStrokeStyle();
-  });
-
-  strokeStyleSelect.addEventListener('change', (e) => {
-    currentLineStyle = e.target.value;
-    if (!isErasing) applyStrokeStyle();
-  });
-
-  menuColorPicker.addEventListener('input', (e) => {
-    currentColor = e.target.value;
-    isErasing = false;
-    eraserToggleBtn.classList.remove('active');
-    colorPicker.value = currentColor;
-    applyStrokeStyle();
-  });
-
-  function setRandomColor() {
-    currentColor = palette[Math.floor(Math.random() * palette.length)];
-    isErasing = false;
-    eraserToggleBtn.classList.remove('active');
-    colorPicker.value = currentColor;
-    menuColorPicker.value = currentColor;
-    applyStrokeStyle();
-  }
-
-  randomColorBtn.addEventListener('click', setRandomColor);
-  clearCanvasBtn.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
-
-  // Eraser
-  function updateEraserBtn() {
-    if (isErasing) {
-      eraserToggleBtn.classList.add('active');
-      eraserToggleBtn.textContent = 'eraser on';
-    } else {
-      eraserToggleBtn.classList.remove('active');
-      eraserToggleBtn.textContent = 'eraser';
-    }
-  }
-
-  eraserToggleBtn.addEventListener('click', () => {
-    isErasing = !isErasing;
-    updateEraserBtn();
-    applyStrokeStyle();
-  });
-
-  eraserSizeRange.addEventListener('input', (e) => {
-    currentEraserSize = parseInt(e.target.value, 10) || 4;
-    eraserSizeValue.textContent = currentEraserSize + 'px';
-    if (isErasing) applyStrokeStyle();
-  });
-
-  // Presets
-  function applyPreset(name) {
-    isErasing = false;
-    updateEraserBtn();
-    if (name === 'hairline') {
-      currentStrokeWidth = 1; currentLineStyle = 'solid'; currentColor = '#222222';
-    } else if (name === 'annotation') {
-      currentStrokeWidth = 2; currentLineStyle = 'dashed'; currentColor = '#7a4b3a';
-    } else if (name === 'marker') {
-      currentStrokeWidth = 12; currentLineStyle = 'solid'; currentColor = '#c2783b';
-    } else if (name === 'charcoal') {
-      currentStrokeWidth = 6; currentLineStyle = 'dotted'; currentColor = '#111111';
-    }
-    strokeWidthRange.value = currentStrokeWidth;
-    strokeWidthValue.textContent = currentStrokeWidth + 'px';
-    strokeStyleSelect.value = currentLineStyle;
-    colorPicker.value = currentColor;
-    menuColorPicker.value = currentColor;
-    applyStrokeStyle();
-  }
-
-  presetHairline.addEventListener('click', () => applyPreset('hairline'));
-  presetAnnotation.addEventListener('click', () => applyPreset('annotation'));
-  presetMarker.addEventListener('click', () => applyPreset('marker'));
-  presetCharcoal.addEventListener('click', () => applyPreset('charcoal'));
-
-  // Cheat codes
-  let keyBuffer = '';
-
+  // Keyboard navigation
   document.addEventListener('keydown', (e) => {
-    if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-12);
-    }
-    if (keyBuffer.includes('ava')) { setRandomColor(); keyBuffer = ''; }
-    if (keyBuffer.includes('color')) { colorPanel.classList.toggle('visible'); keyBuffer = ''; }
-    if (keyBuffer.includes('erase')) { isErasing = !isErasing; updateEraserBtn(); applyStrokeStyle(); keyBuffer = ''; }
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'Escape') infoCard.classList.remove('flipped');
   });
 
-  // Right-click toolbox
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    const menu = drawMenu;
-    const menuRect = menu.getBoundingClientRect();
-    let x = e.clientX;
-    let y = e.clientY;
-    const padding = 10;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    if (x + menuRect.width + padding > vw) x = vw - menuRect.width - padding;
-    if (y + menuRect.height + padding > vh) y = vh - menuRect.height - padding;
-    menu.style.left = x + 'px';
-    menu.style.top = y + 'px';
-    menu.classList.add('visible');
+  // Info card flip
+  infoTrigger.addEventListener('click', () => {
+    infoCard.classList.add('flipped');
   });
 
-  drawMenuClose.addEventListener('click', () => drawMenu.classList.remove('visible'));
-
-  // Drag toolbox
-  let draggingMenu = false;
-  let dragOffsetX = 0;
-  let dragOffsetY = 0;
-
-  drawMenuHeader.addEventListener('mousedown', (e) => {
-    draggingMenu = true;
-    const rect = drawMenu.getBoundingClientRect();
-    dragOffsetX = e.clientX - rect.left;
-    dragOffsetY = e.clientY - rect.top;
-    e.preventDefault();
+  infoClose.addEventListener('click', () => {
+    infoCard.classList.remove('flipped');
   });
 
-  window.addEventListener('mousemove', (e) => {
-    if (!draggingMenu) return;
-    let x = e.clientX - dragOffsetX;
-    let y = e.clientY - dragOffsetY;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const rect = drawMenu.getBoundingClientRect();
-    x = Math.max(4, Math.min(vw - rect.width - 4, x));
-    y = Math.max(4, Math.min(vh - rect.height - 4, y));
-    drawMenu.style.left = x + 'px';
-    drawMenu.style.top = y + 'px';
-  });
-
-  window.addEventListener('mouseup', () => { draggingMenu = false; });
-
-  // Info modal
-  infoBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    infoOverlay.classList.add('visible');
-  });
-
-  infoClose.addEventListener('click', () => infoOverlay.classList.remove('visible'));
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      infoOverlay.classList.remove('visible');
-      drawMenu.classList.remove('visible');
+  // Close info when clicking outside
+  document.addEventListener('click', (e) => {
+    if (infoCard.classList.contains('flipped') &&
+        !e.target.closest('.info-card-back') &&
+        !e.target.closest('#infoTrigger')) {
+      infoCard.classList.remove('flipped');
     }
   });
-
-  // Init
-  updateEraserBtn();
-  colorPicker.value = currentColor;
-  menuColorPicker.value = currentColor;
 });
 </script>
 
