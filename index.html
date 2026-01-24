@@ -133,7 +133,7 @@ main {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.25s ease;
 }
 
 .carousel-image.fade {
@@ -509,18 +509,17 @@ document.addEventListener('DOMContentLoaded', () => {
       isAnimating = true;
       carouselImage.classList.add('fade');
 
-      // Change image at exact midpoint when fully transparent
+      // Change image when fully transparent
       setTimeout(() => {
         current = idx;
         carouselImage.src = images[idx];
-        // Wait for image to load, then fade back in
         carouselImage.onload = () => {
           carouselImage.classList.remove('fade');
           setTimeout(() => {
             isAnimating = false;
-          }, 500);
+          }, 250);
         };
-      }, 500);
+      }, 250);
     } else {
       current = idx;
       carouselImage.src = images[idx];
