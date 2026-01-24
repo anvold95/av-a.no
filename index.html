@@ -121,6 +121,11 @@ main {
   margin-bottom: 48px;
   border-radius: 50%;
   overflow: hidden;
+  transition: border-radius 0.5s ease;
+}
+
+.carousel:hover {
+  border-radius: 0;
 }
 
 .carousel-image {
@@ -128,12 +133,11 @@ main {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.5s ease;
 }
 
-.carousel-image.fade-out {
+.carousel-image.fade {
   opacity: 0;
-  transform: scale(1.02);
 }
 
 /* Vignette effect - circular frame */
@@ -147,7 +151,7 @@ main {
 }
 
 .carousel:hover::after {
-  opacity: 0.4;
+  opacity: 0;
 }
 
 .carousel-nav {
@@ -503,17 +507,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (animate && carouselImage.src) {
       isAnimating = true;
-      carouselImage.classList.add('fade-out');
+      carouselImage.classList.add('fade');
 
+      // Change image immediately during fade
       setTimeout(() => {
         current = idx;
         carouselImage.src = images[idx];
-        carouselImage.classList.remove('fade-out');
+      }, 100);
 
-        setTimeout(() => {
-          isAnimating = false;
-        }, 300);
-      }, 300);
+      // Remove fade class after transition
+      setTimeout(() => {
+        carouselImage.classList.remove('fade');
+        isAnimating = false;
+      }, 500);
     } else {
       current = idx;
       carouselImage.src = images[idx];
