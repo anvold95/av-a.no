@@ -3,24 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>studio a.-vold</title>
+  <title>A. Vold Arkitektur</title>
+  <meta name="description" content="Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger.">
   <style>
 :root {
-  --color-bg: #fafaf8;
-  --color-text: #2a2a2a;
-  --color-text-secondary: #5a5a5a;
-  --color-text-muted: #8a8a8a;
-  --color-text-light: #b0b0b0;
-  --color-border: #e0e0dc;
-  --color-border-light: #ececea;
-
-  --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-muted: #666666;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-
-  --font-size-body: 14px;
-  --font-size-intro: 15px;
-  --font-size-section-title: 13px;
-  --font-size-project-title: 20px;
 }
 
 * {
@@ -29,41 +19,23 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+html, body {
+  height: 100%;
 }
 
 body {
   font-family: var(--font-sans);
-  font-size: var(--font-size-body);
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--color-text);
   background: var(--color-bg);
-  font-weight: 400;
   -webkit-font-smoothing: antialiased;
-}
-
-/* SUBTLE DOT PATTERN */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.4;
-  background-image: radial-gradient(circle, #c0c0c0 0.5px, transparent 0.5px);
-  background-size: 16px 16px;
-}
-
-::selection {
-  background: var(--color-text);
-  color: var(--color-bg);
+  overflow-x: hidden;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: opacity 0.2s ease;
 }
 
 a:hover {
@@ -73,2347 +45,935 @@ a:hover {
 /* ==================== */
 /* HEADER               */
 /* ==================== */
-header {
+.site-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  background: rgba(250, 250, 248, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
-  transform: translateY(-100%);
-  transition: transform 0.35s ease;
-}
-
-header.visible {
-  transform: translateY(0);
-}
-
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 40px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.site-title {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 32px;
-}
-
-nav a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: var(--color-text-secondary);
-}
-
-nav a:hover {
-  opacity: 1;
-  color: var(--color-text);
-}
-
-/* ==================== */
-/* LANDING              */
-/* ==================== */
-.landing {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.landing-header {
-  padding: 28px 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-}
-
-.landing-title {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
-}
-
-.landing-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 28px;
-}
-
-.landing-nav a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: var(--color-text-secondary);
-}
-
-.landing-nav a:hover {
-  color: var(--color-text);
-}
-
-.landing-hero {
-  position: relative;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  overflow: hidden;
-}
-
-/* bakgrunns-blob (svg) */
-.hero-blob {
-  position: absolute;
-  width: 520px;
-  height: 520px;
-  max-width: 70vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.45;
-  z-index: 0;
-  filter: blur(0.2px);
+  padding: 24px 32px;
+  z-index: 100;
   pointer-events: none;
 }
 
-.hero-blob path {
-  fill: rgba(186, 210, 202, 0.75);
-}
-
-@keyframes blobDrift {
-  0% {
-    transform: translate(-52%, -48%) scale(1) rotate(0deg);
-  }
-  50% {
-    transform: translate(-48%, -52%) scale(1.05) rotate(2deg);
-  }
-  100% {
-    transform: translate(-51%, -49%) scale(1) rotate(-1deg);
-  }
-}
-
-.hero-blob {
-  animation: blobDrift 22s ease-in-out infinite alternate;
-}
-
-/* tegne-firkanten (bakgrunnsbilde) */
-.hero-draw-wrapper {
-  max-width: 480px;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  position: relative;
-  border: 1px solid var(--color-border);
-  background: #f4f4f0;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.hero-draw-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: grayscale(0.2);
-  opacity: 0.9;
-}
-
-/* globalt tegne-lag over hele hero-seksjonen */
-#heroCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  cursor: crosshair;
-  z-index: 3;
-}
-
-/* liten fargepanel (cheat: COLOR) */
-.color-panel {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  background: rgba(250, 250, 248, 0.96);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 20;
-}
-
-.color-panel.visible {
-  opacity: 1;
+.site-header > * {
   pointer-events: auto;
 }
 
-.color-panel input[type="color"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid var(--color-border);
-  padding: 0;
-  background: transparent;
-}
-
-.color-panel input[type="color"]::-webkit-color-swatch {
-  border-radius: 50%;
-  border: none;
-}
-
-.color-panel input[type="color"]::-moz-color-swatch {
-  border-radius: 50%;
-  border: none;
-}
-
-/* flytende toolbox (right-click) */
-.draw-menu {
-  position: fixed;
-  top: 80px;
-  left: 80px;
-  min-width: 230px;
-  max-width: 280px;
-  padding: 8px 10px 10px;
-  border-radius: 12px;
-  background: rgba(250, 250, 248, 0.97);
-  border: 1px solid var(--color-border);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
-  z-index: 30;
-  display: none;
-}
-
-.draw-menu.visible {
-  display: block;
-}
-
-.draw-menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
-  cursor: move;
-}
-
-.draw-menu-title {
-  white-space: nowrap;
-}
-
-.draw-menu-close {
-  border: none;
-  background: transparent;
-  font-size: 11px;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.draw-menu-close:hover {
-  opacity: 1;
-}
-
-.draw-menu-group {
-  padding: 6px 0;
-  border-top: 1px solid var(--color-border-light);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.draw-menu-label {
-  opacity: 0.7;
-}
-
-.draw-menu-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: nowrap;
-}
-
-.draw-menu select,
-.draw-menu input[type="range"],
-.draw-menu input[type="color"] {
-  font-family: var(--font-mono);
-  font-size: 10px;
-}
-
-.draw-menu input[type="color"] {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-}
-
-.draw-menu-button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.draw-menu button {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  padding: 3px 6px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: #f6f6f2;
-  cursor: pointer;
-}
-
-.draw-menu button:hover {
-  background: #ecece6;
-}
-
-.draw-menu button.active {
-  background: #2a2a2a;
-  color: #fafaf8;
-}
-
-.draw-menu-small {
-  opacity: 0.55;
-  margin-top: 4px;
-}
-
-/* footer landing */
-.landing-footer {
-  padding: 24px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  color: var(--color-text-muted);
-}
-
-.landing-tagline {
-  max-width: 320px;
-  line-height: 1.7;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-style: italic;
-  color: var(--color-text-secondary);
-}
-
-.scroll-hint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  text-transform: lowercase;
-  cursor: pointer;
-}
-
-.scroll-hint::after {
-  content: '↓';
-  font-size: 12px;
-}
-
-/* ==================== */
-/* CONTENT              */
-/* ==================== */
-.content {
-  position: relative;
-  border-top: 1px solid var(--color-border);
-}
-
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-main {
-  padding: 100px 0 60px;
-}
-
-/* INTRO */
-.intro {
-  max-width: 600px;
-  margin: 0 auto 100px;
-}
-
-.intro p {
-  font-size: var(--font-size-intro);
-  line-height: 1.85;
-  color: var(--color-text-secondary);
-  margin-bottom: 20px;
-}
-
-.intro p:last-child {
-  margin-bottom: 0;
-}
-
-/* SECTIONS */
-section {
-  margin-bottom: 100px;
-}
-
-.section-header {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  margin-bottom: 50px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.section-number {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--color-text-light);
-  letter-spacing: 0.05em;
-}
-
-.section-title {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-section-title);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--color-text-secondary);
-}
-
-/* PROJECTS */
-.project-list {
-  list-style: none;
-  display: grid;
-  gap: 70px;
-}
-
-.project-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  align-items: start;
-}
-
-.project-item:nth-child(even) {
-  direction: rtl;
-}
-
-.project-item:nth-child(even) > * {
-  direction: ltr;
-}
-
-.project-image-wrapper {
-  position: relative;
-}
-
-.project-image {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  display: block;
-}
-
-.project-image-caption {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-style: italic;
-  color: var(--color-text-light);
-  margin-top: 8px;
-  letter-spacing: 0.02em;
-}
-
-.project-content {
-  padding-top: 10px;
-}
-
-.project-header {
-  margin-bottom: 20px;
-}
-
-.project-title {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-project-title);
-  font-weight: 400;
-  margin-bottom: 4px;
-  line-height: 1.25;
-  color: var(--color-text);
-}
-
-.project-subtitle {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-style: italic;
-  color: var(--color-text-muted);
-  margin-bottom: 6px;
-}
-
-.project-meta {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  color: var(--color-text-light);
-}
-
-.project-description {
-  font-size: 13px;
-  line-height: 1.75;
-  color: var(--color-text-secondary);
-  margin-bottom: 20px;
-}
-
-.project-tools {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--color-text-light);
-  letter-spacing: 0.02em;
-}
-
-/* APPROACH */
-.approach-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-}
-
-.approach-intro {
+.site-title {
   font-size: 14px;
-  line-height: 1.85;
-  color: var(--color-text-secondary);
-}
-
-.approach-list {
-  list-style: none;
-}
-
-.approach-item {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-/* ACADEMIC */
-.research-list {
-  list-style: none;
-  display: grid;
-  gap: 40px;
-}
-
-.research-item {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 40px;
-}
-
-.research-meta {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.03em;
-  color: var(--color-text-light);
-  line-height: 1.8;
-}
-
-.research-title {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 12px;
-  line-height: 1.4;
-  color: var(--color-text);
-}
-
-.research-description {
-  font-size: 13px;
-  line-height: 1.75;
-  color: var(--color-text-secondary);
-}
-
-/* CONTACT */
-.contact-content {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-
-.contact-block h3 {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  margin-bottom: 16px;
-  color: var(--color-text-light);
-}
-
-.contact-block p,
-.contact-block a {
-  font-size: 13px;
-  line-height: 1.8;
-  display: block;
-  color: var(--color-text-secondary);
-}
-
-.contact-block ul {
-  list-style: none;
-  font-size: 13px;
-  line-height: 1.8;
-  color: var(--color-text-secondary);
-}
-
-.contact-location {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--color-text-light);
-  margin-top: 4px;
+  font-weight: 600;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-/* FOOTER */
-footer {
-  margin-top: 60px;
-  padding: 24px 40px;
-  border-top: 1px solid var(--color-border);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  color: var(--color-text-light);
-}
-
-.footer-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-links {
+.site-nav {
   display: flex;
   gap: 24px;
 }
 
-.footer-links a {
+.site-nav a {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* ==================== */
+/* MAIN CANVAS          */
+/* ==================== */
+.canvas {
+  min-height: 100vh;
+  padding: 100px 32px 60px;
+  position: relative;
+}
+
+/* ==================== */
+/* PROJECT GRID         */
+/* ==================== */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.project {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.project:hover {
+  transform: scale(1.02);
+}
+
+.project img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+  background: #f0f0f0;
+}
+
+.project-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  color: white;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.project:hover .project-caption {
+  opacity: 1;
+}
+
+/* ==================== */
+/* FOOTER               */
+/* ==================== */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 24px 32px;
+  font-size: 12px;
   color: var(--color-text-muted);
+  pointer-events: none;
+  z-index: 100;
+}
+
+.site-footer > * {
+  pointer-events: auto;
+}
+
+.footer-contact a {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+/* ==================== */
+/* INFO MODAL           */
+/* ==================== */
+.info-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.97);
+  z-index: 200;
+  display: none;
+  overflow-y: auto;
+  padding: 80px 32px;
+}
+
+.info-overlay.visible {
+  display: block;
+}
+
+.info-close {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 201;
+}
+
+.info-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.info-content h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.info-section {
+  margin-bottom: 48px;
+}
+
+.info-section h2 {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.info-section p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.info-section ul {
+  list-style: none;
+  font-size: 14px;
+  line-height: 2;
+}
+
+.info-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.info-contact-block h3 {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.info-contact-block p,
+.info-contact-block a {
+  font-size: 14px;
+  line-height: 1.8;
+  display: block;
+}
+
+.info-cert {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.info-cert img {
+  width: 48px;
+  height: auto;
+}
+
+.info-cert p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ==================== */
+/* PROJECT MODAL        */
+/* ==================== */
+.project-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.98);
+  z-index: 200;
+  display: none;
+  overflow-y: auto;
+  padding: 80px 32px;
+}
+
+.project-overlay.visible {
+  display: block;
+}
+
+.project-overlay-close {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 201;
+}
+
+.project-detail {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.project-detail-header {
+  margin-bottom: 48px;
+}
+
+.project-detail-title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.project-detail-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.project-detail-meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.project-detail-description {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+  max-width: 600px;
+}
+
+.project-detail-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.project-detail-gallery img {
+  width: 100%;
+  display: block;
+}
+
+/* ==================== */
+/* EDITOR MODE          */
+/* ==================== */
+.editor-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #1a1a1a;
+  color: white;
+  padding: 12px 24px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  font-size: 12px;
+}
+
+body.editor-mode .editor-bar {
+  display: flex;
+}
+
+body.editor-mode .site-header {
+  top: 48px;
+}
+
+body.editor-mode .canvas {
+  padding-top: 148px;
+}
+
+.editor-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.editor-bar-title {
+  font-weight: 600;
+}
+
+.editor-bar-right {
+  display: flex;
+  gap: 8px;
+}
+
+.editor-btn {
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: transparent;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.editor-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.editor-btn.primary {
+  background: white;
+  color: #1a1a1a;
+  border-color: white;
+}
+
+.editor-btn.primary:hover {
+  background: #e0e0e0;
+}
+
+/* Editor: Editable elements */
+body.editor-mode [data-editable] {
+  outline: 2px dashed transparent;
+  outline-offset: 4px;
+  transition: outline-color 0.15s;
+}
+
+body.editor-mode [data-editable]:hover {
+  outline-color: rgba(0,100,255,0.4);
+}
+
+body.editor-mode [data-editable]:focus {
+  outline-color: rgba(0,100,255,0.8);
+}
+
+/* Editor: Image upload overlay */
+body.editor-mode .project {
+  position: relative;
+}
+
+body.editor-mode .project::after {
+  content: 'Klikk for å endre bilde';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+body.editor-mode .project:hover::after {
+  opacity: 1;
+}
+
+/* Editor: Add project button */
+.add-project-btn {
+  display: none;
+  width: 100%;
+  aspect-ratio: 1/1;
+  border: 2px dashed #ccc;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+body.editor-mode .add-project-btn {
+  display: flex;
+}
+
+.add-project-btn:hover {
+  border-color: #666;
+  color: #666;
+}
+
+.add-project-btn span {
+  font-size: 32px;
+  line-height: 1;
+}
+
+/* Hidden file input */
+.hidden-input {
+  display: none;
 }
 
 /* ==================== */
 /* RESPONSIVE           */
 /* ==================== */
-@media (max-width: 900px) {
-  .container {
-    padding: 0 24px;
-  }
-  
-  .landing-header,
-  .landing-footer {
-    padding: 20px 24px;
-  }
-  
-  .header-inner {
-    padding: 16px 24px;
-  }
-  
-  .project-item {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-  
-  .project-item:nth-child(even) {
-    direction: ltr;
-  }
-  
-  .approach-content {
-    grid-template-columns: 1fr;
-    gap: 35px;
-  }
-  
-  .research-item {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .contact-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
+@media (max-width: 768px) {
+  .site-header,
+  .site-footer {
+    padding: 20px 20px;
   }
 
-  .hero-blob {
-    width: 420px;
-    height: 420px;
+  .canvas {
+    padding: 80px 20px 100px;
   }
-}
 
-@media (max-width: 600px) {
-  .landing-header {
-    flex-direction: column;
-    gap: 18px;
-  }
-  
-  .landing-nav ul {
-    flex-wrap: wrap;
+  .projects {
+    grid-template-columns: 1fr;
     gap: 16px;
   }
-  
-  .landing-footer {
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-  }
-  
-  .header-inner {
-    flex-direction: column;
-    gap: 14px;
-  }
-  
-  nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-  }
-  
-  main {
-    padding: 60px 0 40px;
-  }
-  
-  .intro {
-    margin-bottom: 70px;
-  }
-  
-  section {
-    margin-bottom: 70px;
-  }
-  
-  .project-list {
-    gap: 50px;
-  }
-  
-  .project-title {
-    font-size: 18px;
-  }
-  
-  footer {
-    padding: 20px 24px;
-  }
-  
-  .footer-inner {
-    flex-direction: column;
-    gap: 14px;
+
+  .info-contact-grid {
+    grid-template-columns: 1fr;
   }
 
-  .hero-blob {
-    width: 340px;
-    height: 340px;
+  .site-title {
+    font-size: 12px;
   }
-}
 
-/* ===== editor ui (kun aktiv i editor-modus) ===== */
-body.editor-active [contenteditable="true"] {
-  outline: 1px dashed rgba(0,0,0,0.2);
-  outline-offset: 2px;
-}
-
-.editor-panel {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(250,250,248,0.97);
-  border: 1px solid rgba(0,0,0,0.12);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  color: var(--color-text-secondary);
-  z-index: 9999;
-  max-width: 260px;
-}
-
-.editor-panel h3 {
-  font-size: 10px;
-  margin-bottom: 6px;
-  text-transform: lowercase;
-}
-
-.editor-panel-row {
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.editor-panel label {
-  opacity: 0.7;
-  white-space: nowrap;
-}
-
-.editor-panel input[type="color"],
-.editor-panel select,
-.editor-panel input[type="text"] {
-  font-family: var(--font-mono);
-  font-size: 10px;
-}
-
-.editor-panel input[type="color"] {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-}
-
-.editor-panel input[type="text"] {
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  padding: 3px 6px;
-  flex: 1;
-}
-
-.editor-panel select {
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  padding: 3px 6px;
-  max-width: 150px;
-}
-
-.editor-panel button {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: #f6f6f2;
-  cursor: pointer;
-}
-
-.editor-panel button:hover {
-  background: #ecece6;
-}
-
-.editor-panel-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.editor-panel-small {
-  margin-top: 6px;
-  opacity: 0.6;
-}
-
-/* login overlay */
-.editor-login-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9998;
-}
-
-.editor-login-box {
-  background: #f9f9f6;
-  border-radius: 16px;
-  padding: 18px 20px 16px;
-  border: 1px solid rgba(0,0,0,0.14);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
-  max-width: 320px;
-  width: 100%;
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-
-.editor-login-box h2 {
-  font-size: 11px;
-  margin-bottom: 10px;
-  letter-spacing: 0.08em;
-  text-transform: lowercase;
-}
-
-.editor-login-box label {
-  display: block;
-  margin-top: 8px;
-  margin-bottom: 2px;
-  opacity: 0.8;
-}
-
-.editor-login-box input[type="email"],
-.editor-login-box input[type="password"] {
-  width: 100%;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  padding: 5px 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-
-.editor-login-box button {
-  margin-top: 10px;
-  width: 100%;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: #2a2a2a;
-  color: #fafaf8;
-  padding: 6px 10px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.editor-login-error {
-  margin-top: 6px;
-  color: #b04040;
-  font-size: 10px;
+  .site-nav a {
+    font-size: 12px;
+  }
 }
   </style>
 </head>
 <body>
 
-<!-- STICKY HEADER (appears on scroll) -->
-<header id="header">
-  <div class="header-inner">
-    <div class="site-title editable-text">studio a.-vold</div>
-    <nav>
-      <ul>
-        <li><a href="#about">Om</a></li>
-        <li><a href="#works">Prosjekter</a></li>
-        <li><a href="#approach">Tilnærming</a></li>
-        <li><a href="#academic">Faglig</a></li>
-        <li><a href="#contact">Kontakt</a></li>
-      </ul>
-    </nav>
+<!-- Editor Bar (hidden by default) -->
+<div class="editor-bar">
+  <div class="editor-bar-left">
+    <span class="editor-bar-title">Editor</span>
+    <span>Klikk på tekst for å redigere, bilder for å bytte</span>
   </div>
+  <div class="editor-bar-right">
+    <button class="editor-btn" id="addProjectBtn">+ Prosjekt</button>
+    <button class="editor-btn" id="exitEditorBtn">Avslutt</button>
+    <button class="editor-btn primary" id="saveBtn">Lagre HTML</button>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="site-title" data-editable="title">A. VOLD ARKITEKTUR</div>
+  <nav class="site-nav">
+    <a href="#" id="infoBtn">Info</a>
+  </nav>
 </header>
 
-<!-- LANDING -->
-<div class="landing" id="top">
-  <div class="landing-header">
-    <div class="landing-title editable-text">studio a.-vold</div>
-    <nav class="landing-nav">
+<!-- Main Content -->
+<main class="canvas">
+  <div class="projects" id="projectsGrid">
+    <!-- Projects injected by JS -->
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-contact">
+    <a href="mailto:post@av-a.no" data-editable="email">post@av-a.no</a>
+    <a href="tel:+4741165450" data-editable="phone">+47 411 65 450</a>
+  </div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
+    <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<!-- Info Modal -->
+<div class="info-overlay" id="infoOverlay">
+  <div class="info-close" id="infoClose">Lukk</div>
+  <div class="info-content">
+    <h1 data-editable="info-title">A. Vold Arkitektur</h1>
+
+    <div class="info-section">
+      <h2>Om</h2>
+      <p data-editable="about-1">Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse.</p>
+      <p data-editable="about-2">Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes.</p>
+    </div>
+
+    <div class="info-section">
+      <h2>Tjenester</h2>
       <ul>
-        <li><a href="#about">Om</a></li>
-        <li><a href="#works">Prosjekter</a></li>
-        <li><a href="#approach">Tilnærming</a></li>
-        <li><a href="#academic">Faglig</a></li>
-        <li><a href="#contact">Kontakt</a></li>
+        <li data-editable="service-1">Transformasjon og rehabilitering</li>
+        <li data-editable="service-2">Restaurering i bevaringsverdige miljøer</li>
+        <li data-editable="service-3">Oppmåling og digital modellering</li>
+        <li data-editable="service-4">Byggesøknader og myndighetsdialog</li>
+        <li data-editable="service-5">Visualisering og tidligfasestudier</li>
       </ul>
-    </nav>
-  </div>
-  
-  <div class="landing-hero">
-    <!-- bakgrunnsform -->
-    <svg class="hero-blob" viewBox="0 0 400 400" aria-hidden="true">
-      <path d="M76,136 C116,52 220,36 292,76 C349,108 366,182 340,242 C311,309 239,338 176,330 C119,323 68,290 50,244 C33,200 45,170 76,136 Z" />
-    </svg>
-
-    <!-- globalt tegne-lag -->
-    <canvas id="heroCanvas"></canvas>
-
-    <!-- utsnitt/prosjektbakgrunn -->
-    <div class="hero-draw-wrapper">
-      <div class="hero-draw-bg"></div>
     </div>
-  </div>
-  
-  <div class="landing-footer">
-    <div class="landing-tagline editable-text">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
-    <div class="scroll-hint">scroll</div>
-  </div>
-</div>
 
-<!-- fargepanel (cheat: COLOR) -->
-<div class="color-panel" id="colorPanel">
-  <span>color</span>
-  <input type="color" id="colorPicker" value="#111111">
-</div>
-
-<!-- flytende toolbox -->
-<div class="draw-menu" id="drawMenu">
-  <div class="draw-menu-header" id="drawMenuHeader">
-    <div class="draw-menu-title">studio a.-vold · tools</div>
-    <button class="draw-menu-close" id="drawMenuClose" aria-label="close">×</button>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">presets</div>
-    <div class="draw-menu-button-row">
-      <button type="button" id="presetHairline">hairline</button>
-      <button type="button" id="presetAnnotation">annotation</button>
-      <button type="button" id="presetMarker">marker</button>
-      <button type="button" id="presetCharcoal">charcoal</button>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">stroke</div>
-    <div class="draw-menu-row">
-      <select id="strokeStyleSelect">
-        <option value="solid">solid</option>
-        <option value="dashed">dashed</option>
-        <option value="dotted">dotted</option>
-        <option value="dashdot">dash-dot</option>
-        <option value="fine">fine</option>
-      </select>
-      <input type="range" id="strokeWidthRange" min="1" max="24" value="4">
-      <span id="strokeWidthValue">4px</span>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">color</div>
-    <div class="draw-menu-row">
-      <input type="color" id="menuColorPicker" value="#111111">
-    </div>
-    <div class="draw-menu-button-row">
-      <button type="button" id="randomColorBtn">random</button>
-      <button type="button" id="clearCanvasBtn">clear</button>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">eraser</div>
-    <div class="draw-menu-row">
-      <button type="button" id="eraserToggleBtn">eraser</button>
-      <input type="range" id="eraserSizeRange" min="4" max="40" value="12">
-      <span id="eraserSizeValue">12px</span>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">typography</div>
-    <div class="draw-menu-row">
-      <select id="fontTypeSelect">
-        <option value="system">system</option>
-        <option value="serif">serif</option>
-        <option value="mono">mono</option>
-        <option value="modern">modern</option>
-        <option value="narrow">narrow</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">type size</div>
-    <div class="draw-menu-row">
-      <span>body</span>
-      <input type="range" id="bodySizeRange" min="12" max="18" value="14">
-      <span id="bodySizeValue">14px</span>
-    </div>
-    <div class="draw-menu-row">
-      <span>titles</span>
-      <input type="range" id="headingSizeRange" min="18" max="26" value="20">
-      <span id="headingSizeValue">20px</span>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">text color</div>
-    <div class="draw-menu-row">
-      <input type="color" id="textColorPicker" value="#2a2a2a">
-      <button type="button" id="textColorDefaultBtn">default</button>
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-label">3d model</div>
-    <div class="draw-menu-row">
-      <button type="button" id="toggle3DBtn">enable 3d</button>
-    </div>
-    <div class="draw-menu-small">
-      simple massing study · opt-in
-    </div>
-  </div>
-
-  <div class="draw-menu-group">
-    <div class="draw-menu-small">
-      right-click anywhere to reposition · long-press on touch to draw.
-    </div>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="content">
-  <main>
-    <div class="container">
-
-      <section id="about" class="intro">
-        <p class="editable-text">studio a.-vold arbeider med transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse i eksisterende bygningsmasse.</p>
-        <p class="editable-text">Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes, fremfor å starte på nytt.</p>
-      </section>
-
-      <section id="works">
-        <div class="section-header">
-          <span class="section-number editable-text">01</span>
-          <h2 class="section-title editable-text">Prosjekter</h2>
+    <div class="info-section">
+      <h2>Kontakt</h2>
+      <div class="info-contact-grid">
+        <div class="info-contact-block">
+          <h3>Norge</h3>
+          <p data-editable="addr-no-1">Brennbakkvegen 19A</p>
+          <p data-editable="addr-no-2">2318 Hamar</p>
+          <a href="tel:+4741165450" data-editable="tel-no">+47 411 65 450</a>
         </div>
-        
-        <ul class="project-list">
-          <li class="project-item">
-            <div class="project-image-wrapper">
-              <img src="img/SQUARE-2-.jpg" alt="Suburban City Center – Rågsved" class="project-image">
-              <div class="project-image-caption editable-text">Axonometriske illustrationer</div>
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title editable-text">Suburban City Center – Rågsved</div>
-                <div class="project-subtitle editable-text">Reinterpreting the Periphery</div>
-                <div class="project-meta editable-text">Masteroppgave, 2023</div>
-              </div>
-              <div class="project-description editable-text">
-                Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.
-              </div>
-              <div class="project-tools editable-text">Autocad &amp; Rhinocerous 7, 3D-scanner, Vray &amp; Adobe-suite</div>
-            </div>
-          </li>
-          
-          <li class="project-item">
-            <div class="project-image-wrapper">
-              <img src="img/SQUARE11.jpg" alt="Skjønsbergvegen 14" class="project-image">
-              <div class="project-image-caption editable-text">Exterior visualisation</div>
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title editable-text">Skjønsbergvegen 14</div>
-                <div class="project-subtitle editable-text">Shifts in Structure</div>
-                <div class="project-meta editable-text">Privatoppdrag, 2024</div>
-              </div>
-              <div class="project-description editable-text">
-                Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.
-              </div>
-              <div class="project-tools editable-text">BIM/Archicad, Rhinocerous 7, Enscape, Vray &amp; Adobe-suite</div>
-            </div>
-          </li>
-          
-          <li class="project-item">
-            <div class="project-image-wrapper">
-              <img src="img/Haubarg03 (1).jpg" alt="Remaking Hauberg" class="project-image">
-              <div class="project-image-caption editable-text">Fine carpentry, woodwork and construction, credits: Nicolai Bo Andersen</div>
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title editable-text">Remaking Hauberg</div>
-                <div class="project-subtitle editable-text">Royal Academy</div>
-                <div class="project-meta editable-text">Akademisk arbeid, 2022</div>
-              </div>
-              <div class="project-description editable-text">
-                1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.
-              </div>
-              <div class="project-tools editable-text">Fine carpentry, woodwork and construction</div>
-            </div>
-          </li>
-          
-          <li class="project-item">
-            <div class="project-image-wrapper">
-              <img src="img/SQUARE49.jpg" alt="Material Practice – Dæmpegård Skovriddergård" class="project-image">
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title editable-text">Material Practice</div>
-                <div class="project-subtitle editable-text">Dæmpegård Skovriddergård</div>
-                <div class="project-meta editable-text">Akademisk arbeid, 2022</div>
-              </div>
-              <div class="project-description editable-text">
-                Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.
-              </div>
-              <div class="project-tools editable-text">Rhinocerous 7 &amp; Autocad, Enscape, Vray &amp; Adobe-suite</div>
-            </div>
-          </li>
-          
-          <li class="project-item">
-            <div class="project-image-wrapper">
-              <img src="img/SQUARE19.jpg" alt="Recasting the Void – Østerbrogade 146" class="project-image">
-              <div class="project-image-caption editable-text">Visualisering af det udvendige</div>
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title editable-text">Recasting the Void</div>
-                <div class="project-subtitle editable-text">Østerbrogade 146</div>
-                <div class="project-meta editable-text">Akademisk arbeid, 2021</div>
-              </div>
-              <div class="project-description editable-text">
-                Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.
-              </div>
-              <div class="project-tools editable-text">Rhinocerous 7, Autocad &amp; Adobe-suite</div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <section id="approach">
-        <div class="section-header">
-          <span class="section-number editable-text">02</span>
-          <h2 class="section-title editable-text">Tilnærming</h2>
+        <div class="info-contact-block">
+          <h3>Danmark</h3>
+          <p data-editable="addr-dk-1">Frejasgade 2, 3.tv</p>
+          <p data-editable="addr-dk-2">2200 København N</p>
+          <a href="tel:+4522883055" data-editable="tel-dk">+45 22 88 30 55</a>
         </div>
-        
-        <div class="approach-content">
-          <p class="approach-intro editable-text">
-            Arbeidet tar utgangspunkt i en enkel tanke: å bruke det som allerede finnes, både fysisk og kunnskapsmessig, før man legger til noe nytt. Det innebærer en langsom lesning av sted, bygning og materiale – og en nøkternhet i grepet.
-          </p>
-          
-          <ul class="approach-list">
-            <li class="approach-item editable-text">Transformasjon og rehabilitering av boliger og næringsbygg</li>
-            <li class="approach-item editable-text">Gjenbruk av materialer og strategier for forlengelse av levetid</li>
-            <li class="approach-item editable-text">Etterkrigsarkitektur og velferdsbygg som kulturarv</li>
-            <li class="approach-item editable-text">Oppmåling, verdianalyse og dokumentasjon</li>
-            <li class="approach-item editable-text">Tett dialog med håndverkere, byggherrer og myndigheter</li>
-            <li class="approach-item editable-text">Prosjektering i Revit og Archicad</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="academic">
-        <div class="section-header">
-          <span class="section-number editable-text">03</span>
-          <h2 class="section-title editable-text">Faglig arbeid</h2>
-        </div>
-        
-        <ul class="research-list">
-          <li class="research-item">
-            <div class="research-meta editable-text">
-              Masteroppgave<br>
-              Det Kongelige Akademi<br>
-              2023
-            </div>
-            <div class="research-content">
-              <div class="research-title editable-text">Suburban City Center – Rågsved. Reinterpreting the Periphery</div>
-              <div class="research-description editable-text">
-                En studie av transformasjon i et svensk etterkrigsbysenter, med fokus på sosial sårbarhet, materialitet og hvordan eksisterende strukturer kan fungere som ramme for nye former for fellesskap.
-              </div>
-            </div>
-          </li>
-          
-          <li class="research-item">
-            <div class="research-meta editable-text">
-              Pågående<br>
-              faglig utvikling
-            </div>
-            <div class="research-content">
-              <div class="research-title editable-text">Metoder for verdianalyse i eksisterende bygningsmasse</div>
-              <div class="research-description editable-text">
-                Videreføring av arbeidet med å forstå hvordan bevaringsverdi, brukskvalitet og klimahensyn kan vektes sammen i tidligfase. Målet er å utvikle praktiske verktøy som kan brukes i små og mellomstore prosjekter.
-              </div>
-            </div>
-          </li>
-          
-          <li class="research-item">
-            <div class="research-meta editable-text">
-              Interesser
-            </div>
-            <div class="research-content">
-              <div class="research-title editable-text">Praksis som kunnskapsfelt</div>
-              <div class="research-description editable-text">
-                Langsiktig interesse for hvordan arkitektpraksis kan kobles til kritisk og akademisk refleksjon – særlig innen transformasjon, etterkrigsarkitektur og sirkulær materialbruk.
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <section id="contact">
-        <div class="section-header">
-          <span class="section-number editable-text">04</span>
-          <h2 class="section-title editable-text">Kontakt</h2>
-        </div>
-        
-        <div class="contact-content">
-          <div class="contact-block">
-            <h3 class="editable-text">Adresse</h3>
-            <p class="editable-text">Frejasgade 2, 3.tv</p>
-            <p class="editable-text">2200 København N</p>
-            <div class="contact-location editable-text">Danmark</div>
-            <br>
-            <p class="editable-text">Brennbakkvegen 19A</p>
-            <p class="editable-text">2318 Hamar</p>
-            <div class="contact-location editable-text">Norge</div>
-          </div>
-          
-          <div class="contact-block">
-            <h3 class="editable-text">Kontakt</h3>
-            <a class="editable-text" href="mailto:post@av-a.no">post@av-a.no</a>
-            <a class="editable-text" href="tel:+4522883055">+45 22 88 30 55</a>
-            <a class="editable-text" href="tel:+4741165450">+47 411 65 450</a>
-          </div>
-          
-          <div class="contact-block">
-            <h3 class="editable-text">Tjenester</h3>
-            <ul>
-              <li class="editable-text">Transformasjon og rehabilitering</li>
-              <li class="editable-text">Restaurering i bevaringsverdige miljøer</li>
-              <li class="editable-text">Oppmåling og digital modellering</li>
-              <li class="editable-text">Byggesøknader og myndighetsdialog</li>
-              <li class="editable-text">Visualisering og tidligfasestudier</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <div class="editable-text">© 2025 studio a.-vold — A. Vold Arkitektur AS</div>
-      <div class="footer-links">
-        <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
-        <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
       </div>
     </div>
-  </footer>
+
+    <div class="info-cert">
+      <img src="img/SG_GULL_HVITBOKS.png" alt="Sentral godkjenning">
+      <p>A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).</p>
+    </div>
+  </div>
 </div>
 
+<!-- Project Detail Modal -->
+<div class="project-overlay" id="projectOverlay">
+  <div class="project-overlay-close" id="projectClose">Lukk</div>
+  <div class="project-detail" id="projectDetail">
+    <!-- Injected by JS -->
+  </div>
+</div>
+
+<!-- Hidden file input for image upload -->
+<input type="file" accept="image/*" class="hidden-input" id="imageInput">
+
 <script>
-// Show header on scroll
-const header = document.getElementById('header');
-const landing = document.querySelector('.landing');
-let landingHeight = landing.offsetHeight;
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > landingHeight * 0.7) {
-    header.classList.add('visible');
-  } else {
-    header.classList.remove('visible');
+// ====================
+// DATA
+// ====================
+const defaultProjects = [
+  {
+    id: 1,
+    title: "Suburban City Center – Rågsved",
+    subtitle: "Reinterpreting the Periphery",
+    meta: "Masteroppgave, 2023",
+    description: "Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.",
+    image: "img/SQUARE-2-.jpg",
+    gallery: ["img/SQUARE-2-.jpg", "img/SQUARE2.jpg", "img/SQUARE5.jpg"]
+  },
+  {
+    id: 2,
+    title: "Skjønsbergvegen 14",
+    subtitle: "Shifts in Structure",
+    meta: "Privatoppdrag, 2024",
+    description: "Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.",
+    image: "img/SQUARE11.jpg",
+    gallery: ["img/SQUARE11.jpg", "img/SQUARE10.jpg"]
+  },
+  {
+    id: 3,
+    title: "Remaking Hauberg",
+    subtitle: "Royal Academy",
+    meta: "Akademisk arbeid, 2022",
+    description: "1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.",
+    image: "img/Haubarg03 (1).jpg",
+    gallery: ["img/Haubarg03 (1).jpg"]
+  },
+  {
+    id: 4,
+    title: "Material Practice",
+    subtitle: "Dæmpegård Skovriddergård",
+    meta: "Akademisk arbeid, 2022",
+    description: "Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.",
+    image: "img/SQUARE49.jpg",
+    gallery: ["img/SQUARE49.jpg", "img/SQUARE48.jpg"]
+  },
+  {
+    id: 5,
+    title: "Recasting the Void",
+    subtitle: "Østerbrogade 146",
+    meta: "Akademisk arbeid, 2021",
+    description: "Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.",
+    image: "img/SQUARE19.jpg",
+    gallery: ["img/SQUARE19.jpg", "img/SQUARE18.jpg", "img/SQUARE21.jpg"]
+  },
+  {
+    id: 6,
+    title: "Transformasjon",
+    subtitle: "Studioprosjekt",
+    meta: "2023",
+    description: "",
+    image: "img/SQUARE50.jpg",
+    gallery: ["img/SQUARE50.jpg"]
   }
-});
+];
 
-window.addEventListener('resize', () => {
-  landingHeight = landing.offsetHeight;
-});
+let projects = [...defaultProjects];
+let isEditorMode = false;
+let currentEditingProject = null;
 
-// scroll-hint klikker ned til "Om"
-const scrollHint = document.querySelector('.scroll-hint');
-if (scrollHint) {
-  scrollHint.addEventListener('click', () => {
-    const about = document.getElementById('about');
-    if (about) {
-      about.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-}
-
-// tegne-funksjon på landingssiden med cheat codes + toolbox + mobil-langpress + 3D opt-in
+// ====================
+// INIT
+// ====================
 document.addEventListener('DOMContentLoaded', () => {
-  const bg = document.querySelector('.hero-draw-bg');
-  const canvas = document.getElementById('heroCanvas');
-  const colorPanel = document.getElementById('colorPanel');
-  const colorPicker = document.getElementById('colorPicker');
-  const drawWrapper = document.querySelector('.hero-draw-wrapper');
-
-  const drawMenu = document.getElementById('drawMenu');
-  const drawMenuHeader = document.getElementById('drawMenuHeader');
-  const drawMenuClose = document.getElementById('drawMenuClose');
-  const strokeStyleSelect = document.getElementById('strokeStyleSelect');
-  const strokeWidthRange = document.getElementById('strokeWidthRange');
-  const strokeWidthValue = document.getElementById('strokeWidthValue');
-  const menuColorPicker = document.getElementById('menuColorPicker');
-  const randomColorBtn = document.getElementById('randomColorBtn');
-  const clearCanvasBtn = document.getElementById('clearCanvasBtn');
-  const eraserToggleBtn = document.getElementById('eraserToggleBtn');
-  const eraserSizeRange = document.getElementById('eraserSizeRange');
-  const eraserSizeValue = document.getElementById('eraserSizeValue');
-  const fontTypeSelect = document.getElementById('fontTypeSelect');
-  const textColorPicker = document.getElementById('textColorPicker');
-  const textColorDefaultBtn = document.getElementById('textColorDefaultBtn');
-  const bodySizeRange = document.getElementById('bodySizeRange');
-  const bodySizeValue = document.getElementById('bodySizeValue');
-  const headingSizeRange = document.getElementById('headingSizeRange');
-  const headingSizeValue = document.getElementById('headingSizeValue');
-  const toggle3DBtn = document.getElementById('toggle3DBtn');
-
-  const presetHairline = document.getElementById('presetHairline');
-  const presetAnnotation = document.getElementById('presetAnnotation');
-  const presetMarker = document.getElementById('presetMarker');
-  const presetCharcoal = document.getElementById('presetCharcoal');
-
-  if (!bg || !canvas || !colorPanel || !colorPicker || !drawMenu) return;
-
-  const docEl = document.documentElement;
-
-  // bakgrunnsbilde – inkludert Rågsved-bildet
-  const images = [
-    'img/SQUARE-2-.jpg',
-    'img/SQUARE11.jpg',
-    'img/SQUARE14.jpg',
-    'img/SQUARE18.jpg',
-    'img/SQUARE19.jpg',
-    'img/SQUARE44.jpg',
-    'img/SQUARE49.jpg',
-    'img/SQUARE30.jpg',
-    'img/SQUARE52.jpg',
-    'img/SQUARE58.jpg',
-    'img/SQUARE5.jpg',
-    'img/SQUARE16.jpg',
-    'img/SQUARE37.jpg',
-    'img/SQUARE57.jpg',
-    'img/SQUARE42.jpg',
-    'img/Haubarg03 (1).jpg',
-    'img/9-768x935.jpg',
-    'img/SQUARE41.jpg'
-  ];
-  const randomImage = images[Math.floor(Math.random() * images.length)];
-  bg.style.backgroundImage = `url('${randomImage}')`;
-
-  const ctx = canvas.getContext('2d');
-
-  let drawing = false;
-  let lastX = 0;
-  let lastY = 0;
-
-  // stil-variabler
-  const palette = [
-    '#1f3b4d',
-    '#3c5a40',
-    '#7a4b3a',
-    '#334155',
-    '#5b4b6a',
-    '#745b40',
-    '#1f4b46'
-  ];
-  let currentColor = palette[Math.floor(Math.random() * palette.length)];
-  let isErasing = false;
-  let currentStrokeWidth = 4;
-  let currentEraserSize = 12;
-  let currentLineStyle = 'solid';
-
-  // mobil-langpress-variabler
-  let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  let touchStartTime = 0;
-  let touchStartX = 0;
-  let touchStartY = 0;
-  const LONG_PRESS_MS = 260;
-  const MOVE_TOLERANCE = 8;
-  let longPressActivated = false;
-
-  // text color defaults
-  const DEFAULT_TEXT_COLOR = '#2a2a2a';
-  const DEFAULT_TEXT_SECONDARY = '#5a5a5a';
-  const DEFAULT_TEXT_MUTED = '#8a8a8a';
-  const DEFAULT_TEXT_LIGHT = '#b0b0b0';
-
-  function hexToRgb(hex) {
-    let h = hex.replace('#', '');
-    if (h.length === 3) {
-      h = h.split('').map(c => c + c).join('');
-    }
-    if (h.length !== 6) return null;
-    const num = parseInt(h, 16);
-    return {
-      r: (num >> 16) & 255,
-      g: (num >> 8) & 255,
-      b: num & 255
-    };
+  // Load saved data
+  const saved = localStorage.getItem('av_projects');
+  if (saved) {
+    try {
+      projects = JSON.parse(saved);
+    } catch (e) {}
   }
 
-  function rgbToHex(r, g, b) {
-    const toHex = (v) => ('0' + v.toString(16)).slice(-2);
-    return '#' + toHex(r) + toHex(g) + toHex(b);
+  // Check for editor mode
+  if (window.location.hash === '#edit' || window.location.search.includes('edit')) {
+    enterEditorMode();
   }
 
-  function mixWithWhite(hex, factor) {
-    const rgb = hexToRgb(hex);
-    if (!rgb) return hex;
-    const r = Math.round(rgb.r + (255 - rgb.r) * factor);
-    const g = Math.round(rgb.g + (255 - rgb.g) * factor);
-    const b = Math.round(rgb.b + (255 - rgb.b) * factor);
-    return rgbToHex(r, g, b);
-  }
+  renderProjects();
+  bindEvents();
+});
 
-  function applyStrokeStyle() {
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
+// ====================
+// RENDER
+// ====================
+function renderProjects() {
+  const grid = document.getElementById('projectsGrid');
 
-    const width = isErasing ? currentEraserSize : currentStrokeWidth;
-    ctx.lineWidth = width;
+  grid.innerHTML = projects.map((p, idx) => `
+    <div class="project" data-id="${p.id}" data-index="${idx}">
+      <img src="${p.image}" alt="${p.title}">
+      <div class="project-caption">${p.title}</div>
+    </div>
+  `).join('') + `
+    <button class="add-project-btn" id="addProjectCard">
+      <span>+</span>
+      Legg til prosjekt
+    </button>
+  `;
 
-    ctx.globalCompositeOperation = isErasing ? 'destination-out' : 'source-over';
-
-    if (!isErasing) {
-      ctx.strokeStyle = currentColor;
-      if (currentLineStyle === 'solid') {
-        ctx.setLineDash([]);
-      } else if (currentLineStyle === 'dashed') {
-        ctx.setLineDash([12, 8]);
-      } else if (currentLineStyle === 'dotted') {
-        ctx.setLineDash([2, 6]);
-      } else if (currentLineStyle === 'dashdot') {
-        ctx.setLineDash([10, 6, 2, 6]);
-      } else if (currentLineStyle === 'fine') {
-        ctx.setLineDash([1, 5]);
-      }
-    } else {
-      ctx.setLineDash([]);
-    }
-  }
-
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-
-    currentStrokeWidth = Math.max(2, Math.round(rect.width * 0.004));
-    strokeWidthRange.value = currentStrokeWidth;
-    strokeWidthValue.textContent = currentStrokeWidth + 'px';
-
-    currentEraserSize = Math.max(8, Math.round(rect.width * 0.008));
-    eraserSizeRange.value = currentEraserSize;
-    eraserSizeValue.textContent = currentEraserSize + 'px';
-
-    applyStrokeStyle();
-  }
-
-  resizeCanvas();
-  window.addEventListener('resize', () => {
-    resizeCanvas();
-    resizeThree();
-  });
-
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    if (e.touches && e.touches[0]) {
-      return {
-        x: e.touches[0].clientX - rect.left,
-        y: e.touches[0].clientY - rect.top
-      };
-    }
-    return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    };
-  }
-
-  function startDrawAtPosition(pos) {
-    drawing = true;
-    lastX = pos.x;
-    lastY = pos.y;
-  }
-
-  function endDraw(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    drawing = false;
-    longPressActivated = false;
-  }
-
-  function draw(e) {
-    if (!drawing) return;
-    if (e && e.preventDefault) e.preventDefault();
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    lastX = pos.x;
-    lastY = pos.y;
-  }
-
-  // MUS
-  canvas.addEventListener('mousedown', (e) => {
-    if (e.button !== 0) return;
-    e.preventDefault();
-    applyStrokeStyle();
-    const pos = getPos(e);
-    startDrawAtPosition(pos);
-  });
-
-  window.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('mousemove', draw);
-
-  // TOUCH – lang-press for tegning
-  canvas.addEventListener('touchstart', (e) => {
-    if (!isTouch) return;
-    if (e.touches.length !== 1) return;
-    touchStartTime = Date.now();
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    longPressActivated = false;
-    drawing = false;
-  }, { passive: true });
-
-  canvas.addEventListener('touchmove', (e) => {
-    if (!isTouch) return;
-    const now = Date.now();
-    const dx = e.touches[0].clientX - touchStartX;
-    const dy = e.touches[0].clientY - touchStartY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (!longPressActivated) {
-      if (now - touchStartTime > LONG_PRESS_MS && dist <= MOVE_TOLERANCE) {
-        longPressActivated = true;
-        applyStrokeStyle();
-        const pos = getPos(e);
-        startDrawAtPosition(pos);
-        e.preventDefault();
+  // Rebind project click events
+  grid.querySelectorAll('.project').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const idx = parseInt(el.dataset.index);
+      if (isEditorMode) {
+        openImagePicker(idx);
       } else {
-        return;
+        openProjectDetail(idx);
       }
-    } else {
-      draw(e);
-    }
-  }, { passive: false });
-
-  canvas.addEventListener('touchend', endDraw, { passive: false });
-  canvas.addEventListener('touchcancel', endDraw, { passive: false });
-
-  // color panel endrer tusjfarge
-  colorPicker.addEventListener('input', (e) => {
-    currentColor = e.target.value;
-    isErasing = false;
-    eraserToggleBtn.classList.remove('active');
-    applyStrokeStyle();
-    menuColorPicker.value = currentColor;
-  });
-
-  // stroke controls
-  strokeWidthRange.addEventListener('input', (e) => {
-    currentStrokeWidth = parseInt(e.target.value, 10) || 1;
-    strokeWidthValue.textContent = currentStrokeWidth + 'px';
-    if (!isErasing) applyStrokeStyle();
-  });
-
-  strokeStyleSelect.addEventListener('change', (e) => {
-    currentLineStyle = e.target.value;
-    if (!isErasing) applyStrokeStyle();
-  });
-
-  // color controls
-  menuColorPicker.addEventListener('input', (e) => {
-    currentColor = e.target.value;
-    isErasing = false;
-    eraserToggleBtn.classList.remove('active');
-    colorPicker.value = currentColor;
-    applyStrokeStyle();
-  });
-
-  function setRandomColor() {
-    currentColor = palette[Math.floor(Math.random() * palette.length)];
-    isErasing = false;
-    eraserToggleBtn.classList.remove('active');
-    colorPicker.value = currentColor;
-    menuColorPicker.value = currentColor;
-    applyStrokeStyle();
-  }
-
-  randomColorBtn.addEventListener('click', () => {
-    setRandomColor();
-  });
-
-  clearCanvasBtn.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  });
-
-  // eraser
-  function updateEraserButtonState() {
-    if (isErasing) {
-      eraserToggleBtn.classList.add('active');
-      eraserToggleBtn.textContent = 'eraser on';
-    } else {
-      eraserToggleBtn.classList.remove('active');
-      eraserToggleBtn.textContent = 'eraser';
-    }
-  }
-
-  eraserToggleBtn.addEventListener('click', () => {
-    isErasing = !isErasing;
-    updateEraserButtonState();
-    applyStrokeStyle();
-  });
-
-  eraserSizeRange.addEventListener('input', (e) => {
-    currentEraserSize = parseInt(e.target.value, 10) || 4;
-    eraserSizeValue.textContent = currentEraserSize + 'px';
-    if (isErasing) applyStrokeStyle();
-  });
-
-  // presets – litt InDesign vibes
-  function applyPreset(name) {
-    isErasing = false;
-    updateEraserButtonState();
-
-    if (name === 'hairline') {
-      currentStrokeWidth = 1;
-      currentLineStyle = 'solid';
-      currentColor = '#222222';
-    } else if (name === 'annotation') {
-      currentStrokeWidth = 2;
-      currentLineStyle = 'dashed';
-      currentColor = '#7a4b3a';
-    } else if (name === 'marker') {
-      currentStrokeWidth = 12;
-      currentLineStyle = 'solid';
-      currentColor = '#c2783b';
-    } else if (name === 'charcoal') {
-      currentStrokeWidth = 6;
-      currentLineStyle = 'dotted';
-      currentColor = '#111111';
-    }
-
-    strokeWidthRange.value = currentStrokeWidth;
-    strokeWidthValue.textContent = currentStrokeWidth + 'px';
-    strokeStyleSelect.value = currentLineStyle;
-    colorPicker.value = currentColor;
-    menuColorPicker.value = currentColor;
-    applyStrokeStyle();
-  }
-
-  presetHairline.addEventListener('click', () => applyPreset('hairline'));
-  presetAnnotation.addEventListener('click', () => applyPreset('annotation'));
-  presetMarker.addEventListener('click', () => applyPreset('marker'));
-  presetCharcoal.addEventListener('click', () => applyPreset('charcoal'));
-
-  // font / typografi – påvirker hele siden
-  function applyFontType(type) {
-    let sans = '';
-    let mono = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
-
-    if (type === 'system') {
-      sans = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-    } else if (type === 'serif') {
-      sans = 'Georgia, "Times New Roman", serif';
-    } else if (type === 'mono') {
-      sans = '"SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace';
-    } else if (type === 'modern') {
-      sans = '"Helvetica Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    } else if (type === 'narrow') {
-      sans = '"Roboto Condensed", "Helvetica Neue Condensed", "Arial Narrow", system-ui, sans-serif';
-    } else {
-      sans = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-    }
-
-    docEl.style.setProperty('--font-sans', sans);
-    docEl.style.setProperty('--font-mono', mono);
-
-    document.body.style.fontFamily = 'var(--font-sans)';
-    const monoElements = document.querySelectorAll(
-      '.site-title, nav a, .section-number, .project-meta, .project-tools, .contact-block h3, footer, .landing-title, .scroll-hint'
-    );
-    monoElements.forEach(el => {
-      el.style.fontFamily = 'var(--font-mono)';
     });
+  });
+
+  // Add project button
+  const addBtn = document.getElementById('addProjectCard');
+  if (addBtn) {
+    addBtn.addEventListener('click', addNewProject);
   }
-
-  fontTypeSelect.addEventListener('change', (e) => {
-    applyFontType(e.target.value);
-  });
-
-  // type size – endre fontstørrelser via CSS-variabler
-  function applyBodySize(px) {
-    docEl.style.setProperty('--font-size-body', px + 'px');
-    docEl.style.setProperty('--font-size-intro', (px + 1) + 'px');
-  }
-
-  function applyHeadingSize(px) {
-    docEl.style.setProperty('--font-size-project-title', px + 'px');
-    const sectionSize = Math.max(11, px - 7);
-    docEl.style.setProperty('--font-size-section-title', sectionSize + 'px');
-  }
-
-  bodySizeRange.addEventListener('input', (e) => {
-    const v = parseInt(e.target.value, 10) || 14;
-    bodySizeValue.textContent = v + 'px';
-    applyBodySize(v);
-  });
-
-  headingSizeRange.addEventListener('input', (e) => {
-    const v = parseInt(e.target.value, 10) || 20;
-    headingSizeValue.textContent = v + 'px';
-    applyHeadingSize(v);
-  });
-
-  // text color – endre tekstfarge på hele siden
-  function applyTextColor(hex) {
-    const rgb = hexToRgb(hex);
-    if (!rgb) return;
-
-    const secondary = mixWithWhite(hex, 0.35);
-    const muted = mixWithWhite(hex, 0.55);
-    const light = mixWithWhite(hex, 0.72);
-
-    docEl.style.setProperty('--color-text', hex);
-    docEl.style.setProperty('--color-text-secondary', secondary);
-    docEl.style.setProperty('--color-text-muted', muted);
-    docEl.style.setProperty('--color-text-light', light);
-
-    document.body.style.color = 'var(--color-text)';
-  }
-
-  textColorPicker.addEventListener('input', (e) => {
-    applyTextColor(e.target.value);
-  });
-
-  textColorDefaultBtn.addEventListener('click', () => {
-    docEl.style.setProperty('--color-text', DEFAULT_TEXT_COLOR);
-    docEl.style.setProperty('--color-text-secondary', DEFAULT_TEXT_SECONDARY);
-    docEl.style.setProperty('--color-text-muted', DEFAULT_TEXT_MUTED);
-    docEl.style.setProperty('--color-text-light', DEFAULT_TEXT_LIGHT);
-    textColorPicker.value = DEFAULT_TEXT_COLOR;
-    document.body.style.color = 'var(--color-text)';
-  });
-
-  // cheat codes
-  let keyBuffer = '';
-
-  function toggleColorPanel() {
-    colorPanel.classList.toggle('visible');
-  }
-
-  function toggleEraser() {
-    isErasing = !isErasing;
-    updateEraserButtonState();
-    applyStrokeStyle();
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-12);
-    }
-
-    if (keyBuffer.includes('ava')) {
-      setRandomColor();
-      keyBuffer = '';
-    }
-
-    if (keyBuffer.includes('color')) {
-      toggleColorPanel();
-      keyBuffer = '';
-    }
-
-    if (keyBuffer.includes('erase')) {
-      toggleEraser();
-      keyBuffer = '';
-    }
-  });
-
-  // høyreklikk → toolbox
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-
-    const menu = drawMenu;
-    const menuRect = menu.getBoundingClientRect();
-
-    let x = e.clientX;
-    let y = e.clientY;
-
-    const padding = 10;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    if (x + menuRect.width + padding > vw) {
-      x = vw - menuRect.width - padding;
-    }
-    if (y + menuRect.height + padding > vh) {
-      y = vh - menuRect.height - padding;
-    }
-
-    menu.style.left = x + 'px';
-    menu.style.top = y + 'px';
-    menu.classList.add('visible');
-  });
-
-  drawMenuClose.addEventListener('click', () => {
-    drawMenu.classList.remove('visible');
-  });
-
-  // dra toolbox rundt
-  let draggingMenu = false;
-  let dragOffsetX = 0;
-  let dragOffsetY = 0;
-
-  drawMenuHeader.addEventListener('mousedown', (e) => {
-    draggingMenu = true;
-    const rect = drawMenu.getBoundingClientRect();
-    dragOffsetX = e.clientX - rect.left;
-    dragOffsetY = e.clientY - rect.top;
-    e.preventDefault();
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!draggingMenu) return;
-    let x = e.clientX - dragOffsetX;
-    let y = e.clientY - dragOffsetY;
-
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const rect = drawMenu.getBoundingClientRect();
-
-    x = Math.max(4, Math.min(vw - rect.width - 4, x));
-    y = Math.max(4, Math.min(vh - rect.height - 4, y));
-
-    drawMenu.style.left = x + 'px';
-    drawMenu.style.top = y + 'px';
-  });
-
-  window.addEventListener('mouseup', () => {
-    draggingMenu = false;
-  });
-
-  // ==== Three.js 3D massing – lazy-load, opt-in ====
-  let threeRenderer = null;
-  let threeScene = null;
-  let threeCamera = null;
-  let threeAnimating = false;
-  let threeLoaded = false;
-
-  function loadThreeAndInit(callback) {
-    if (threeLoaded) {
-      if (callback) callback();
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/three@0.160.0/build/three.min.js';
-    script.onload = () => {
-      threeLoaded = true;
-      if (callback) callback();
-    };
-    document.head.appendChild(script);
-  }
-
-function initThreeScene() {
-  if (!drawWrapper || !window.THREE || threeRenderer) return;
-
-  threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-  threeRenderer.setClearColor(0x000000, 0); // transparent
-  threeRenderer.domElement.style.position = 'absolute';
-  threeRenderer.domElement.style.inset = '0';
-  threeRenderer.domElement.style.width = '100%';
-  threeRenderer.domElement.style.height = '100%';
-  threeRenderer.domElement.style.pointerEvents = 'none'; // canvas tar input
-  drawWrapper.appendChild(threeRenderer.domElement);
-
-  threeScene = new THREE.Scene();
-  threeCamera = new THREE.PerspectiveCamera(
-    30,
-    drawWrapper.clientWidth / drawWrapper.clientHeight,
-    0.1,
-    100
-  );
-  threeCamera.position.set(3, 3, 4);
-
-  const light = new THREE.DirectionalLight(0xffffff, 0.9);
-  light.position.set(4, 8, 6);
-  threeScene.add(light);
-  threeScene.add(new THREE.AmbientLight(0xffffff, 0.35));
-
-  // baseplate
-  const plateGeo = new THREE.PlaneGeometry(6, 6);
-  const plateMat = new THREE.MeshStandardMaterial({
-    color: 0xe6e4dd,
-    roughness: 1,
-    metalness: 0
-  });
-  const plate = new THREE.Mesh(plateGeo, plateMat);
-  plate.rotation.x = -Math.PI / 2;
-  threeScene.add(plate);
-
-  // enkel massing
-  const mat1 = new THREE.MeshStandardMaterial({
-    color: 0xb8c7be,
-    roughness: 0.85,
-    metalness: 0.05
-  });
-  const box1 = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.2), mat1);
-  box1.position.y = 0.5;
-  threeScene.add(box1);
-
-  const mat2 = mat1.clone();
-  mat2.color = new THREE.Color(0xa0b3a9);
-  const box2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 0.9), mat2);
-  box2.position.set(0.4, 1.2, -0.1);
-  threeScene.add(box2);
-
-  // BAKVEGG MED PROSJEKTBILDE
-  if (randomImage) {
-    const texLoader = new THREE.TextureLoader();
-    texLoader.load(randomImage, (texture) => {
-      texture.encoding = THREE.sRGBEncoding;
-      const wallGeo = new THREE.PlaneGeometry(4.5, 4.5);
-      const wallMat = new THREE.MeshBasicMaterial({
-        map: texture,
-        toneMapped: false
-      });
-      const wall = new THREE.Mesh(wallGeo, wallMat);
-      wall.position.set(0, 2.1, -1.2); // bak volumet
-      threeScene.add(wall);
-    });
-  }
-
-  resizeThree();
-  window.addEventListener('resize', resizeThree);
 }
 
+function openProjectDetail(idx) {
+  const p = projects[idx];
+  if (!p) return;
 
-  function resizeThree() {
-    if (!threeRenderer || !threeCamera || !drawWrapper) return;
-    const w = drawWrapper.clientWidth;
-    const h = drawWrapper.clientHeight;
-    threeRenderer.setSize(w, h);
-    threeCamera.aspect = w / h;
-    threeCamera.updateProjectionMatrix();
-  }
+  const detail = document.getElementById('projectDetail');
+  detail.innerHTML = `
+    <div class="project-detail-header">
+      <h1 class="project-detail-title" ${isEditorMode ? 'contenteditable="true" data-field="title"' : ''}>${p.title}</h1>
+      <div class="project-detail-subtitle" ${isEditorMode ? 'contenteditable="true" data-field="subtitle"' : ''}>${p.subtitle || ''}</div>
+      <div class="project-detail-meta" ${isEditorMode ? 'contenteditable="true" data-field="meta"' : ''}>${p.meta || ''}</div>
+    </div>
+    <p class="project-detail-description" ${isEditorMode ? 'contenteditable="true" data-field="description"' : ''}>${p.description || ''}</p>
+    <div class="project-detail-gallery">
+      ${p.gallery.map(img => `<img src="${img}" alt="">`).join('')}
+    </div>
+  `;
 
-  function animateThree() {
-    if (!threeAnimating || !threeRenderer || !threeScene || !threeCamera) return;
-    requestAnimationFrame(animateThree);
-    threeScene.rotation.y += 0.002;
-    threeRenderer.render(threeScene, threeCamera);
-  }
+  currentEditingProject = idx;
 
-  if (toggle3DBtn) {
-    toggle3DBtn.addEventListener('click', () => {
-      if (!threeRenderer) {
-        // første gang: last Three.js, init scene
-        loadThreeAndInit(() => {
-          initThreeScene();
-          if (threeRenderer) {
-            threeRenderer.domElement.style.display = 'block';
-            threeAnimating = true;
-            animateThree();
-            toggle3DBtn.textContent = 'disable 3d';
-          }
-        });
-      } else if (!threeAnimating) {
-        // re-aktivere
-        threeRenderer.domElement.style.display = 'block';
-        threeAnimating = true;
-        animateThree();
-        toggle3DBtn.textContent = 'disable 3d';
-      } else {
-        // slå av
-        threeAnimating = false;
-        if (threeRenderer) {
-          threeRenderer.domElement.style.display = 'none';
-        }
-        toggle3DBtn.textContent = 'enable 3d';
-      }
-    });
-  }
-
-  // init tilstand
-  updateEraserButtonState();
-  colorPicker.value = currentColor;
-  menuColorPicker.value = currentColor;
-  strokeWidthValue.textContent = currentStrokeWidth + 'px';
-  eraserSizeValue.textContent = currentEraserSize + 'px';
-  textColorPicker.value = DEFAULT_TEXT_COLOR;
-  bodySizeValue.textContent = bodySizeRange.value + 'px';
-  headingSizeValue.textContent = headingSizeRange.value + 'px';
-  applyFontType('system');
-  applyBodySize(parseInt(bodySizeRange.value, 10) || 14);
-  applyHeadingSize(parseInt(headingSizeRange.value, 10) || 20);
-});
-</script>
-
-<!-- EDITOR-MODUS: LOGIN + PANEL + EXPORT -->
-<script>
-(function() {
-  // juster disse hvis du vil
-  const EDIT_EMAIL = 'post@av-a.no';
-  const EDIT_CODE = 'av-editor';
-
-  function createLoginOverlay(onSuccess) {
-    const overlay = document.createElement('div');
-    overlay.className = 'editor-login-overlay';
-
-    const box = document.createElement('div');
-    box.className = 'editor-login-box';
-
-    const title = document.createElement('h2');
-    title.textContent = 'editor login';
-
-    const info = document.createElement('div');
-    info.textContent = 'kun for deg – for å redigere innhold og laste ned ny index.html.';
-
-    const labelEmail = document.createElement('label');
-    labelEmail.textContent = 'e-post';
-
-    const inputEmail = document.createElement('input');
-    inputEmail.type = 'email';
-    inputEmail.value = EDIT_EMAIL;
-
-    const labelCode = document.createElement('label');
-    labelCode.textContent = 'kode';
-
-    const inputCode = document.createElement('input');
-    inputCode.type = 'password';
-    inputCode.placeholder = 'for eksempel "av-editor"';
-
-    const btn = document.createElement('button');
-    btn.textContent = 'låse opp editor';
-
-    const error = document.createElement('div');
-    error.className = 'editor-login-error';
-    error.style.display = 'none';
-
-    btn.addEventListener('click', () => {
-      const mail = inputEmail.value.trim();
-      const code = inputCode.value.trim();
-      if (mail === EDIT_EMAIL && code === EDIT_CODE) {
-        localStorage.setItem('av_editor_unlocked', '1');
-        document.body.removeChild(overlay);
-        onSuccess();
-      } else {
-        error.textContent = 'feil e-post eller kode';
-        error.style.display = 'block';
-      }
-    });
-
-    box.appendChild(title);
-    box.appendChild(info);
-    box.appendChild(labelEmail);
-    box.appendChild(inputEmail);
-    box.appendChild(labelCode);
-    box.appendChild(inputCode);
-    box.appendChild(btn);
-    box.appendChild(error);
-
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-
-    inputCode.focus();
-  }
-
-  function enableTextEditing() {
-    document.body.classList.add('editor-active');
-    document.querySelectorAll('.editable-text').forEach(el => {
-      el.setAttribute('contenteditable', 'true');
-    });
-  }
-
-  function createEditorPanel() {
-    const panel = document.createElement('div');
-    panel.className = 'editor-panel';
-
-    const title = document.createElement('h3');
-    title.textContent = 'studio editor';
-
-    // bakgrunnsfarge
-    const rowBg = document.createElement('div');
-    rowBg.className = 'editor-panel-row';
-    const labelBg = document.createElement('label');
-    labelBg.textContent = 'bg';
-    const inputBg = document.createElement('input');
-    inputBg.type = 'color';
-    // prøv å hente nåværende bg-farge hvis mulig
-    inputBg.value = '#fafaf8';
-    rowBg.appendChild(labelBg);
-    rowBg.appendChild(inputBg);
-
-    inputBg.addEventListener('input', () => {
-      document.documentElement.style.setProperty('--color-bg', inputBg.value);
-      document.body.style.background = 'var(--color-bg)';
-    });
-
-    // tekstfarge
-    const rowText = document.createElement('div');
-    rowText.className = 'editor-panel-row';
-    const labelText = document.createElement('label');
-    labelText.textContent = 'text';
-    const inputText = document.createElement('input');
-    inputText.type = 'color';
-    inputText.value = '#2a2a2a';
-    rowText.appendChild(labelText);
-    rowText.appendChild(inputText);
-
-    inputText.addEventListener('input', () => {
-      const hex = inputText.value;
-      // enkel versjon av applyTextColor, bare for eksport
-      function hexToRgb(hex) {
-        let h = hex.replace('#', '');
-        if (h.length === 3) h = h.split('').map(c => c + c).join('');
-        if (h.length !== 6) return null;
-        const num = parseInt(h, 16);
-        return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
-      }
-      function rgbToHex(r,g,b) {
-        const t = v => ('0' + v.toString(16)).slice(-2);
-        return '#' + t(r)+t(g)+t(b);
-      }
-      function mixWithWhite(h, f) {
-        const rgb = hexToRgb(h); if (!rgb) return h;
-        const r = Math.round(rgb.r + (255 - rgb.r)*f);
-        const g = Math.round(rgb.g + (255 - rgb.g)*f);
-        const b = Math.round(rgb.b + (255 - rgb.b)*f);
-        return rgbToHex(r,g,b);
-      }
-      const secondary = mixWithWhite(hex, 0.35);
-      const muted = mixWithWhite(hex, 0.55);
-      const light = mixWithWhite(hex, 0.72);
-      const root = document.documentElement;
-      root.style.setProperty('--color-text', hex);
-      root.style.setProperty('--color-text-secondary', secondary);
-      root.style.setProperty('--color-text-muted', muted);
-      root.style.setProperty('--color-text-light', light);
-      document.body.style.color = 'var(--color-text)';
-    });
-
-    // prosjekt-bildevalg
-    const rowProj = document.createElement('div');
-    rowProj.className = 'editor-panel-row';
-    const labelProj = document.createElement('label');
-    labelProj.textContent = 'prosjekt';
-    const selectProj = document.createElement('select');
-    const projects = Array.from(document.querySelectorAll('.project-item'));
-    projects.forEach((item, idx) => {
-      const opt = document.createElement('option');
-      const titleEl = item.querySelector('.project-title');
-      opt.value = String(idx);
-      opt.textContent = titleEl ? titleEl.textContent.trim() || `Prosjekt ${idx+1}` : `Prosjekt ${idx+1}`;
-      selectProj.appendChild(opt);
-    });
-    rowProj.appendChild(labelProj);
-    rowProj.appendChild(selectProj);
-
-    const rowImg = document.createElement('div');
-    rowImg.className = 'editor-panel-row';
-    const labelImg = document.createElement('label');
-    labelImg.textContent = 'bilde';
-    const inputImg = document.createElement('input');
-    inputImg.type = 'text';
-    inputImg.placeholder = 'f.eks SQUARE11.jpg';
-    rowImg.appendChild(labelImg);
-    rowImg.appendChild(inputImg);
-
-    function syncImageField() {
-      const idx = parseInt(selectProj.value, 10);
-      const item = projects[idx];
-      if (!item) return;
-      const img = item.querySelector('.project-image');
-      if (!img) return;
-      const src = img.getAttribute('src') || '';
-      const match = src.match(/img\/(.+)$/i);
-      inputImg.value = match ? match[1] : src;
-    }
-    selectProj.addEventListener('change', syncImageField);
-    syncImageField();
-
-    inputImg.addEventListener('change', () => {
-      const idx = parseInt(selectProj.value, 10);
-      const item = projects[idx];
-      if (!item) return;
-      const img = item.querySelector('.project-image');
-      if (!img) return;
-      const filename = inputImg.value.trim();
-      if (filename) {
-        img.setAttribute('src', 'img/' + filename);
-      }
-    });
-
-    // actions
-    const actions = document.createElement('div');
-    actions.className = 'editor-panel-actions';
-
-    const btnAdd = document.createElement('button');
-    btnAdd.textContent = '+ prosjekt';
-    btnAdd.addEventListener('click', () => {
-      const list = document.querySelector('.project-list');
-      const last = list ? list.querySelector('.project-item:last-child') : null;
-      if (!list || !last) return;
-      const clone = last.cloneNode(true);
-      // reset tekst litt
-      const title = clone.querySelector('.project-title');
-      if (title) title.textContent = 'Nytt prosjekt';
-      const subtitle = clone.querySelector('.project-subtitle');
-      if (subtitle) subtitle.textContent = '';
-      const meta = clone.querySelector('.project-meta');
-      if (meta) meta.textContent = '';
-      const desc = clone.querySelector('.project-description');
-      if (desc) desc.textContent = '';
-      const tools = clone.querySelector('.project-tools');
-      if (tools) tools.textContent = '';
-      const img = clone.querySelector('.project-image');
-      if (img) img.setAttribute('src', 'img/SQUARE-2-.jpg');
-
-      list.appendChild(clone);
-
-      // oppdatere prosjektliste i editoren (enkelt: reload siden i editor-modus for å få den inn)
-      alert('Nytt prosjekt lagt til nederst. Rediger tekst og bilde, og last ned HTML når du er ferdig. (For å få det i nedtrekkslisten kan du oppdatere siden.)');
-    });
-
-    const btnDownload = document.createElement('button');
-    btnDownload.textContent = 'last ned html';
-    btnDownload.addEventListener('click', () => {
-      // slå av contenteditable & outline før eksport
-      document.querySelectorAll('.editable-text').forEach(el => {
-        el.removeAttribute('contenteditable');
+  // Bind edit events if in editor mode
+  if (isEditorMode) {
+    detail.querySelectorAll('[data-field]').forEach(el => {
+      el.addEventListener('blur', () => {
+        const field = el.dataset.field;
+        projects[idx][field] = el.textContent.trim();
+        saveData();
+        renderProjects();
       });
-      document.body.classList.remove('editor-active');
-      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-      const blob = new Blob([html], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'index.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      // etter eksport kan vi godt re-aktivere editor i denne sesjonen
-      enableTextEditing();
-      document.body.classList.add('editor-active');
+    });
+  }
+
+  document.getElementById('projectOverlay').classList.add('visible');
+}
+
+// ====================
+// EVENTS
+// ====================
+function bindEvents() {
+  // Info modal
+  document.getElementById('infoBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('infoOverlay').classList.add('visible');
+  });
+
+  document.getElementById('infoClose').addEventListener('click', () => {
+    document.getElementById('infoOverlay').classList.remove('visible');
+  });
+
+  // Project modal close
+  document.getElementById('projectClose').addEventListener('click', () => {
+    document.getElementById('projectOverlay').classList.remove('visible');
+    currentEditingProject = null;
+  });
+
+  // Close modals with Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('infoOverlay').classList.remove('visible');
+      document.getElementById('projectOverlay').classList.remove('visible');
+      currentEditingProject = null;
+    }
+  });
+
+  // Editor buttons
+  document.getElementById('exitEditorBtn').addEventListener('click', exitEditorMode);
+  document.getElementById('saveBtn').addEventListener('click', downloadHTML);
+  document.getElementById('addProjectBtn').addEventListener('click', addNewProject);
+
+  // Image input
+  document.getElementById('imageInput').addEventListener('change', handleImageUpload);
+
+  // Editable text fields
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    el.addEventListener('focus', () => {
+      if (!isEditorMode) return;
+      el.dataset.original = el.textContent;
     });
 
-    actions.appendChild(btnAdd);
-    actions.appendChild(btnDownload);
+    el.addEventListener('blur', () => {
+      if (!isEditorMode) return;
+      saveEditableContent();
+    });
+  });
+}
 
-    const small = document.createElement('div');
-    small.className = 'editor-panel-small';
-    small.textContent = '#edit → login → rediger → last ned → commit til GitHub.';
+// ====================
+// EDITOR
+// ====================
+function enterEditorMode() {
+  isEditorMode = true;
+  document.body.classList.add('editor-mode');
 
-    panel.appendChild(title);
-    panel.appendChild(rowBg);
-    panel.appendChild(rowText);
-    if (projects.length > 0) {
-      panel.appendChild(rowProj);
-      panel.appendChild(rowImg);
-    }
-    panel.appendChild(actions);
-    panel.appendChild(small);
-    document.body.appendChild(panel);
+  // Make text editable
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    el.setAttribute('contenteditable', 'true');
+  });
+
+  // Update URL without reload
+  if (!window.location.hash.includes('edit')) {
+    history.replaceState(null, '', '#edit');
   }
+}
 
-  function startEditor() {
-    enableTextEditing();
-    createEditorPanel();
+function exitEditorMode() {
+  isEditorMode = false;
+  document.body.classList.remove('editor-mode');
+
+  // Remove contenteditable
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    el.removeAttribute('contenteditable');
+  });
+
+  history.replaceState(null, '', window.location.pathname);
+}
+
+function openImagePicker(projectIndex) {
+  const input = document.getElementById('imageInput');
+  input.dataset.projectIndex = projectIndex;
+  input.click();
+}
+
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const idx = parseInt(e.target.dataset.projectIndex);
+
+  // Create object URL for preview
+  const url = URL.createObjectURL(file);
+
+  // For a real implementation, you'd upload to server here
+  // For now, we'll use the filename and assume it goes in img/
+  const filename = 'img/' + file.name;
+
+  // Update project
+  projects[idx].image = url; // Use blob URL for preview
+  projects[idx].gallery[0] = url;
+
+  saveData();
+  renderProjects();
+
+  // Clear input
+  e.target.value = '';
+
+  alert(`Bilde lastet opp: ${file.name}\n\nMerk: For at bildet skal fungere permanent, må du:\n1. Lagre bildefilen i img/-mappen\n2. Oppdatere bildestien i den eksporterte HTML-filen`);
+}
+
+function addNewProject() {
+  const newId = Math.max(...projects.map(p => p.id), 0) + 1;
+
+  projects.push({
+    id: newId,
+    title: "Nytt prosjekt",
+    subtitle: "",
+    meta: "",
+    description: "",
+    image: "img/SQUARE-2-.jpg",
+    gallery: ["img/SQUARE-2-.jpg"]
+  });
+
+  saveData();
+  renderProjects();
+
+  // Open the new project for editing
+  openProjectDetail(projects.length - 1);
+}
+
+function saveData() {
+  localStorage.setItem('av_projects', JSON.stringify(projects));
+}
+
+function saveEditableContent() {
+  // Save editable text content to localStorage
+  const content = {};
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    content[el.dataset.editable] = el.textContent.trim();
+  });
+  localStorage.setItem('av_content', JSON.stringify(content));
+}
+
+function loadEditableContent() {
+  const saved = localStorage.getItem('av_content');
+  if (saved) {
+    try {
+      const content = JSON.parse(saved);
+      Object.keys(content).forEach(key => {
+        const el = document.querySelector(`[data-editable="${key}"]`);
+        if (el) el.textContent = content[key];
+      });
+    } catch (e) {}
   }
+}
 
-  function maybeStartEditor() {
-    const hashEdit = window.location.hash === '#edit';
-    const unlocked = localStorage.getItem('av_editor_unlocked') === '1';
-    if (!hashEdit && !unlocked) return;
-    if (unlocked) {
-      startEditor();
-    } else {
-      createLoginOverlay(startEditor);
-    }
-  }
+function downloadHTML() {
+  // Remove editor attributes before export
+  const clone = document.documentElement.cloneNode(true);
 
-  document.addEventListener('DOMContentLoaded', maybeStartEditor);
-})();
+  // Remove editor-mode class
+  clone.querySelector('body').classList.remove('editor-mode');
+
+  // Remove contenteditable attributes
+  clone.querySelectorAll('[contenteditable]').forEach(el => {
+    el.removeAttribute('contenteditable');
+  });
+
+  // Update project data in script
+  const scriptContent = clone.querySelector('script').textContent;
+  const updatedScript = scriptContent.replace(
+    /const defaultProjects = \[[\s\S]*?\];/,
+    `const defaultProjects = ${JSON.stringify(projects, null, 2)};`
+  );
+  clone.querySelector('script').textContent = updatedScript;
+
+  // Generate HTML
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+
+  // Download
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'index.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Load saved content on init
+loadEditableContent();
 </script>
 
 </body>
