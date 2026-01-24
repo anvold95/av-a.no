@@ -506,6 +506,12 @@ document.addEventListener('DOMContentLoaded', () => {
     'img/9-768x935.jpg'
   ];
 
+  // Preload all images
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+
   let current = 0;
   let isAnimating = false;
   const carouselImage = document.getElementById('carouselImage');
@@ -523,16 +529,11 @@ document.addEventListener('DOMContentLoaded', () => {
       isAnimating = true;
       carouselImage.classList.add('fade');
 
-      // Change image when fully transparent
       setTimeout(() => {
         current = idx;
         carouselImage.src = images[idx];
-        carouselImage.onload = () => {
-          carouselImage.classList.remove('fade');
-          setTimeout(() => {
-            isAnimating = false;
-          }, 250);
-        };
+        carouselImage.classList.remove('fade');
+        setTimeout(() => { isAnimating = false; }, 250);
       }, 250);
     } else {
       current = idx;
