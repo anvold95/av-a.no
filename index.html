@@ -231,15 +231,15 @@ main {
   background: #fff;
   color: #1a1a1a;
   z-index: 500;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
   overflow-y: auto;
+  clip-path: circle(0% at calc(100% - 47px) 39px);
+  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
 }
 
 .info-overlay.visible {
-  opacity: 1;
-  visibility: visible;
+  clip-path: circle(150% at calc(100% - 47px) 39px);
+  pointer-events: auto;
 }
 
 .info-header {
@@ -509,16 +509,17 @@ document.addEventListener('DOMContentLoaded', () => {
       isAnimating = true;
       carouselImage.classList.add('fade');
 
-      // Change image immediately during fade
+      // Change image at exact midpoint when fully transparent
       setTimeout(() => {
         current = idx;
         carouselImage.src = images[idx];
-      }, 100);
-
-      // Remove fade class after transition
-      setTimeout(() => {
-        carouselImage.classList.remove('fade');
-        isAnimating = false;
+        // Wait for image to load, then fade back in
+        carouselImage.onload = () => {
+          carouselImage.classList.remove('fade');
+          setTimeout(() => {
+            isAnimating = false;
+          }, 500);
+        };
       }, 500);
     } else {
       current = idx;
