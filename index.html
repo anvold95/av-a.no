@@ -7,9 +7,13 @@
   <meta name="description" content="Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger.">
   <style>
 :root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-muted: #666666;
+  --color-bg: #fafaf8;
+  --color-text: #2a2a2a;
+  --color-text-secondary: #5a5a5a;
+  --color-text-muted: #8a8a8a;
+  --color-text-light: #b0b0b0;
+  --color-border: #e0e0dc;
+  --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
@@ -26,16 +30,29 @@ html, body {
 body {
   font-family: var(--font-sans);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+
+/* Subtle dot pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: radial-gradient(circle, #c0c0c0 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
 a:hover {
@@ -43,137 +60,370 @@ a:hover {
 }
 
 /* ==================== */
-/* HEADER               */
+/* LANDING LAYOUT       */
 /* ==================== */
-.site-header {
+.landing {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  padding: 24px 32px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 24px 32px;
   z-index: 100;
   pointer-events: none;
 }
 
-.site-header > * {
+.landing-header > * {
   pointer-events: auto;
 }
 
-.site-title {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+.landing-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
 }
 
-.site-nav {
+.landing-nav {
   display: flex;
   gap: 24px;
 }
 
-.site-nav a {
-  font-size: 13px;
-  font-weight: 400;
+.landing-nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
 }
 
 /* ==================== */
-/* MAIN CANVAS          */
+/* HERO AREA            */
 /* ==================== */
-.canvas {
-  min-height: 100vh;
-  padding: 100px 32px 60px;
+.landing-hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  overflow: hidden;
 }
 
-/* ==================== */
-/* PROJECT GRID         */
-/* ==================== */
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+/* Animated blob */
+.hero-blob {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  max-width: 70vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.45;
+  z-index: 0;
+  filter: blur(0.2px);
+  pointer-events: none;
+  animation: blobDrift 22s ease-in-out infinite alternate;
 }
 
-.project {
+.hero-blob path {
+  fill: rgba(186, 210, 202, 0.75);
+}
+
+@keyframes blobDrift {
+  0% { transform: translate(-52%, -48%) scale(1) rotate(0deg); }
+  50% { transform: translate(-48%, -52%) scale(1.05) rotate(2deg); }
+  100% { transform: translate(-51%, -49%) scale(1) rotate(-1deg); }
+}
+
+/* Drawing canvas - fullscreen */
+#heroCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  z-index: 3;
+}
+
+/* Image frame */
+.hero-frame {
   position: relative;
+  max-width: 480px;
+  width: 90vw;
+  aspect-ratio: 1/1;
+  border: 1px solid var(--color-border);
+  background: #f4f4f0;
+  overflow: hidden;
+  z-index: 2;
   cursor: pointer;
-  transition: transform 0.2s ease;
 }
 
-.project:hover {
+.hero-frame-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(0.15);
+  opacity: 0.92;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-frame:hover .hero-frame-bg {
   transform: scale(1.02);
 }
 
-.project img {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  display: block;
-  background: #f0f0f0;
-}
-
-.project-caption {
+.hero-frame-counter {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  bottom: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   color: white;
-  font-size: 12px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  background: rgba(0,0,0,0.4);
+  padding: 4px 8px;
+  border-radius: 2px;
+  z-index: 5;
 }
 
-.project:hover .project-caption {
+.hero-frame-hint {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  padding: 4px 8px;
+  border-radius: 2px;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.hero-frame:hover .hero-frame-hint {
   opacity: 1;
 }
 
 /* ==================== */
 /* FOOTER               */
 /* ==================== */
-.site-footer {
+.landing-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  padding: 24px 32px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 24px 32px;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
   color: var(--color-text-muted);
-  pointer-events: none;
   z-index: 100;
+  pointer-events: none;
 }
 
-.site-footer > * {
+.landing-footer > * {
   pointer-events: auto;
 }
 
-.footer-contact a {
-  display: block;
-  margin-bottom: 4px;
+.landing-tagline {
+  max-width: 320px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
 }
 
-.footer-social {
-  display: flex;
-  gap: 16px;
+.landing-contact {
+  text-align: right;
+}
+
+.landing-contact a {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--color-text-muted);
 }
 
 /* ==================== */
-/* INFO MODAL           */
+/* COLOR PANEL          */
+/* ==================== */
+.color-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(250, 250, 248, 0.96);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 200;
+}
+
+.color-panel.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.color-panel input[type="color"] {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.color-panel input[type="color"]::-webkit-color-swatch {
+  border-radius: 50%;
+  border: none;
+}
+
+/* ==================== */
+/* DRAW MENU (toolbox)  */
+/* ==================== */
+.draw-menu {
+  position: fixed;
+  top: 80px;
+  left: 80px;
+  min-width: 230px;
+  max-width: 280px;
+  padding: 8px 10px 10px;
+  border-radius: 12px;
+  background: rgba(250, 250, 248, 0.97);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  z-index: 300;
+  display: none;
+}
+
+.draw-menu.visible {
+  display: block;
+}
+
+.draw-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  cursor: move;
+}
+
+.draw-menu-title {
+  white-space: nowrap;
+}
+
+.draw-menu-close {
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.draw-menu-close:hover {
+  opacity: 1;
+}
+
+.draw-menu-group {
+  padding: 6px 0;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.draw-menu-label {
+  opacity: 0.7;
+}
+
+.draw-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.draw-menu select,
+.draw-menu input[type="range"],
+.draw-menu input[type="color"] {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.draw-menu input[type="color"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.draw-menu-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.draw-menu button {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: #f6f6f2;
+  cursor: pointer;
+}
+
+.draw-menu button:hover {
+  background: #ecece6;
+}
+
+.draw-menu button.active {
+  background: #2a2a2a;
+  color: #fafaf8;
+}
+
+.draw-menu-small {
+  opacity: 0.55;
+  margin-top: 4px;
+}
+
+/* ==================== */
+/* INFO OVERLAY         */
 /* ==================== */
 .info-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(255,255,255,0.97);
-  z-index: 200;
+  background: rgba(250, 250, 248, 0.98);
+  z-index: 400;
   display: none;
   overflow-y: auto;
   padding: 80px 32px;
@@ -187,9 +437,11 @@ a:hover {
   position: fixed;
   top: 24px;
   right: 32px;
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   cursor: pointer;
-  z-index: 201;
+  z-index: 401;
+  letter-spacing: 0.04em;
 }
 
 .info-content {
@@ -198,10 +450,10 @@ a:hover {
 }
 
 .info-content h1 {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   margin-bottom: 48px;
 }
 
@@ -210,17 +462,19 @@ a:hover {
 }
 
 .info-section h2 {
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 400;
-  text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-text-muted);
+  color: var(--color-text-light);
   margin-bottom: 16px;
+  text-transform: uppercase;
 }
 
 .info-section p {
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.85;
+  color: var(--color-text-secondary);
   margin-bottom: 12px;
 }
 
@@ -228,6 +482,7 @@ a:hover {
   list-style: none;
   font-size: 14px;
   line-height: 2;
+  color: var(--color-text-secondary);
 }
 
 .info-contact-grid {
@@ -237,19 +492,20 @@ a:hover {
 }
 
 .info-contact-block h3 {
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  color: var(--color-text-light);
   margin-bottom: 12px;
 }
 
 .info-contact-block p,
 .info-contact-block a {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.8;
   display: block;
+  color: var(--color-text-secondary);
 }
 
 .info-cert {
@@ -258,7 +514,7 @@ a:hover {
   gap: 16px;
   margin-top: 48px;
   padding-top: 24px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--color-border);
 }
 
 .info-cert img {
@@ -273,315 +529,179 @@ a:hover {
 }
 
 /* ==================== */
-/* PROJECT MODAL        */
-/* ==================== */
-.project-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(255,255,255,0.98);
-  z-index: 200;
-  display: none;
-  overflow-y: auto;
-  padding: 80px 32px;
-}
-
-.project-overlay.visible {
-  display: block;
-}
-
-.project-overlay-close {
-  position: fixed;
-  top: 24px;
-  right: 32px;
-  font-size: 13px;
-  cursor: pointer;
-  z-index: 201;
-}
-
-.project-detail {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.project-detail-header {
-  margin-bottom: 48px;
-}
-
-.project-detail-title {
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 8px;
-}
-
-.project-detail-subtitle {
-  font-size: 14px;
-  color: var(--color-text-muted);
-  font-style: italic;
-  margin-bottom: 4px;
-}
-
-.project-detail-meta {
-  font-size: 12px;
-  color: var(--color-text-muted);
-}
-
-.project-detail-description {
-  font-size: 15px;
-  line-height: 1.8;
-  margin-bottom: 48px;
-  max-width: 600px;
-}
-
-.project-detail-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-}
-
-.project-detail-gallery img {
-  width: 100%;
-  display: block;
-}
-
-/* ==================== */
-/* EDITOR MODE          */
-/* ==================== */
-.editor-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #1a1a1a;
-  color: white;
-  padding: 12px 24px;
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1000;
-  font-size: 12px;
-}
-
-body.editor-mode .editor-bar {
-  display: flex;
-}
-
-body.editor-mode .site-header {
-  top: 48px;
-}
-
-body.editor-mode .canvas {
-  padding-top: 148px;
-}
-
-.editor-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.editor-bar-title {
-  font-weight: 600;
-}
-
-.editor-bar-right {
-  display: flex;
-  gap: 8px;
-}
-
-.editor-btn {
-  padding: 6px 12px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: transparent;
-  color: white;
-  font-size: 11px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-family: inherit;
-}
-
-.editor-btn:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.editor-btn.primary {
-  background: white;
-  color: #1a1a1a;
-  border-color: white;
-}
-
-.editor-btn.primary:hover {
-  background: #e0e0e0;
-}
-
-/* Editor: Editable elements */
-body.editor-mode [data-editable] {
-  outline: 2px dashed transparent;
-  outline-offset: 4px;
-  transition: outline-color 0.15s;
-}
-
-body.editor-mode [data-editable]:hover {
-  outline-color: rgba(0,100,255,0.4);
-}
-
-body.editor-mode [data-editable]:focus {
-  outline-color: rgba(0,100,255,0.8);
-}
-
-/* Editor: Image upload overlay */
-body.editor-mode .project {
-  position: relative;
-}
-
-body.editor-mode .project::after {
-  content: 'Klikk for å endre bilde';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.5);
-  color: white;
-  font-size: 12px;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-
-body.editor-mode .project:hover::after {
-  opacity: 1;
-}
-
-/* Editor: Add project button */
-.add-project-btn {
-  display: none;
-  width: 100%;
-  aspect-ratio: 1/1;
-  border: 2px dashed #ccc;
-  background: transparent;
-  cursor: pointer;
-  font-size: 14px;
-  color: #999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 8px;
-  transition: border-color 0.2s, color 0.2s;
-}
-
-body.editor-mode .add-project-btn {
-  display: flex;
-}
-
-.add-project-btn:hover {
-  border-color: #666;
-  color: #666;
-}
-
-.add-project-btn span {
-  font-size: 32px;
-  line-height: 1;
-}
-
-/* Hidden file input */
-.hidden-input {
-  display: none;
-}
-
-/* ==================== */
 /* RESPONSIVE           */
 /* ==================== */
 @media (max-width: 768px) {
-  .site-header,
-  .site-footer {
+  .landing-header,
+  .landing-footer {
     padding: 20px 20px;
   }
 
-  .canvas {
-    padding: 80px 20px 100px;
+  .hero-frame {
+    max-width: 85vw;
   }
 
-  .projects {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .hero-blob {
+    width: 380px;
+    height: 380px;
+  }
+
+  .landing-tagline {
+    max-width: 200px;
+    font-size: 11px;
   }
 
   .info-contact-grid {
     grid-template-columns: 1fr;
   }
+}
 
-  .site-title {
-    font-size: 12px;
+@media (max-width: 500px) {
+  .landing-header {
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .site-nav a {
-    font-size: 12px;
+  .landing-footer {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .landing-contact {
+    text-align: left;
+  }
+
+  .hero-blob {
+    width: 300px;
+    height: 300px;
   }
 }
   </style>
 </head>
 <body>
 
-<!-- Editor Bar (hidden by default) -->
-<div class="editor-bar">
-  <div class="editor-bar-left">
-    <span class="editor-bar-title">Editor</span>
-    <span>Klikk på tekst for å redigere, bilder for å bytte</span>
-  </div>
-  <div class="editor-bar-right">
-    <button class="editor-btn" id="addProjectBtn">+ Prosjekt</button>
-    <button class="editor-btn" id="exitEditorBtn">Avslutt</button>
-    <button class="editor-btn primary" id="saveBtn">Lagre HTML</button>
-  </div>
-</div>
-
 <!-- Header -->
-<header class="site-header">
-  <div class="site-title" data-editable="title">A. VOLD ARKITEKTUR</div>
-  <nav class="site-nav">
+<header class="landing-header">
+  <div class="landing-title">A. VOLD ARKITEKTUR</div>
+  <nav class="landing-nav">
+    <a href="projects.html">Prosjekter</a>
     <a href="#" id="infoBtn">Info</a>
   </nav>
 </header>
 
-<!-- Main Content -->
-<main class="canvas">
-  <div class="projects" id="projectsGrid">
-    <!-- Projects injected by JS -->
-  </div>
-</main>
+<!-- Hero -->
+<div class="landing-hero">
+  <!-- Animated blob -->
+  <svg class="hero-blob" viewBox="0 0 400 400" aria-hidden="true">
+    <path d="M76,136 C116,52 220,36 292,76 C349,108 366,182 340,242 C311,309 239,338 176,330 C119,323 68,290 50,244 C33,200 45,170 76,136 Z" />
+  </svg>
+
+  <!-- Drawing canvas -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Image frame -->
+  <a href="projects.html" class="hero-frame" id="heroFrame">
+    <div class="hero-frame-bg" id="heroFrameBg"></div>
+    <div class="hero-frame-counter" id="heroCounter">1 / 18</div>
+    <div class="hero-frame-hint">se prosjekter →</div>
+  </a>
+</div>
 
 <!-- Footer -->
-<footer class="site-footer">
-  <div class="footer-contact">
-    <a href="mailto:post@av-a.no" data-editable="email">post@av-a.no</a>
-    <a href="tel:+4741165450" data-editable="phone">+47 411 65 450</a>
-  </div>
-  <div class="footer-social">
-    <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
-    <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
+<footer class="landing-footer">
+  <div class="landing-tagline">Transformasjon, restaurering og gjenbruk av eksisterende bygninger</div>
+  <div class="landing-contact">
+    <a href="mailto:post@av-a.no">post@av-a.no</a>
+    <a href="tel:+4741165450">+47 411 65 450</a>
   </div>
 </footer>
 
-<!-- Info Modal -->
+<!-- Color panel (cheat: COLOR) -->
+<div class="color-panel" id="colorPanel">
+  <span>color</span>
+  <input type="color" id="colorPicker" value="#111111">
+</div>
+
+<!-- Draw menu (right-click toolbox) -->
+<div class="draw-menu" id="drawMenu">
+  <div class="draw-menu-header" id="drawMenuHeader">
+    <div class="draw-menu-title">a. vold · tools</div>
+    <button class="draw-menu-close" id="drawMenuClose" aria-label="close">×</button>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">presets</div>
+    <div class="draw-menu-button-row">
+      <button type="button" id="presetHairline">hairline</button>
+      <button type="button" id="presetAnnotation">annotation</button>
+      <button type="button" id="presetMarker">marker</button>
+      <button type="button" id="presetCharcoal">charcoal</button>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">stroke</div>
+    <div class="draw-menu-row">
+      <select id="strokeStyleSelect">
+        <option value="solid">solid</option>
+        <option value="dashed">dashed</option>
+        <option value="dotted">dotted</option>
+        <option value="dashdot">dash-dot</option>
+        <option value="fine">fine</option>
+      </select>
+      <input type="range" id="strokeWidthRange" min="1" max="24" value="4">
+      <span id="strokeWidthValue">4px</span>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">color</div>
+    <div class="draw-menu-row">
+      <input type="color" id="menuColorPicker" value="#111111">
+    </div>
+    <div class="draw-menu-button-row">
+      <button type="button" id="randomColorBtn">random</button>
+      <button type="button" id="clearCanvasBtn">clear</button>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-label">eraser</div>
+    <div class="draw-menu-row">
+      <button type="button" id="eraserToggleBtn">eraser</button>
+      <input type="range" id="eraserSizeRange" min="4" max="40" value="12">
+      <span id="eraserSizeValue">12px</span>
+    </div>
+  </div>
+
+  <div class="draw-menu-group">
+    <div class="draw-menu-small">
+      right-click anywhere to reposition · long-press on touch to draw
+    </div>
+  </div>
+</div>
+
+<!-- Info overlay -->
 <div class="info-overlay" id="infoOverlay">
   <div class="info-close" id="infoClose">Lukk</div>
   <div class="info-content">
-    <h1 data-editable="info-title">A. Vold Arkitektur</h1>
+    <h1>A. Vold Arkitektur</h1>
 
     <div class="info-section">
       <h2>Om</h2>
-      <p data-editable="about-1">Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse.</p>
-      <p data-editable="about-2">Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes.</p>
+      <p>Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse.</p>
+      <p>Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes.</p>
     </div>
 
     <div class="info-section">
       <h2>Tjenester</h2>
       <ul>
-        <li data-editable="service-1">Transformasjon og rehabilitering</li>
-        <li data-editable="service-2">Restaurering i bevaringsverdige miljøer</li>
-        <li data-editable="service-3">Oppmåling og digital modellering</li>
-        <li data-editable="service-4">Byggesøknader og myndighetsdialog</li>
-        <li data-editable="service-5">Visualisering og tidligfasestudier</li>
+        <li>Transformasjon og rehabilitering</li>
+        <li>Restaurering i bevaringsverdige miljøer</li>
+        <li>Oppmåling og digital modellering</li>
+        <li>Byggesøknader og myndighetsdialog</li>
+        <li>Visualisering og tidligfasestudier</li>
       </ul>
     </div>
 
@@ -590,15 +710,15 @@ body.editor-mode .add-project-btn {
       <div class="info-contact-grid">
         <div class="info-contact-block">
           <h3>Norge</h3>
-          <p data-editable="addr-no-1">Brennbakkvegen 19A</p>
-          <p data-editable="addr-no-2">2318 Hamar</p>
-          <a href="tel:+4741165450" data-editable="tel-no">+47 411 65 450</a>
+          <p>Brennbakkvegen 19A</p>
+          <p>2318 Hamar</p>
+          <a href="tel:+4741165450">+47 411 65 450</a>
         </div>
         <div class="info-contact-block">
           <h3>Danmark</h3>
-          <p data-editable="addr-dk-1">Frejasgade 2, 3.tv</p>
-          <p data-editable="addr-dk-2">2200 København N</p>
-          <a href="tel:+4522883055" data-editable="tel-dk">+45 22 88 30 55</a>
+          <p>Frejasgade 2, 3.tv</p>
+          <p>2200 København N</p>
+          <a href="tel:+4522883055">+45 22 88 30 55</a>
         </div>
       </div>
     </div>
@@ -610,370 +730,398 @@ body.editor-mode .add-project-btn {
   </div>
 </div>
 
-<!-- Project Detail Modal -->
-<div class="project-overlay" id="projectOverlay">
-  <div class="project-overlay-close" id="projectClose">Lukk</div>
-  <div class="project-detail" id="projectDetail">
-    <!-- Injected by JS -->
-  </div>
-</div>
-
-<!-- Hidden file input for image upload -->
-<input type="file" accept="image/*" class="hidden-input" id="imageInput">
-
 <script>
-// ====================
-// DATA
-// ====================
-const defaultProjects = [
-  {
-    id: 1,
-    title: "Suburban City Center – Rågsved",
-    subtitle: "Reinterpreting the Periphery",
-    meta: "Masteroppgave, 2023",
-    description: "Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.",
-    image: "img/SQUARE-2-.jpg",
-    gallery: ["img/SQUARE-2-.jpg", "img/SQUARE2.jpg", "img/SQUARE5.jpg"]
-  },
-  {
-    id: 2,
-    title: "Skjønsbergvegen 14",
-    subtitle: "Shifts in Structure",
-    meta: "Privatoppdrag, 2024",
-    description: "Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.",
-    image: "img/SQUARE11.jpg",
-    gallery: ["img/SQUARE11.jpg", "img/SQUARE10.jpg"]
-  },
-  {
-    id: 3,
-    title: "Remaking Hauberg",
-    subtitle: "Royal Academy",
-    meta: "Akademisk arbeid, 2022",
-    description: "1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.",
-    image: "img/Haubarg03 (1).jpg",
-    gallery: ["img/Haubarg03 (1).jpg"]
-  },
-  {
-    id: 4,
-    title: "Material Practice",
-    subtitle: "Dæmpegård Skovriddergård",
-    meta: "Akademisk arbeid, 2022",
-    description: "Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.",
-    image: "img/SQUARE49.jpg",
-    gallery: ["img/SQUARE49.jpg", "img/SQUARE48.jpg"]
-  },
-  {
-    id: 5,
-    title: "Recasting the Void",
-    subtitle: "Østerbrogade 146",
-    meta: "Akademisk arbeid, 2021",
-    description: "Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.",
-    image: "img/SQUARE19.jpg",
-    gallery: ["img/SQUARE19.jpg", "img/SQUARE18.jpg", "img/SQUARE21.jpg"]
-  },
-  {
-    id: 6,
-    title: "Transformasjon",
-    subtitle: "Studioprosjekt",
-    meta: "2023",
-    description: "",
-    image: "img/SQUARE50.jpg",
-    gallery: ["img/SQUARE50.jpg"]
-  }
-];
-
-let projects = [...defaultProjects];
-let isEditorMode = false;
-let currentEditingProject = null;
-
-// ====================
-// INIT
-// ====================
 document.addEventListener('DOMContentLoaded', () => {
-  // Load saved data
-  const saved = localStorage.getItem('av_projects');
-  if (saved) {
-    try {
-      projects = JSON.parse(saved);
-    } catch (e) {}
+  const canvas = document.getElementById('heroCanvas');
+  const heroFrame = document.getElementById('heroFrame');
+  const heroFrameBg = document.getElementById('heroFrameBg');
+  const heroCounter = document.getElementById('heroCounter');
+  const colorPanel = document.getElementById('colorPanel');
+  const colorPicker = document.getElementById('colorPicker');
+  const drawMenu = document.getElementById('drawMenu');
+  const drawMenuHeader = document.getElementById('drawMenuHeader');
+  const drawMenuClose = document.getElementById('drawMenuClose');
+  const strokeStyleSelect = document.getElementById('strokeStyleSelect');
+  const strokeWidthRange = document.getElementById('strokeWidthRange');
+  const strokeWidthValue = document.getElementById('strokeWidthValue');
+  const menuColorPicker = document.getElementById('menuColorPicker');
+  const randomColorBtn = document.getElementById('randomColorBtn');
+  const clearCanvasBtn = document.getElementById('clearCanvasBtn');
+  const eraserToggleBtn = document.getElementById('eraserToggleBtn');
+  const eraserSizeRange = document.getElementById('eraserSizeRange');
+  const eraserSizeValue = document.getElementById('eraserSizeValue');
+  const presetHairline = document.getElementById('presetHairline');
+  const presetAnnotation = document.getElementById('presetAnnotation');
+  const presetMarker = document.getElementById('presetMarker');
+  const presetCharcoal = document.getElementById('presetCharcoal');
+  const infoBtn = document.getElementById('infoBtn');
+  const infoOverlay = document.getElementById('infoOverlay');
+  const infoClose = document.getElementById('infoClose');
+
+  // Image carousel
+  const images = [
+    'img/SQUARE-2-.jpg',
+    'img/SQUARE11.jpg',
+    'img/SQUARE14.jpg',
+    'img/SQUARE18.jpg',
+    'img/SQUARE19.jpg',
+    'img/SQUARE44.jpg',
+    'img/SQUARE49.jpg',
+    'img/SQUARE30.jpg',
+    'img/SQUARE52.jpg',
+    'img/SQUARE58.jpg',
+    'img/SQUARE5.jpg',
+    'img/SQUARE16.jpg',
+    'img/SQUARE37.jpg',
+    'img/SQUARE57.jpg',
+    'img/SQUARE42.jpg',
+    'img/Haubarg03 (1).jpg',
+    'img/9-768x935.jpg',
+    'img/SQUARE41.jpg'
+  ];
+
+  let currentImage = Math.floor(Math.random() * images.length);
+
+  function showImage(idx) {
+    currentImage = idx;
+    heroFrameBg.style.backgroundImage = `url('${images[idx]}')`;
+    heroCounter.textContent = `${idx + 1} / ${images.length}`;
   }
 
-  // Check for editor mode
-  if (window.location.hash === '#edit' || window.location.search.includes('edit')) {
-    enterEditorMode();
-  }
+  showImage(currentImage);
 
-  renderProjects();
-  bindEvents();
-});
+  // Auto-advance every 6 seconds
+  let autoAdvance = setInterval(() => {
+    showImage((currentImage + 1) % images.length);
+  }, 6000);
 
-// ====================
-// RENDER
-// ====================
-function renderProjects() {
-  const grid = document.getElementById('projectsGrid');
-
-  grid.innerHTML = projects.map((p, idx) => `
-    <div class="project" data-id="${p.id}" data-index="${idx}">
-      <img src="${p.image}" alt="${p.title}">
-      <div class="project-caption">${p.title}</div>
-    </div>
-  `).join('') + `
-    <button class="add-project-btn" id="addProjectCard">
-      <span>+</span>
-      Legg til prosjekt
-    </button>
-  `;
-
-  // Rebind project click events
-  grid.querySelectorAll('.project').forEach(el => {
-    el.addEventListener('click', (e) => {
-      const idx = parseInt(el.dataset.index);
-      if (isEditorMode) {
-        openImagePicker(idx);
-      } else {
-        openProjectDetail(idx);
-      }
-    });
+  // Click on frame to go to projects (but allow drawing)
+  let frameClickStart = null;
+  heroFrame.addEventListener('mousedown', (e) => {
+    frameClickStart = { x: e.clientX, y: e.clientY, time: Date.now() };
   });
 
-  // Add project button
-  const addBtn = document.getElementById('addProjectCard');
-  if (addBtn) {
-    addBtn.addEventListener('click', addNewProject);
+  heroFrame.addEventListener('mouseup', (e) => {
+    if (!frameClickStart) return;
+    const dx = Math.abs(e.clientX - frameClickStart.x);
+    const dy = Math.abs(e.clientY - frameClickStart.y);
+    const dt = Date.now() - frameClickStart.time;
+    // If it was a quick click with no movement, navigate
+    if (dx < 5 && dy < 5 && dt < 300) {
+      // Let the link work naturally
+    }
+    frameClickStart = null;
+  });
+
+  // Pause auto-advance on hover
+  heroFrame.addEventListener('mouseenter', () => clearInterval(autoAdvance));
+  heroFrame.addEventListener('mouseleave', () => {
+    autoAdvance = setInterval(() => {
+      showImage((currentImage + 1) % images.length);
+    }, 6000);
+  });
+
+  // Drawing setup
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+  let lastX = 0;
+  let lastY = 0;
+
+  const palette = ['#1f3b4d', '#3c5a40', '#7a4b3a', '#334155', '#5b4b6a', '#745b40', '#1f4b46'];
+  let currentColor = palette[Math.floor(Math.random() * palette.length)];
+  let isErasing = false;
+  let currentStrokeWidth = 4;
+  let currentEraserSize = 12;
+  let currentLineStyle = 'solid';
+
+  // Touch support
+  let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  let touchStartTime = 0;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const LONG_PRESS_MS = 260;
+  const MOVE_TOLERANCE = 8;
+  let longPressActivated = false;
+
+  function applyStrokeStyle() {
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    const width = isErasing ? currentEraserSize : currentStrokeWidth;
+    ctx.lineWidth = width;
+    ctx.globalCompositeOperation = isErasing ? 'destination-out' : 'source-over';
+
+    if (!isErasing) {
+      ctx.strokeStyle = currentColor;
+      if (currentLineStyle === 'solid') ctx.setLineDash([]);
+      else if (currentLineStyle === 'dashed') ctx.setLineDash([12, 8]);
+      else if (currentLineStyle === 'dotted') ctx.setLineDash([2, 6]);
+      else if (currentLineStyle === 'dashdot') ctx.setLineDash([10, 6, 2, 6]);
+      else if (currentLineStyle === 'fine') ctx.setLineDash([1, 5]);
+    } else {
+      ctx.setLineDash([]);
+    }
   }
-}
 
-function openProjectDetail(idx) {
-  const p = projects[idx];
-  if (!p) return;
-
-  const detail = document.getElementById('projectDetail');
-  detail.innerHTML = `
-    <div class="project-detail-header">
-      <h1 class="project-detail-title" ${isEditorMode ? 'contenteditable="true" data-field="title"' : ''}>${p.title}</h1>
-      <div class="project-detail-subtitle" ${isEditorMode ? 'contenteditable="true" data-field="subtitle"' : ''}>${p.subtitle || ''}</div>
-      <div class="project-detail-meta" ${isEditorMode ? 'contenteditable="true" data-field="meta"' : ''}>${p.meta || ''}</div>
-    </div>
-    <p class="project-detail-description" ${isEditorMode ? 'contenteditable="true" data-field="description"' : ''}>${p.description || ''}</p>
-    <div class="project-detail-gallery">
-      ${p.gallery.map(img => `<img src="${img}" alt="">`).join('')}
-    </div>
-  `;
-
-  currentEditingProject = idx;
-
-  // Bind edit events if in editor mode
-  if (isEditorMode) {
-    detail.querySelectorAll('[data-field]').forEach(el => {
-      el.addEventListener('blur', () => {
-        const field = el.dataset.field;
-        projects[idx][field] = el.textContent.trim();
-        saveData();
-        renderProjects();
-      });
-    });
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    currentStrokeWidth = Math.max(2, Math.round(rect.width * 0.004));
+    strokeWidthRange.value = currentStrokeWidth;
+    strokeWidthValue.textContent = currentStrokeWidth + 'px';
+    currentEraserSize = Math.max(8, Math.round(rect.width * 0.008));
+    eraserSizeRange.value = currentEraserSize;
+    eraserSizeValue.textContent = currentEraserSize + 'px';
+    applyStrokeStyle();
   }
 
-  document.getElementById('projectOverlay').classList.add('visible');
-}
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 
-// ====================
-// EVENTS
-// ====================
-function bindEvents() {
-  // Info modal
-  document.getElementById('infoBtn').addEventListener('click', (e) => {
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    if (e.touches && e.touches[0]) {
+      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+    }
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  function startDraw(pos) {
+    drawing = true;
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function endDraw(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    drawing = false;
+    longPressActivated = false;
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    if (e && e.preventDefault) e.preventDefault();
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  // Mouse events
+  canvas.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
     e.preventDefault();
-    document.getElementById('infoOverlay').classList.add('visible');
+    applyStrokeStyle();
+    startDraw(getPos(e));
   });
 
-  document.getElementById('infoClose').addEventListener('click', () => {
-    document.getElementById('infoOverlay').classList.remove('visible');
+  window.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('mousemove', draw);
+
+  // Touch events (long-press to draw)
+  canvas.addEventListener('touchstart', (e) => {
+    if (!isTouch || e.touches.length !== 1) return;
+    touchStartTime = Date.now();
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    longPressActivated = false;
+    drawing = false;
+  }, { passive: true });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (!isTouch) return;
+    const now = Date.now();
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (!longPressActivated) {
+      if (now - touchStartTime > LONG_PRESS_MS && dist <= MOVE_TOLERANCE) {
+        longPressActivated = true;
+        applyStrokeStyle();
+        startDraw(getPos(e));
+        e.preventDefault();
+      }
+    } else {
+      draw(e);
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', endDraw, { passive: false });
+  canvas.addEventListener('touchcancel', endDraw, { passive: false });
+
+  // Color picker
+  colorPicker.addEventListener('input', (e) => {
+    currentColor = e.target.value;
+    isErasing = false;
+    eraserToggleBtn.classList.remove('active');
+    applyStrokeStyle();
+    menuColorPicker.value = currentColor;
   });
 
-  // Project modal close
-  document.getElementById('projectClose').addEventListener('click', () => {
-    document.getElementById('projectOverlay').classList.remove('visible');
-    currentEditingProject = null;
+  // Stroke controls
+  strokeWidthRange.addEventListener('input', (e) => {
+    currentStrokeWidth = parseInt(e.target.value, 10) || 1;
+    strokeWidthValue.textContent = currentStrokeWidth + 'px';
+    if (!isErasing) applyStrokeStyle();
   });
 
-  // Close modals with Escape
+  strokeStyleSelect.addEventListener('change', (e) => {
+    currentLineStyle = e.target.value;
+    if (!isErasing) applyStrokeStyle();
+  });
+
+  menuColorPicker.addEventListener('input', (e) => {
+    currentColor = e.target.value;
+    isErasing = false;
+    eraserToggleBtn.classList.remove('active');
+    colorPicker.value = currentColor;
+    applyStrokeStyle();
+  });
+
+  function setRandomColor() {
+    currentColor = palette[Math.floor(Math.random() * palette.length)];
+    isErasing = false;
+    eraserToggleBtn.classList.remove('active');
+    colorPicker.value = currentColor;
+    menuColorPicker.value = currentColor;
+    applyStrokeStyle();
+  }
+
+  randomColorBtn.addEventListener('click', setRandomColor);
+  clearCanvasBtn.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
+
+  // Eraser
+  function updateEraserBtn() {
+    if (isErasing) {
+      eraserToggleBtn.classList.add('active');
+      eraserToggleBtn.textContent = 'eraser on';
+    } else {
+      eraserToggleBtn.classList.remove('active');
+      eraserToggleBtn.textContent = 'eraser';
+    }
+  }
+
+  eraserToggleBtn.addEventListener('click', () => {
+    isErasing = !isErasing;
+    updateEraserBtn();
+    applyStrokeStyle();
+  });
+
+  eraserSizeRange.addEventListener('input', (e) => {
+    currentEraserSize = parseInt(e.target.value, 10) || 4;
+    eraserSizeValue.textContent = currentEraserSize + 'px';
+    if (isErasing) applyStrokeStyle();
+  });
+
+  // Presets
+  function applyPreset(name) {
+    isErasing = false;
+    updateEraserBtn();
+    if (name === 'hairline') {
+      currentStrokeWidth = 1; currentLineStyle = 'solid'; currentColor = '#222222';
+    } else if (name === 'annotation') {
+      currentStrokeWidth = 2; currentLineStyle = 'dashed'; currentColor = '#7a4b3a';
+    } else if (name === 'marker') {
+      currentStrokeWidth = 12; currentLineStyle = 'solid'; currentColor = '#c2783b';
+    } else if (name === 'charcoal') {
+      currentStrokeWidth = 6; currentLineStyle = 'dotted'; currentColor = '#111111';
+    }
+    strokeWidthRange.value = currentStrokeWidth;
+    strokeWidthValue.textContent = currentStrokeWidth + 'px';
+    strokeStyleSelect.value = currentLineStyle;
+    colorPicker.value = currentColor;
+    menuColorPicker.value = currentColor;
+    applyStrokeStyle();
+  }
+
+  presetHairline.addEventListener('click', () => applyPreset('hairline'));
+  presetAnnotation.addEventListener('click', () => applyPreset('annotation'));
+  presetMarker.addEventListener('click', () => applyPreset('marker'));
+  presetCharcoal.addEventListener('click', () => applyPreset('charcoal'));
+
+  // Cheat codes
+  let keyBuffer = '';
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-12);
+    }
+    if (keyBuffer.includes('ava')) { setRandomColor(); keyBuffer = ''; }
+    if (keyBuffer.includes('color')) { colorPanel.classList.toggle('visible'); keyBuffer = ''; }
+    if (keyBuffer.includes('erase')) { isErasing = !isErasing; updateEraserBtn(); applyStrokeStyle(); keyBuffer = ''; }
+  });
+
+  // Right-click toolbox
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    const menu = drawMenu;
+    const menuRect = menu.getBoundingClientRect();
+    let x = e.clientX;
+    let y = e.clientY;
+    const padding = 10;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    if (x + menuRect.width + padding > vw) x = vw - menuRect.width - padding;
+    if (y + menuRect.height + padding > vh) y = vh - menuRect.height - padding;
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+    menu.classList.add('visible');
+  });
+
+  drawMenuClose.addEventListener('click', () => drawMenu.classList.remove('visible'));
+
+  // Drag toolbox
+  let draggingMenu = false;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+
+  drawMenuHeader.addEventListener('mousedown', (e) => {
+    draggingMenu = true;
+    const rect = drawMenu.getBoundingClientRect();
+    dragOffsetX = e.clientX - rect.left;
+    dragOffsetY = e.clientY - rect.top;
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!draggingMenu) return;
+    let x = e.clientX - dragOffsetX;
+    let y = e.clientY - dragOffsetY;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const rect = drawMenu.getBoundingClientRect();
+    x = Math.max(4, Math.min(vw - rect.width - 4, x));
+    y = Math.max(4, Math.min(vh - rect.height - 4, y));
+    drawMenu.style.left = x + 'px';
+    drawMenu.style.top = y + 'px';
+  });
+
+  window.addEventListener('mouseup', () => { draggingMenu = false; });
+
+  // Info modal
+  infoBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    infoOverlay.classList.add('visible');
+  });
+
+  infoClose.addEventListener('click', () => infoOverlay.classList.remove('visible'));
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      document.getElementById('infoOverlay').classList.remove('visible');
-      document.getElementById('projectOverlay').classList.remove('visible');
-      currentEditingProject = null;
+      infoOverlay.classList.remove('visible');
+      drawMenu.classList.remove('visible');
     }
   });
 
-  // Editor buttons
-  document.getElementById('exitEditorBtn').addEventListener('click', exitEditorMode);
-  document.getElementById('saveBtn').addEventListener('click', downloadHTML);
-  document.getElementById('addProjectBtn').addEventListener('click', addNewProject);
-
-  // Image input
-  document.getElementById('imageInput').addEventListener('change', handleImageUpload);
-
-  // Editable text fields
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    el.addEventListener('focus', () => {
-      if (!isEditorMode) return;
-      el.dataset.original = el.textContent;
-    });
-
-    el.addEventListener('blur', () => {
-      if (!isEditorMode) return;
-      saveEditableContent();
-    });
-  });
-}
-
-// ====================
-// EDITOR
-// ====================
-function enterEditorMode() {
-  isEditorMode = true;
-  document.body.classList.add('editor-mode');
-
-  // Make text editable
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    el.setAttribute('contenteditable', 'true');
-  });
-
-  // Update URL without reload
-  if (!window.location.hash.includes('edit')) {
-    history.replaceState(null, '', '#edit');
-  }
-}
-
-function exitEditorMode() {
-  isEditorMode = false;
-  document.body.classList.remove('editor-mode');
-
-  // Remove contenteditable
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    el.removeAttribute('contenteditable');
-  });
-
-  history.replaceState(null, '', window.location.pathname);
-}
-
-function openImagePicker(projectIndex) {
-  const input = document.getElementById('imageInput');
-  input.dataset.projectIndex = projectIndex;
-  input.click();
-}
-
-function handleImageUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const idx = parseInt(e.target.dataset.projectIndex);
-
-  // Create object URL for preview
-  const url = URL.createObjectURL(file);
-
-  // For a real implementation, you'd upload to server here
-  // For now, we'll use the filename and assume it goes in img/
-  const filename = 'img/' + file.name;
-
-  // Update project
-  projects[idx].image = url; // Use blob URL for preview
-  projects[idx].gallery[0] = url;
-
-  saveData();
-  renderProjects();
-
-  // Clear input
-  e.target.value = '';
-
-  alert(`Bilde lastet opp: ${file.name}\n\nMerk: For at bildet skal fungere permanent, må du:\n1. Lagre bildefilen i img/-mappen\n2. Oppdatere bildestien i den eksporterte HTML-filen`);
-}
-
-function addNewProject() {
-  const newId = Math.max(...projects.map(p => p.id), 0) + 1;
-
-  projects.push({
-    id: newId,
-    title: "Nytt prosjekt",
-    subtitle: "",
-    meta: "",
-    description: "",
-    image: "img/SQUARE-2-.jpg",
-    gallery: ["img/SQUARE-2-.jpg"]
-  });
-
-  saveData();
-  renderProjects();
-
-  // Open the new project for editing
-  openProjectDetail(projects.length - 1);
-}
-
-function saveData() {
-  localStorage.setItem('av_projects', JSON.stringify(projects));
-}
-
-function saveEditableContent() {
-  // Save editable text content to localStorage
-  const content = {};
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    content[el.dataset.editable] = el.textContent.trim();
-  });
-  localStorage.setItem('av_content', JSON.stringify(content));
-}
-
-function loadEditableContent() {
-  const saved = localStorage.getItem('av_content');
-  if (saved) {
-    try {
-      const content = JSON.parse(saved);
-      Object.keys(content).forEach(key => {
-        const el = document.querySelector(`[data-editable="${key}"]`);
-        if (el) el.textContent = content[key];
-      });
-    } catch (e) {}
-  }
-}
-
-function downloadHTML() {
-  // Remove editor attributes before export
-  const clone = document.documentElement.cloneNode(true);
-
-  // Remove editor-mode class
-  clone.querySelector('body').classList.remove('editor-mode');
-
-  // Remove contenteditable attributes
-  clone.querySelectorAll('[contenteditable]').forEach(el => {
-    el.removeAttribute('contenteditable');
-  });
-
-  // Update project data in script
-  const scriptContent = clone.querySelector('script').textContent;
-  const updatedScript = scriptContent.replace(
-    /const defaultProjects = \[[\s\S]*?\];/,
-    `const defaultProjects = ${JSON.stringify(projects, null, 2)};`
-  );
-  clone.querySelector('script').textContent = updatedScript;
-
-  // Generate HTML
-  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
-
-  // Download
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'index.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-// Load saved content on init
-loadEditableContent();
+  // Init
+  updateEraserBtn();
+  colorPicker.value = currentColor;
+  menuColorPicker.value = currentColor;
+});
 </script>
 
 </body>
