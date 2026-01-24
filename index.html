@@ -46,7 +46,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  padding: 28px 36px;
+  padding: 32px 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -54,10 +54,16 @@ header {
 }
 
 .logo {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  transition: color 0.3s ease;
+  cursor: default;
+}
+
+.logo:hover {
+  color: #000;
 }
 
 /* Info button with flip effect */
@@ -68,16 +74,17 @@ header {
 
 .info-btn-inner {
   display: inline-block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
   transform-style: preserve-3d;
 }
 
 .info-btn:hover .info-btn-inner {
   transform: rotateX(360deg);
+  color: #000;
 }
 
 /* Main content */
@@ -87,25 +94,33 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 120px 24px 80px;
+  padding: 140px 24px 100px;
   text-align: center;
 }
 
 .title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
+  transition: color 0.3s ease;
+  cursor: default;
+}
+
+.title:hover {
+  color: #000;
 }
 
 /* Carousel */
 .carousel {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
   aspect-ratio: 1/1;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .carousel-image {
@@ -113,20 +128,26 @@ main {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* Vignette effect */
+.carousel-image.fade-out {
+  opacity: 0;
+  transform: scale(1.02);
+}
+
+/* Vignette effect - circular frame */
 .carousel::after {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -50%;
   pointer-events: none;
-  box-shadow: inset 0 0 80px 40px #7d7a2e;
+  background: radial-gradient(circle at center, transparent 25%, #7d7a2e 55%);
   transition: opacity 0.5s ease;
 }
 
 .carousel:hover::after {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .carousel-nav {
@@ -136,6 +157,7 @@ main {
   right: 0;
   bottom: 0;
   display: flex;
+  z-index: 5;
 }
 
 .carousel-prev,
@@ -155,43 +177,47 @@ main {
 
 .carousel-prev {
   justify-content: flex-start;
-  padding-left: 16px;
+  padding-left: 24px;
 }
 
 .carousel-next {
   justify-content: flex-end;
-  padding-right: 16px;
+  padding-right: 24px;
 }
 
 .carousel-prev span,
 .carousel-next span {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 300;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  transition: transform 0.2s;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  transition: transform 0.2s, color 0.3s;
+}
+
+.carousel-prev:hover span,
+.carousel-next:hover span {
+  color: #000;
 }
 
 .carousel-prev:hover span {
-  transform: translateX(-4px);
+  transform: translateX(-6px);
 }
 
 .carousel-next:hover span {
-  transform: translateX(4px);
+  transform: translateX(6px);
 }
-
 
 /* Contact */
 .contact {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .contact a {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 /* Info Overlay */
@@ -217,7 +243,7 @@ main {
   top: 0;
   left: 0;
   right: 0;
-  padding: 28px 36px;
+  padding: 32px 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -229,8 +255,12 @@ main {
   color: #1a1a1a;
 }
 
+.info-header .logo:hover {
+  color: #7d7a2e;
+}
+
 .info-close {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -244,19 +274,19 @@ main {
 }
 
 .info-content {
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 120px 36px 80px;
+  padding: 130px 40px 100px;
 }
 
 .info-content h2 {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #888;
-  margin-top: 48px;
-  margin-bottom: 16px;
+  margin-top: 56px;
+  margin-bottom: 20px;
 }
 
 .info-content h2:first-child {
@@ -264,39 +294,39 @@ main {
 }
 
 .info-content p {
-  font-size: 15px;
-  line-height: 1.8;
-  margin-bottom: 12px;
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 14px;
   color: #333;
 }
 
 .info-content ul {
   list-style: none;
-  font-size: 15px;
-  line-height: 2;
+  font-size: 16px;
+  line-height: 2.1;
   color: #333;
 }
 
 .info-contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  margin-top: 12px;
+  gap: 36px;
+  margin-top: 16px;
 }
 
 .info-contact-block h3 {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #888;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .info-contact-block p,
 .info-contact-block a {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 15px;
+  line-height: 1.85;
   display: block;
   color: #333;
 }
@@ -312,21 +342,21 @@ main {
 .info-cert {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-top: 48px;
-  padding-top: 32px;
+  gap: 24px;
+  margin-top: 56px;
+  padding-top: 36px;
   border-top: 1px solid #e5e5e5;
 }
 
 .info-cert img {
-  width: 48px;
+  width: 52px;
   height: auto;
 }
 
 .info-cert p {
-  font-size: 13px;
+  font-size: 14px;
   color: #888;
-  line-height: 1.6;
+  line-height: 1.7;
   margin: 0;
 }
 
@@ -334,7 +364,7 @@ main {
 @media (max-width: 600px) {
   header,
   .info-header {
-    padding: 20px 20px;
+    padding: 24px 24px;
   }
 
   .carousel {
@@ -342,7 +372,7 @@ main {
   }
 
   .info-content {
-    padding: 100px 20px 60px;
+    padding: 110px 24px 70px;
   }
 
   .info-contact-grid {
@@ -459,16 +489,35 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   let current = 0;
+  let isAnimating = false;
   const carouselImage = document.getElementById('carouselImage');
+  const carousel = document.getElementById('carousel');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const infoBtn = document.getElementById('infoBtn');
   const infoOverlay = document.getElementById('infoOverlay');
   const infoClose = document.getElementById('infoClose');
 
-  function showImage(idx) {
-    current = idx;
-    carouselImage.src = images[idx];
+  function showImage(idx, animate = true) {
+    if (isAnimating) return;
+
+    if (animate && carouselImage.src) {
+      isAnimating = true;
+      carouselImage.classList.add('fade-out');
+
+      setTimeout(() => {
+        current = idx;
+        carouselImage.src = images[idx];
+        carouselImage.classList.remove('fade-out');
+
+        setTimeout(() => {
+          isAnimating = false;
+        }, 300);
+      }, 300);
+    } else {
+      current = idx;
+      carouselImage.src = images[idx];
+    }
   }
 
   function nextImage() {
@@ -480,12 +529,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize
-  showImage(0);
+  showImage(0, false);
 
   // Navigation
-  nextBtn.addEventListener('click', nextImage);
-  prevBtn.addEventListener('click', prevImage);
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    nextImage();
+  });
+
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    prevImage();
+  });
+
   carouselImage.addEventListener('click', nextImage);
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let isSwiping = false;
+
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    isSwiping = true;
+  }, { passive: true });
+
+  carousel.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  carousel.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    isSwiping = false;
+
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+
+    // Only swipe if horizontal movement is greater than vertical
+    if (Math.abs(deltaX) > 50 && deltaY < 100) {
+      if (deltaX < 0) {
+        nextImage();
+      } else {
+        prevImage();
+      }
+    }
+  }, { passive: true });
 
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
