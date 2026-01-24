@@ -1,0 +1,54 @@
+{
+  "about": {
+    "paragraphs": [
+      "er et arkitektkontor med vekt på transformasjon og restaurering. Vi jobber praktisk med gjenbruk og lokal tilpasning, og prioriterer solid håndverk for varige løsninger.",
+      "Vi tilbyr rådgivning, byggesøknader, mulighetsstudier og skisseprosjekter. Hvert prosjekt handler om å forvalte eksisterende materialer og rom på en måte som styrker helhet og funksjon."
+    ]
+  },
+  "services": [
+    "Rådgivning og mulighetsstudier",
+    "Skisseprosjekt og forprosjekt",
+    "Byggesøknad (PBL/DiBK)",
+    "Ombruk og materialkartlegging",
+    "Byggeledelse og oppfølging"
+  ],
+  "cta": {
+    "href": "mailto:post@av-a.no?subject=Forespørsel%20om%20arkitektbistand"
+  },
+  "instagram": {
+    "profileUrl": "https://www.instagram.com/DITT_BRUKERNAVN/",
+    "postUrl": "https://www.instagram.com/p/C_fTkIOu-nR/",
+    "embedHtml": ""
+  },
+  "projects": [
+    { "src": "img/SQUARE-2-.jpg",  "alt": "Transformasjon 2023",                     "caption": "2023 – Master Thesis, Transformation" },
+    { "src": "img/SQUARE10.jpg",    "alt": "Rehabilitering av etterkrigshus",         "caption": "Rehabilitering og Transformasjon" },
+    { "src": "img/SQUARE18.jpg",    "alt": "Transformasjon og Addisjon av næringslokaler", "caption": "Ombygging" }
+  ],
+  "cert": {
+    "logo": "img/SG_GULL_HVITBOKS.png",
+    "text": "A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).",
+    "link": "https://sgregister.dibk.no/"
+  },
+  "hero": {
+    "images": [
+      { "src": "img/SQUARE-2-.jpg",  "alt": "Transformasjon 2023" },
+      { "src": "img/SQUARE10.jpg",    "alt": "Rehabilitering av etterkrigshus" },
+      { "src": "img/SQUARE18.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE21.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE2.jpg",     "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE50.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE64.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE63.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE67.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE48.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE53.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE43.jpg",    "alt": "Ombygging av næringslokaler" },
+      { "src": "img/SQUARE19.jpg",    "alt": "Ombygging av næringslokaler" }
+    ]
+  },
+  "social": {
+    "linkedin": "#",
+    "instagram": "https://www.instagram.com/DITT_BRUKERNAVN/"
+  }
+}

@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Prosjekter — A. Vold Arkitektur</title>
+  <meta name="description" content="Prosjekter fra A. Vold Arkitektur – transformasjon, restaurering og gjenbruk.">
+  <style>
+:root {
+  --color-bg: #f5f3f0;
+  --color-text: #2a2a2a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-muted: #7a7a7a;
+  --color-text-light: #9a9a9a;
+  --color-border: #ddd9d4;
+  --color-border-light: #e8e4df;
+  --font-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-size-body: 14px;
+  --font-size-project-title: 20px;
+  --blur-factor: 0.15;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* No dot pattern - clean background */
+
+::selection {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.5;
+}
+
+/* ==================== */
+/* HEADER               */
+/* ==================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(250, 250, 248, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  transition: transform 0.35s ease, filter 0.15s ease;
+}
+
+.site-header.hidden {
+  transform: translateY(-100%);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.site-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+}
+
+nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+nav a:hover {
+  opacity: 1;
+  color: var(--color-text);
+}
+
+/* ==================== */
+/* MAIN LAYOUT          */
+/* ==================== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+main {
+  padding: 120px 0 60px;
+}
+
+/* INTRO */
+.intro {
+  max-width: 600px;
+  margin: 0 auto 100px;
+}
+
+.intro p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+
+/* SECTIONS */
+section {
+  margin-bottom: 100px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 50px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-number {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-light);
+  letter-spacing: 0.05em;
+}
+
+.section-title {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+}
+
+/* ==================== */
+/* PROJECTS             */
+/* ==================== */
+.project-list {
+  list-style: none;
+  display: grid;
+  gap: 70px;
+}
+
+.project-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: start;
+}
+
+.project-item:nth-child(even) {
+  direction: rtl;
+}
+
+.project-item:nth-child(even) > * {
+  direction: ltr;
+}
+
+.project-image-wrapper {
+  position: relative;
+}
+
+.project-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.project-image:hover {
+  transform: scale(1.02);
+}
+
+.project-image-caption {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.project-content {
+  padding-top: 10px;
+}
+
+.project-header {
+  margin-bottom: 20px;
+}
+
+.project-title {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-project-title);
+  font-weight: 400;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.project-subtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.project-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-light);
+}
+
+.project-description {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+
+.project-tools {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-light);
+  letter-spacing: 0.02em;
+}
+
+/* ==================== */
+/* APPROACH             */
+/* ==================== */
+.approach-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.approach-intro {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--color-text-secondary);
+}
+
+.approach-list {
+  list-style: none;
+}
+
+.approach-item {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+/* ==================== */
+/* ACADEMIC             */
+/* ==================== */
+.research-list {
+  list-style: none;
+  display: grid;
+  gap: 40px;
+}
+
+.research-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 40px;
+}
+
+.research-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--color-text-light);
+  line-height: 1.8;
+}
+
+.research-title {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.research-description {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+
+/* ==================== */
+/* CONTACT              */
+/* ==================== */
+.contact-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.contact-block h3 {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+  color: var(--color-text-light);
+}
+
+.contact-block p,
+.contact-block a {
+  font-size: 13px;
+  line-height: 1.8;
+  display: block;
+  color: var(--color-text-secondary);
+}
+
+.contact-block ul {
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+.contact-location {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-light);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+.contact-cert {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+.contact-cert img {
+  width: 48px;
+  height: auto;
+}
+
+.contact-cert p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ==================== */
+/* FOOTER               */
+/* ==================== */
+.site-footer {
+  margin-top: 60px;
+  padding: 24px 40px;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-light);
+  transition: filter 0.15s ease;
+}
+
+.footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  color: var(--color-text-muted);
+}
+
+/* ==================== */
+/* EDITOR MODE          */
+/* ==================== */
+body.editor-active .editable-text {
+  outline: 1px dashed rgba(0,0,0,0.2);
+  outline-offset: 2px;
+}
+
+.editor-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(250,250,248,0.97);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  z-index: 9999;
+  max-width: 260px;
+  display: none;
+}
+
+body.editor-active .editor-panel {
+  display: block;
+}
+
+.editor-panel h3 {
+  font-size: 10px;
+  margin-bottom: 6px;
+  text-transform: lowercase;
+}
+
+.editor-panel-row {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editor-panel label {
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.editor-panel input[type="text"] {
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  padding: 3px 6px;
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.editor-panel select {
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  padding: 3px 6px;
+  max-width: 150px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.editor-panel button {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: #f6f6f2;
+  cursor: pointer;
+}
+
+.editor-panel button:hover {
+  background: #ecece6;
+}
+
+.editor-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.editor-panel-small {
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+/* ==================== */
+/* RESPONSIVE           */
+/* ==================== */
+@media (max-width: 900px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .header-inner {
+    padding: 16px 24px;
+  }
+
+  .project-item {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .project-item:nth-child(even) {
+    direction: ltr;
+  }
+
+  .approach-content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .research-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  main {
+    padding: 100px 0 40px;
+  }
+
+  .intro {
+    margin-bottom: 70px;
+  }
+
+  section {
+    margin-bottom: 70px;
+  }
+
+  .project-list {
+    gap: 50px;
+  }
+
+  .project-title {
+    font-size: 18px;
+  }
+
+  .site-footer {
+    padding: 20px 24px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 14px;
+  }
+}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="site-title">A. VOLD ARKITEKTUR</a>
+    <nav>
+      <ul>
+        <li><a href="#about">Om</a></li>
+        <li><a href="#works">Prosjekter</a></li>
+        <li><a href="#approach">Tilnærming</a></li>
+        <li><a href="#academic">Faglig</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main>
+  <div class="container">
+
+    <section id="about" class="intro">
+      <p class="editable-text">A. Vold Arkitektur arbeider med transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse i eksisterende bygningsmasse.</p>
+      <p class="editable-text">Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes, fremfor å starte på nytt.</p>
+    </section>
+
+    <section id="works">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Prosjekter</h2>
+      </div>
+
+      <ul class="project-list">
+        <li class="project-item">
+          <div class="project-image-wrapper">
+            <img src="img/SQUARE-2-.jpg" alt="Suburban City Center – Rågsved" class="project-image">
+            <div class="project-image-caption editable-text">Axonometriske illustrationer</div>
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <div class="project-title editable-text">Suburban City Center – Rågsved</div>
+              <div class="project-subtitle editable-text">Reinterpreting the Periphery</div>
+              <div class="project-meta editable-text">Masteroppgave, 2023</div>
+            </div>
+            <div class="project-description editable-text">
+              Transformasjon av et svensk etterkrigsbysenter. Et studie i modernismens falmede idealer, sosial og økonomisk sårbarhet, og den oversette hverdagsarkitekturen som kritisk speil for samtiden.
+            </div>
+            <div class="project-tools editable-text">Autocad & Rhinocerous 7, 3D-scanner, Vray & Adobe-suite</div>
+          </div>
+        </li>
+
+        <li class="project-item">
+          <div class="project-image-wrapper">
+            <img src="img/SQUARE11.jpg" alt="Skjønsbergvegen 14" class="project-image">
+            <div class="project-image-caption editable-text">Exterior visualisation</div>
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <div class="project-title editable-text">Skjønsbergvegen 14</div>
+              <div class="project-subtitle editable-text">Shifts in Structure</div>
+              <div class="project-meta editable-text">Privatoppdrag, 2024</div>
+            </div>
+            <div class="project-description editable-text">
+              Transformasjon av et etterkrigshus på Hamar. Små forskyvninger i plan og konstruksjon åpner for nye romlige sammenhenger, samtidig som husets opprinnelige karakter og materialitet videreføres.
+            </div>
+            <div class="project-tools editable-text">BIM/Archicad, Rhinocerous 7, Enscape, Vray & Adobe-suite</div>
+          </div>
+        </li>
+
+        <li class="project-item">
+          <div class="project-image-wrapper">
+            <img src="img/Haubarg03 (1).jpg" alt="Remaking Hauberg" class="project-image">
+            <div class="project-image-caption editable-text">Fine carpentry, woodwork and construction</div>
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <div class="project-title editable-text">Remaking Hauberg</div>
+              <div class="project-subtitle editable-text">Royal Academy</div>
+              <div class="project-meta editable-text">Akademisk arbeid, 2022</div>
+            </div>
+            <div class="project-description editable-text">
+              1:1-arbeid med konstruksjon og materialkultur. Prosjektet undersøker hvordan detaljert håndverk kan belyse bygningens logikk, ombrukspotensial og innebygde kunnskap.
+            </div>
+            <div class="project-tools editable-text">Fine carpentry, woodwork and construction</div>
+          </div>
+        </li>
+
+        <li class="project-item">
+          <div class="project-image-wrapper">
+            <img src="img/SQUARE49.jpg" alt="Material Practice – Dæmpegård Skovriddergård" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <div class="project-title editable-text">Material Practice</div>
+              <div class="project-subtitle editable-text">Dæmpegård Skovriddergård</div>
+              <div class="project-meta editable-text">Akademisk arbeid, 2022</div>
+            </div>
+            <div class="project-description editable-text">
+              Restaurering av historisk bindingsverksbygning med fokus på konstruksjonens materialitet og logikk. Prosjektet undersøker hvordan lag av reparasjoner kan forstås og videreutvikles som del av helheten.
+            </div>
+            <div class="project-tools editable-text">Rhinocerous 7 & Autocad, Enscape, Vray & Adobe-suite</div>
+          </div>
+        </li>
+
+        <li class="project-item">
+          <div class="project-image-wrapper">
+            <img src="img/SQUARE19.jpg" alt="Recasting the Void – Østerbrogade 146" class="project-image">
+            <div class="project-image-caption editable-text">Visualisering af det udvendige</div>
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <div class="project-title editable-text">Recasting the Void</div>
+              <div class="project-subtitle editable-text">Østerbrogade 146</div>
+              <div class="project-meta editable-text">Akademisk arbeid, 2021</div>
+            </div>
+            <div class="project-description editable-text">
+              Et additivt prosjekt som utforsker byens negative rom som bærere av dens essens, og hvordan nye boliglag kan innpasses i eksisterende strukturer uten å viske ut det som allerede er der.
+            </div>
+            <div class="project-tools editable-text">Rhinocerous 7, Autocad & Adobe-suite</div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="approach">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Tilnærming</h2>
+      </div>
+
+      <div class="approach-content">
+        <p class="approach-intro editable-text">
+          Arbeidet tar utgangspunkt i en enkel tanke: å bruke det som allerede finnes, både fysisk og kunnskapsmessig, før man legger til noe nytt. Det innebærer en langsom lesning av sted, bygning og materiale – og en nøkternhet i grepet.
+        </p>
+
+        <ul class="approach-list">
+          <li class="approach-item editable-text">Transformasjon og rehabilitering av boliger og næringsbygg</li>
+          <li class="approach-item editable-text">Gjenbruk av materialer og strategier for forlengelse av levetid</li>
+          <li class="approach-item editable-text">Etterkrigsarkitektur og velferdsbygg som kulturarv</li>
+          <li class="approach-item editable-text">Oppmåling, verdianalyse og dokumentasjon</li>
+          <li class="approach-item editable-text">Tett dialog med håndverkere, byggherrer og myndigheter</li>
+          <li class="approach-item editable-text">Prosjektering i Revit og Archicad</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="academic">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Faglig arbeid</h2>
+      </div>
+
+      <ul class="research-list">
+        <li class="research-item">
+          <div class="research-meta">
+            Masteroppgave<br>
+            Det Kongelige Akademi<br>
+            2023
+          </div>
+          <div class="research-content">
+            <div class="research-title editable-text">Suburban City Center – Rågsved. Reinterpreting the Periphery</div>
+            <div class="research-description editable-text">
+              En studie av transformasjon i et svensk etterkrigsbysenter, med fokus på sosial sårbarhet, materialitet og hvordan eksisterende strukturer kan fungere som ramme for nye former for fellesskap.
+            </div>
+          </div>
+        </li>
+
+        <li class="research-item">
+          <div class="research-meta">
+            Pågående<br>
+            faglig utvikling
+          </div>
+          <div class="research-content">
+            <div class="research-title editable-text">Metoder for verdianalyse i eksisterende bygningsmasse</div>
+            <div class="research-description editable-text">
+              Videreføring av arbeidet med å forstå hvordan bevaringsverdi, brukskvalitet og klimahensyn kan vektes sammen i tidligfase. Målet er å utvikle praktiske verktøy som kan brukes i små og mellomstore prosjekter.
+            </div>
+          </div>
+        </li>
+
+        <li class="research-item">
+          <div class="research-meta">
+            Interesser
+          </div>
+          <div class="research-content">
+            <div class="research-title editable-text">Praksis som kunnskapsfelt</div>
+            <div class="research-description editable-text">
+              Langsiktig interesse for hvordan arkitektpraksis kan kobles til kritisk og akademisk refleksjon – særlig innen transformasjon, etterkrigsarkitektur og sirkulær materialbruk.
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Kontakt</h2>
+      </div>
+
+      <div class="contact-content">
+        <div class="contact-block">
+          <h3>Adresse</h3>
+          <p class="editable-text">Frejasgade 2, 3.tv</p>
+          <p class="editable-text">2200 København N</p>
+          <div class="contact-location">Danmark</div>
+          <br>
+          <p class="editable-text">Brennbakkvegen 19A</p>
+          <p class="editable-text">2318 Hamar</p>
+          <div class="contact-location">Norge</div>
+        </div>
+
+        <div class="contact-block">
+          <h3>Kontakt</h3>
+          <a href="mailto:post@av-a.no">post@av-a.no</a>
+          <a href="tel:+4522883055">+45 22 88 30 55</a>
+          <a href="tel:+4741165450">+47 411 65 450</a>
+        </div>
+
+        <div class="contact-block">
+          <h3>Tjenester</h3>
+          <ul>
+            <li class="editable-text">Transformasjon og rehabilitering</li>
+            <li class="editable-text">Restaurering i bevaringsverdige miljøer</li>
+            <li class="editable-text">Oppmåling og digital modellering</li>
+            <li class="editable-text">Byggesøknader og myndighetsdialog</li>
+            <li class="editable-text">Visualisering og tidligfasestudier</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="contact-cert">
+        <img src="img/SG_GULL_HVITBOKS.png" alt="Sentral godkjenning">
+        <p>A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="footer">
+  <div class="footer-inner">
+    <div>© 2025 A. Vold Arkitektur AS</div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/andreas-vold" target="_blank">LinkedIn</a>
+      <a href="https://www.instagram.com/arkitekt_av_a/" target="_blank">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<!-- EDITOR PANEL -->
+<div class="editor-panel">
+  <h3>editor</h3>
+  <div class="editor-panel-row">
+    <label>prosjekt</label>
+    <select id="projectSelect"></select>
+  </div>
+  <div class="editor-panel-row">
+    <label>bilde</label>
+    <input type="text" id="imageInput" placeholder="SQUARE11.jpg">
+  </div>
+  <div class="editor-panel-actions">
+    <button id="addProjectBtn">+ prosjekt</button>
+    <button id="downloadBtn">last ned html</button>
+  </div>
+  <div class="editor-panel-small">#edit → rediger → last ned</div>
+</div>
+
+<script>
+// Header hide on scroll
+const header = document.getElementById('header');
+const footer = document.getElementById('footer');
+let lastScrollY = window.scrollY;
+let lastTime = performance.now();
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > lastScrollY && window.scrollY > 100) {
+    header.classList.add('hidden');
+  } else {
+    header.classList.remove('hidden');
+  }
+  lastScrollY = window.scrollY;
+});
+
+// Motion blur effect on scroll
+function blurOnSpeed() {
+  const now = performance.now();
+  const deltaY = window.scrollY - lastScrollY;
+  const deltaT = now - lastTime;
+  const speed = Math.abs(deltaY) / deltaT;
+  const blur = Math.min(speed * 100 * 0.15, 10);
+
+  header.style.filter = `blur(${blur}px)`;
+  footer.style.filter = `blur(${blur}px)`;
+
+  lastScrollY = window.scrollY;
+  lastTime = now;
+  requestAnimationFrame(blurOnSpeed);
+}
+
+requestAnimationFrame(blurOnSpeed);
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Editor mode
+const EDIT_CODE = 'av-editor';
+
+function enableEditor() {
+  document.body.classList.add('editor-active');
+  document.querySelectorAll('.editable-text').forEach(el => {
+    el.setAttribute('contenteditable', 'true');
+  });
+  setupEditorPanel();
+}
+
+function setupEditorPanel() {
+  const select = document.getElementById('projectSelect');
+  const imageInput = document.getElementById('imageInput');
+  const addBtn = document.getElementById('addProjectBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+
+  const projects = document.querySelectorAll('.project-item');
+  projects.forEach((p, i) => {
+    const title = p.querySelector('.project-title');
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = title ? title.textContent.trim() : `Prosjekt ${i+1}`;
+    select.appendChild(opt);
+  });
+
+  function syncImage() {
+    const idx = parseInt(select.value, 10);
+    const item = projects[idx];
+    if (!item) return;
+    const img = item.querySelector('.project-image');
+    if (!img) return;
+    const src = img.getAttribute('src') || '';
+    const match = src.match(/img\/(.+)$/i);
+    imageInput.value = match ? match[1] : src;
+  }
+
+  select.addEventListener('change', syncImage);
+  syncImage();
+
+  imageInput.addEventListener('change', () => {
+    const idx = parseInt(select.value, 10);
+    const item = projects[idx];
+    if (!item) return;
+    const img = item.querySelector('.project-image');
+    if (!img) return;
+    img.setAttribute('src', 'img/' + imageInput.value.trim());
+  });
+
+  addBtn.addEventListener('click', () => {
+    const list = document.querySelector('.project-list');
+    const last = list.querySelector('.project-item:last-child');
+    if (!list || !last) return;
+    const clone = last.cloneNode(true);
+    clone.querySelector('.project-title').textContent = 'Nytt prosjekt';
+    clone.querySelector('.project-subtitle').textContent = '';
+    clone.querySelector('.project-meta').textContent = '';
+    clone.querySelector('.project-description').textContent = '';
+    const tools = clone.querySelector('.project-tools');
+    if (tools) tools.textContent = '';
+    clone.querySelector('.project-image').setAttribute('src', 'img/SQUARE-2-.jpg');
+    list.appendChild(clone);
+    alert('Nytt prosjekt lagt til. Oppdater siden for å få det i nedtrekkslisten.');
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    document.querySelectorAll('.editable-text').forEach(el => {
+      el.removeAttribute('contenteditable');
+    });
+    document.body.classList.remove('editor-active');
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'projects.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    enableEditor();
+  });
+}
+
+// Check for edit mode - ONLY if #edit is in URL
+if (window.location.hash === '#edit') {
+  if (localStorage.getItem('av_editor_unlocked') === '1') {
+    // Already unlocked, just enable
+    enableEditor();
+  } else {
+    const code = prompt('Skriv inn editor-kode:');
+    if (code === EDIT_CODE) {
+      localStorage.setItem('av_editor_unlocked', '1');
+      enableEditor();
+    }
+  }
+}
+</script>
+
+</body>
+</html>

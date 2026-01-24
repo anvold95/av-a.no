@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>A. Vold Arkitektur</title>
+  <meta name="description" content="Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger.">
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: var(--bg-color, #84764B);
+  color: var(--text-color, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--text-color, #fff);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--hover-color, #000);
+}
+
+/* Layout */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  cursor: default;
+}
+
+.logo:hover {
+  color: var(--hover-color, #000);
+}
+
+/* Info button with flip effect */
+.info-btn {
+  perspective: 400px;
+  cursor: pointer;
+}
+
+.info-btn-inner {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.info-btn:hover .info-btn-inner {
+  transform: rotateX(360deg);
+  color: var(--hover-color, #000);
+}
+
+/* Main content */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 24px 100px;
+  text-align: center;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+  transition: color 0.3s ease;
+  cursor: default;
+}
+
+.title:hover {
+  color: var(--hover-color, #000);
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1/1;
+  margin-bottom: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: border-radius 0.5s ease;
+}
+
+.carousel:hover {
+  border-radius: 0;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+
+.carousel-image.fade {
+  opacity: 0;
+}
+
+/* Vignette effect - circular frame */
+.carousel::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 25%, var(--bg-color, #84764B) 55%);
+  transition: opacity 0.5s ease;
+}
+
+.carousel:hover::after {
+  opacity: 0;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 5;
+}
+
+.carousel-prev,
+.carousel-next {
+  flex: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.carousel:hover .carousel-prev,
+.carousel:hover .carousel-next {
+  opacity: 1;
+}
+
+.carousel-prev {
+  justify-content: flex-start;
+  padding-left: 24px;
+}
+
+.carousel-next {
+  justify-content: flex-end;
+  padding-right: 24px;
+}
+
+.carousel-prev span,
+.carousel-next span {
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--text-color, #fff);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  transition: transform 0.2s, color 0.3s;
+}
+
+.carousel-prev:hover span,
+.carousel-next:hover span {
+  color: var(--hover-color, #000);
+}
+
+.carousel-prev:hover span {
+  transform: translateX(-6px);
+}
+
+.carousel-next:hover span {
+  transform: translateX(6px);
+}
+
+/* Contact */
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact a {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+/* Info Overlay */
+.info-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  color: #1a1a1a;
+  z-index: 500;
+  overflow-y: auto;
+  clip-path: circle(0% at calc(100% - 47px) 39px);
+  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.info-overlay.visible {
+  clip-path: circle(150% at calc(100% - 47px) 39px);
+  pointer-events: auto;
+}
+
+.info-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fff;
+  z-index: 501;
+}
+
+.info-header .logo {
+  color: #1a1a1a;
+}
+
+.info-header .logo:hover {
+  color: #7d7a2e;
+}
+
+.info-close {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.info-close:hover {
+  color: #7d7a2e;
+}
+
+.info-content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 130px 40px 100px;
+}
+
+.info-content h2 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #888;
+  margin-top: 56px;
+  margin-bottom: 20px;
+}
+
+.info-content h2:first-child {
+  margin-top: 0;
+}
+
+.info-content p {
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 14px;
+  color: #333;
+}
+
+.info-content ul {
+  list-style: none;
+  font-size: 16px;
+  line-height: 2.1;
+  color: #333;
+}
+
+.info-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  margin-top: 16px;
+}
+
+.info-contact-block h3 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 14px;
+}
+
+.info-contact-block p,
+.info-contact-block a {
+  font-size: 15px;
+  line-height: 1.85;
+  display: block;
+  color: #333;
+}
+
+.info-contact-block a {
+  transition: color 0.3s;
+}
+
+.info-contact-block a:hover {
+  color: #7d7a2e;
+}
+
+.info-cert {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.info-cert img {
+  width: 52px;
+  height: auto;
+}
+
+.info-cert p {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header,
+  .info-header {
+    padding: 24px 24px;
+  }
+
+  .carousel {
+    max-width: 85vw;
+  }
+
+  .info-content {
+    padding: 110px 24px 70px;
+  }
+
+  .info-contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+</head>
+<body>
+<script>
+// Dieter Rams color palette
+const palette = [
+  { bg: '#84764B', text: '#fff', hover: '#000' },
+  { bg: '#B7B183', text: '#1a1a1a', hover: '#fff' },
+  { bg: '#372E2D', text: '#fff', hover: '#B7B183' },
+  { bg: '#BCB3A6', text: '#1a1a1a', hover: '#fff' },
+  { bg: '#DBD7D3', text: '#1a1a1a', hover: '#84764B' }
+];
+const theme = palette[Math.floor(Math.random() * palette.length)];
+document.documentElement.style.setProperty('--bg-color', theme.bg);
+document.documentElement.style.setProperty('--text-color', theme.text);
+document.documentElement.style.setProperty('--hover-color', theme.hover);
+</script>
+
+<div class="page">
+  <header>
+    <div class="logo">A. Vold Arkitektur AS</div>
+    <div class="info-btn" id="infoBtn">
+      <span class="info-btn-inner">Info</span>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="title">Arkitekt Andreas Vold</h1>
+
+    <div class="carousel" id="carousel">
+      <img class="carousel-image" id="carouselImage" src="" alt="Prosjekt">
+      <div class="carousel-nav">
+        <div class="carousel-prev" id="prevBtn"><span>&larr;</span></div>
+        <div class="carousel-next" id="nextBtn"><span>&rarr;</span></div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <a href="mailto:post@av-a.no">post@av-a.no</a>
+      <a href="tel:+4741165450">+47 411 65 450</a>
+    </div>
+  </main>
+</div>
+
+<!-- Info Overlay -->
+<div class="info-overlay" id="infoOverlay">
+  <div class="info-header">
+    <div class="logo">A. Vold Arkitektur AS</div>
+    <div class="info-close" id="infoClose">Lukk</div>
+  </div>
+
+  <div class="info-content">
+    <h2>Om</h2>
+    <p>Arkitektkontor med fokus på transformasjon, restaurering og gjenbruk av eksisterende bygninger. Arbeidet springer ut fra Kulturarv, Transformation og Restaurering ved Det Kongelige Akademi og erfaring fra prosjektering, byggesak og byggeledelse.</p>
+    <p>Fokuset ligger på hvordan bygninger bærer spor av tid, bruk og konstruksjon – og hvordan nøkterne, presise inngrep kan forlenge livet til det som allerede finnes.</p>
+
+    <h2>Tjenester</h2>
+    <ul>
+      <li>Transformasjon og rehabilitering</li>
+      <li>Restaurering i bevaringsverdige miljøer</li>
+      <li>Oppmåling og digital modellering</li>
+      <li>Byggesøknader og myndighetsdialog</li>
+      <li>Visualisering og tidligfasestudier</li>
+    </ul>
+
+    <h2>Kontakt</h2>
+    <div class="info-contact-grid">
+      <div class="info-contact-block">
+        <h3>Norge</h3>
+        <p>Brennbakkvegen 19A</p>
+        <p>2318 Hamar</p>
+        <a href="tel:+4741165450">+47 411 65 450</a>
+      </div>
+      <div class="info-contact-block">
+        <h3>Danmark</h3>
+        <p>Frejasgade 15, 2.tv</p>
+        <p>2200 København N</p>
+        <a href="tel:+4522883055">+45 22 88 30 55</a>
+      </div>
+    </div>
+
+    <h2>Sentral godkjenning</h2>
+    <div class="info-cert">
+      <img src="img/SG_GULL_HVITBOKS.png" alt="Sentral godkjenning">
+      <p>A. Vold Arkitektur AS er sentralt godkjent foretak etter plan- og bygningsloven (DiBK).</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const images = [
+    'img/SQUARE-2-.jpg',
+    'img/SQUARE2.jpg',
+    'img/SQUARE5.jpg',
+    'img/SQUARE7.jpg',
+    'img/SQUARE10.jpg',
+    'img/SQUARE11.jpg',
+    'img/SQUARE14.jpg',
+    'img/SQUARE16.jpg',
+    'img/SQUARE18.jpg',
+    'img/SQUARE19.jpg',
+    'img/SQUARE21.jpg',
+    'img/SQUARE30.jpg',
+    'img/SQUARE37.jpg',
+    'img/SQUARE41.jpg',
+    'img/SQUARE42.jpg',
+    'img/SQUARE43.jpg',
+    'img/SQUARE44.jpg',
+    'img/SQUARE48.jpg',
+    'img/SQUARE49.jpg',
+    'img/SQUARE50.jpg',
+    'img/SQUARE52.jpg',
+    'img/SQUARE53.jpg',
+    'img/SQUARE57.jpg',
+    'img/SQUARE58.jpg',
+    'img/SQUARE63.jpg',
+    'img/SQUARE64.jpg',
+    'img/SQUARE67.jpg',
+    'img/Haubarg03 (1).jpg',
+    'img/9-768x935.jpg'
+  ];
+
+  // Preload all images
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  let current = 0;
+  let isAnimating = false;
+  const carouselImage = document.getElementById('carouselImage');
+  const carousel = document.getElementById('carousel');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const infoBtn = document.getElementById('infoBtn');
+  const infoOverlay = document.getElementById('infoOverlay');
+  const infoClose = document.getElementById('infoClose');
+
+  function showImage(idx, animate = true) {
+    if (isAnimating) return;
+
+    if (animate && carouselImage.src) {
+      isAnimating = true;
+      carouselImage.classList.add('fade');
+
+      setTimeout(() => {
+        current = idx;
+        carouselImage.src = images[idx];
+        carouselImage.classList.remove('fade');
+        setTimeout(() => { isAnimating = false; }, 250);
+      }, 250);
+    } else {
+      current = idx;
+      carouselImage.src = images[idx];
+    }
+  }
+
+  function nextImage() {
+    showImage((current + 1) % images.length);
+  }
+
+  function prevImage() {
+    showImage((current - 1 + images.length) % images.length);
+  }
+
+  // Initialize
+  showImage(0, false);
+
+  // Navigation
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    nextImage();
+  });
+
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    prevImage();
+  });
+
+  carouselImage.addEventListener('click', nextImage);
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let isSwiping = false;
+
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    isSwiping = true;
+  }, { passive: true });
+
+  carousel.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  carousel.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    isSwiping = false;
+
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+
+    // Only swipe if horizontal movement is greater than vertical
+    if (Math.abs(deltaX) > 50 && deltaY < 100) {
+      if (deltaX < 0) {
+        nextImage();
+      } else {
+        prevImage();
+      }
+    }
+  }, { passive: true });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (infoOverlay.classList.contains('visible')) {
+      if (e.key === 'Escape') infoOverlay.classList.remove('visible');
+      return;
+    }
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  });
+
+  // Info overlay
+  infoBtn.addEventListener('click', () => {
+    infoOverlay.classList.add('visible');
+  });
+
+  infoClose.addEventListener('click', () => {
+    infoOverlay.classList.remove('visible');
+  });
+});
+</script>
+
+</body>
+</html>
