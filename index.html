@@ -685,11 +685,13 @@ document.addEventListener('DOMContentLoaded', () => {
   setShape(shapes.circle);
 
   carousel.addEventListener('mouseenter', () => {
+    if (isAnimating) return; // Don't change shape while image is animating
     setShape(shapes.square);
     carousel.classList.add('is-square');
   });
 
   carousel.addEventListener('mouseleave', () => {
+    if (isAnimating) return; // Don't change shape while image is animating
     carousel.classList.remove('is-square');
     if (shapeState === 'circle') {
       // Was circle, now transition to blob
