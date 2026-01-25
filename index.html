@@ -580,23 +580,53 @@ document.addEventListener('DOMContentLoaded', () => {
     return `polygon(${points.join(', ')})`;
   }
 
-  function generateBlob(seed) {
+  function generateBlob(type) {
     const points = [];
-    // Use seed for reproducible randomness
-    const random = (s) => {
-      const x = Math.sin(s) * 10000;
-      return x - Math.floor(x);
-    };
     for (let i = 0; i < POINTS; i++) {
-      const angle = (i / POINTS) * Math.PI * 2 - Math.PI / 2;
-      // Vary radius between 35% and 50% based on seed and position
-      const noise1 = random(seed + i * 0.1) * 0.15;
-      const noise2 = random(seed * 2 + i * 0.2) * 0.1;
-      const wobble = Math.sin(angle * 3 + seed) * 0.08 + Math.sin(angle * 5 + seed * 2) * 0.05;
-      const radius = 42 + noise1 * 100 + noise2 * 50 + wobble * 50;
+      const t = i / POINTS; // 0 to 1
+      const angle = t * Math.PI * 2 - Math.PI / 2;
+
+      let radius;
+      switch(type) {
+        case 'bean':
+          // Bean shape - gentle indentation on one side
+          radius = 44 + Math.sin(angle * 1 + 0.5) * 6 + Math.sin(angle * 2) * 4 + Math.cos(angle * 1.5) * 3;
+          break;
+        case 'peanut':
+          // Peanut shape - pinched in the middle
+          radius = 38 + Math.abs(Math.sin(angle)) * 12 + Math.sin(angle * 2 + 1) * 3;
+          break;
+        case 'blob1':
+          // Organic blob with gentle waves
+          radius = 42 + Math.sin(angle * 2 + 0.3) * 7 + Math.sin(angle * 3 + 1.2) * 4;
+          break;
+        case 'blob2':
+          // Asymmetric organic shape
+          radius = 40 + Math.sin(angle * 1.5) * 8 + Math.cos(angle * 2.5 + 0.7) * 5;
+          break;
+        case 'droplet':
+          // Teardrop/droplet shape
+          radius = 35 + (1 + Math.cos(angle)) * 8 + Math.sin(angle * 2) * 3;
+          break;
+        case 'cloud':
+          // Cloud-like with bumps
+          radius = 40 + Math.sin(angle * 3) * 5 + Math.sin(angle * 2 + 2) * 6 + Math.cos(angle) * 3;
+          break;
+        case 'amoeba':
+          // Amoeba - irregular but smooth
+          radius = 42 + Math.sin(angle * 2 - 0.5) * 6 + Math.sin(angle * 1.3 + 1) * 5 + Math.cos(angle * 2.7) * 4;
+          break;
+        case 'organic':
+          // Smooth organic shape
+          radius = 44 + Math.sin(angle * 1.8 + 0.8) * 7 + Math.cos(angle * 2.2 + 0.3) * 4;
+          break;
+        default:
+          radius = 45;
+      }
+
       const x = 50 + radius * Math.cos(angle);
       const y = 50 + radius * Math.sin(angle);
-      points.push(`${Math.max(2, Math.min(98, x)).toFixed(1)}% ${Math.max(2, Math.min(98, y)).toFixed(1)}%`);
+      points.push(`${Math.max(3, Math.min(97, x)).toFixed(1)}% ${Math.max(3, Math.min(97, y)).toFixed(1)}%`);
     }
     return `polygon(${points.join(', ')})`;
   }
@@ -605,14 +635,14 @@ document.addEventListener('DOMContentLoaded', () => {
     circle: generateCircle(),
     square: generateSquare(),
     blobs: [
-      generateBlob(1),
-      generateBlob(2.5),
-      generateBlob(4),
-      generateBlob(5.5),
-      generateBlob(7),
-      generateBlob(8.5),
-      generateBlob(10),
-      generateBlob(11.5)
+      generateBlob('bean'),
+      generateBlob('peanut'),
+      generateBlob('blob1'),
+      generateBlob('blob2'),
+      generateBlob('droplet'),
+      generateBlob('cloud'),
+      generateBlob('amoeba'),
+      generateBlob('organic')
     ]
   };
 
