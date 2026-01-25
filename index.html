@@ -789,6 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let touchEndX = 0;
   let isSwiping = false;
   let mobileActiveTimeout = null;
+  let mobileAnimationStartTimeout = null;
 
   carousel.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
@@ -796,12 +797,13 @@ document.addEventListener('DOMContentLoaded', () => {
     touchEndX = touchStartX;
     isSwiping = true;
 
-    // Mobile: become square on touch
+    // Mobile: become square on touch, stop any animation
     if (isMobile) {
+      stopMobileAnimation();
+      if (mobileActiveTimeout) clearTimeout(mobileActiveTimeout);
+      if (mobileAnimationStartTimeout) clearTimeout(mobileAnimationStartTimeout);
       setShape(shapes.square);
       carousel.classList.add('is-square');
-      // Clear any existing timeout
-      if (mobileActiveTimeout) clearTimeout(mobileActiveTimeout);
     }
   }, { passive: true });
 
@@ -826,29 +828,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Mobile: start continuous shape animation after touch
+    // Mobile: stay square, then start animation after a delay
     if (isMobile) {
-      carousel.classList.remove('is-square');
-      startMobileAnimation();
+      // Keep square for 1.5 seconds after release, then start morphing
+      mobileAnimationStartTimeout = setTimeout(() => {
+        carousel.classList.remove('is-square');
+        startMobileAnimation();
+      }, 1500);
 
-      // Stop animation after 8 seconds of inactivity
+      // Stop animation after 10 seconds of inactivity total
+      if (mobileActiveTimeout) clearTimeout(mobileActiveTimeout);
       mobileActiveTimeout = setTimeout(() => {
         stopMobileAnimation();
+        if (mobileAnimationStartTimeout) clearTimeout(mobileAnimationStartTimeout);
         setShape(shapes.circle);
-      }, 8000);
+        carousel.classList.remove('is-square');
+      }, 10000);
     }
   }, { passive: true });
 
-  // Also trigger on tap (click on mobile)
+  // Also trigger on tap (click on mobile) - just reset the timeout
   if (isMobile) {
     carousel.addEventListener('click', () => {
-      // Reset the inactivity timeout
+      // Reset the inactivity timeout to keep animation going
       if (mobileActiveTimeout) clearTimeout(mobileActiveTimeout);
-      startMobileAnimation();
       mobileActiveTimeout = setTimeout(() => {
         stopMobileAnimation();
+        if (mobileAnimationStartTimeout) clearTimeout(mobileAnimationStartTimeout);
         setShape(shapes.circle);
-      }, 8000);
+        carousel.classList.remove('is-square');
+      }, 10000);
     });
   }
 
