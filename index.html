@@ -119,13 +119,43 @@ main {
   max-width: 520px;
   aspect-ratio: 1/1;
   margin-bottom: 48px;
-  border-radius: 50%;
   overflow: hidden;
-  transition: border-radius 0.5s ease;
+  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  clip-path: ellipse(50% 50% at 50% 50%);
 }
 
-.carousel:hover {
-  border-radius: 0;
+.carousel.shape-circle {
+  clip-path: ellipse(50% 50% at 50% 50%);
+}
+
+.carousel.shape-square {
+  clip-path: inset(0% round 0);
+}
+
+/* Abstract blob shapes - organic forms */
+.carousel.shape-blob-1 {
+  clip-path: url(#blob1);
+}
+.carousel.shape-blob-2 {
+  clip-path: url(#blob2);
+}
+.carousel.shape-blob-3 {
+  clip-path: url(#blob3);
+}
+.carousel.shape-blob-4 {
+  clip-path: url(#blob4);
+}
+.carousel.shape-blob-5 {
+  clip-path: url(#blob5);
+}
+.carousel.shape-blob-6 {
+  clip-path: url(#blob6);
+}
+.carousel.shape-blob-7 {
+  clip-path: url(#blob7);
+}
+.carousel.shape-blob-8 {
+  clip-path: url(#blob8);
 }
 
 .carousel-image {
@@ -140,7 +170,7 @@ main {
   opacity: 0;
 }
 
-/* Vignette effect - circular frame */
+/* Vignette effect - for circle/blob shapes */
 .carousel::after {
   content: '';
   position: absolute;
@@ -148,9 +178,10 @@ main {
   pointer-events: none;
   background: radial-gradient(circle at center, transparent 25%, var(--bg-color, #84764B) 55%);
   transition: opacity 0.5s ease;
+  opacity: 1;
 }
 
-.carousel:hover::after {
+.carousel.shape-square::after {
   opacity: 0;
 }
 
@@ -366,6 +397,20 @@ main {
 
 /* Responsive */
 @media (max-width: 600px) {
+  /* Prevent scroll on landing page */
+  html, body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  .page {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
   header,
   .info-header {
     padding: 24px 24px;
@@ -382,10 +427,59 @@ main {
   .info-contact-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Info overlay should still scroll */
+  .info-overlay {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* When info is open, allow its scroll */
+  body.info-open {
+    overflow: hidden;
+  }
 }
   </style>
 </head>
 <body>
+<!-- SVG Blob Definitions -->
+<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <!-- Blob 1 - rounded peanut shape (horizontal) -->
+    <clipPath id="blob1" clipPathUnits="objectBoundingBox">
+      <path d="M0.15,0.35 C0.05,0.4 0.02,0.55 0.08,0.65 C0.15,0.78 0.3,0.8 0.45,0.75 C0.55,0.72 0.65,0.78 0.75,0.72 C0.88,0.65 0.95,0.5 0.9,0.38 C0.85,0.25 0.7,0.2 0.55,0.25 C0.4,0.3 0.25,0.22 0.15,0.35 Z"/>
+    </clipPath>
+    <!-- Blob 2 - tall organic shape -->
+    <clipPath id="blob2" clipPathUnits="objectBoundingBox">
+      <path d="M0.3,0.05 C0.15,0.1 0.1,0.25 0.12,0.4 C0.08,0.55 0.15,0.75 0.25,0.85 C0.35,0.95 0.55,0.98 0.68,0.9 C0.8,0.82 0.88,0.65 0.85,0.45 C0.9,0.3 0.82,0.15 0.65,0.08 C0.5,0.02 0.4,0.02 0.3,0.05 Z"/>
+    </clipPath>
+    <!-- Blob 3 - wide blob -->
+    <clipPath id="blob3" clipPathUnits="objectBoundingBox">
+      <path d="M0.1,0.45 C0.05,0.35 0.12,0.22 0.25,0.2 C0.4,0.15 0.5,0.18 0.65,0.15 C0.8,0.12 0.92,0.25 0.95,0.4 C0.98,0.55 0.9,0.7 0.75,0.78 C0.6,0.85 0.45,0.88 0.3,0.82 C0.15,0.75 0.08,0.6 0.1,0.45 Z"/>
+    </clipPath>
+    <!-- Blob 4 - rounded rectangle-ish -->
+    <clipPath id="blob4" clipPathUnits="objectBoundingBox">
+      <path d="M0.12,0.25 C0.08,0.35 0.1,0.55 0.15,0.68 C0.2,0.8 0.35,0.88 0.5,0.88 C0.65,0.88 0.8,0.82 0.88,0.68 C0.95,0.55 0.95,0.38 0.88,0.25 C0.8,0.12 0.65,0.08 0.5,0.1 C0.35,0.12 0.18,0.15 0.12,0.25 Z"/>
+    </clipPath>
+    <!-- Blob 5 - peanut vertical -->
+    <clipPath id="blob5" clipPathUnits="objectBoundingBox">
+      <path d="M0.35,0.08 C0.2,0.12 0.12,0.25 0.15,0.38 C0.18,0.48 0.12,0.58 0.15,0.7 C0.2,0.85 0.35,0.95 0.5,0.92 C0.65,0.9 0.8,0.8 0.82,0.65 C0.85,0.52 0.78,0.42 0.82,0.3 C0.85,0.18 0.75,0.08 0.58,0.05 C0.45,0.03 0.42,0.05 0.35,0.08 Z"/>
+    </clipPath>
+    <!-- Blob 6 - amoeba shape -->
+    <clipPath id="blob6" clipPathUnits="objectBoundingBox">
+      <path d="M0.2,0.3 C0.08,0.4 0.05,0.6 0.15,0.75 C0.25,0.88 0.45,0.92 0.6,0.85 C0.72,0.8 0.78,0.88 0.88,0.78 C0.95,0.65 0.95,0.45 0.85,0.32 C0.75,0.2 0.6,0.12 0.45,0.15 C0.32,0.18 0.28,0.22 0.2,0.3 Z"/>
+    </clipPath>
+    <!-- Blob 7 - elongated horizontal -->
+    <clipPath id="blob7" clipPathUnits="objectBoundingBox">
+      <path d="M0.05,0.5 C0.05,0.35 0.18,0.25 0.35,0.28 C0.48,0.3 0.55,0.22 0.7,0.25 C0.85,0.28 0.95,0.4 0.95,0.52 C0.95,0.65 0.85,0.78 0.68,0.75 C0.55,0.72 0.48,0.8 0.32,0.78 C0.15,0.75 0.05,0.65 0.05,0.5 Z"/>
+    </clipPath>
+    <!-- Blob 8 - cloud-like -->
+    <clipPath id="blob8" clipPathUnits="objectBoundingBox">
+      <path d="M0.18,0.55 C0.1,0.45 0.15,0.3 0.28,0.25 C0.38,0.2 0.42,0.12 0.55,0.15 C0.68,0.18 0.78,0.12 0.85,0.25 C0.92,0.38 0.95,0.55 0.88,0.68 C0.8,0.82 0.65,0.88 0.5,0.85 C0.35,0.82 0.25,0.88 0.18,0.75 C0.12,0.65 0.15,0.6 0.18,0.55 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
 <script>
 // Dieter Rams color palette
 const palette = [
@@ -522,6 +616,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoOverlay = document.getElementById('infoOverlay');
   const infoClose = document.getElementById('infoClose');
 
+  // Shape cycling logic: circle -> square (hover) -> blob (off) -> square (hover) -> circle (off) -> ...
+  const blobShapes = ['shape-blob-1', 'shape-blob-2', 'shape-blob-3', 'shape-blob-4', 'shape-blob-5', 'shape-blob-6', 'shape-blob-7', 'shape-blob-8'];
+  let shapeState = 'circle'; // 'circle' or 'blob'
+  let isHovering = false;
+
+  function getRandomBlob() {
+    return blobShapes[Math.floor(Math.random() * blobShapes.length)];
+  }
+
+  function clearShapeClasses() {
+    carousel.classList.remove('shape-circle', 'shape-square', ...blobShapes);
+  }
+
+  function setShape(shape) {
+    clearShapeClasses();
+    carousel.classList.add(shape);
+  }
+
+  // Initialize with circle
+  setShape('shape-circle');
+
+  carousel.addEventListener('mouseenter', () => {
+    isHovering = true;
+    setShape('shape-square');
+  });
+
+  carousel.addEventListener('mouseleave', () => {
+    isHovering = false;
+    if (shapeState === 'circle') {
+      // Was circle, now transition to blob
+      setShape(getRandomBlob());
+      shapeState = 'blob';
+    } else {
+      // Was blob, now transition to circle
+      setShape('shape-circle');
+      shapeState = 'circle';
+    }
+  });
+
   function showImage(idx, animate = true) {
     if (isAnimating) return;
 
@@ -612,10 +745,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Info overlay
   infoBtn.addEventListener('click', () => {
     infoOverlay.classList.add('visible');
+    document.body.classList.add('info-open');
   });
 
   infoClose.addEventListener('click', () => {
     infoOverlay.classList.remove('visible');
+    document.body.classList.remove('info-open');
   });
 });
 </script>
