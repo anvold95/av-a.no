@@ -544,27 +544,75 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoClose = document.getElementById('infoClose');
 
   // Shape cycling logic: circle -> square (hover) -> blob (off) -> square (hover) -> circle (off) -> ...
-  // All shapes use 12 points for smooth morphing transitions
+  // Generate shapes with many points for ultra-smooth morphing
+  const POINTS = 120; // Number of points for smooth shapes
+
+  function generateCircle() {
+    const points = [];
+    for (let i = 0; i < POINTS; i++) {
+      const angle = (i / POINTS) * Math.PI * 2 - Math.PI / 2; // Start from top
+      const x = 50 + 50 * Math.cos(angle);
+      const y = 50 + 50 * Math.sin(angle);
+      points.push(`${x.toFixed(1)}% ${y.toFixed(1)}%`);
+    }
+    return `polygon(${points.join(', ')})`;
+  }
+
+  function generateSquare() {
+    const points = [];
+    const perSide = POINTS / 4;
+    // Top edge (left to right)
+    for (let i = 0; i < perSide; i++) {
+      points.push(`${(i / perSide) * 100}% 0%`);
+    }
+    // Right edge (top to bottom)
+    for (let i = 0; i < perSide; i++) {
+      points.push(`100% ${(i / perSide) * 100}%`);
+    }
+    // Bottom edge (right to left)
+    for (let i = 0; i < perSide; i++) {
+      points.push(`${100 - (i / perSide) * 100}% 100%`);
+    }
+    // Left edge (bottom to top)
+    for (let i = 0; i < perSide; i++) {
+      points.push(`0% ${100 - (i / perSide) * 100}%`);
+    }
+    return `polygon(${points.join(', ')})`;
+  }
+
+  function generateBlob(seed) {
+    const points = [];
+    // Use seed for reproducible randomness
+    const random = (s) => {
+      const x = Math.sin(s) * 10000;
+      return x - Math.floor(x);
+    };
+    for (let i = 0; i < POINTS; i++) {
+      const angle = (i / POINTS) * Math.PI * 2 - Math.PI / 2;
+      // Vary radius between 35% and 50% based on seed and position
+      const noise1 = random(seed + i * 0.1) * 0.15;
+      const noise2 = random(seed * 2 + i * 0.2) * 0.1;
+      const wobble = Math.sin(angle * 3 + seed) * 0.08 + Math.sin(angle * 5 + seed * 2) * 0.05;
+      const radius = 42 + noise1 * 100 + noise2 * 50 + wobble * 50;
+      const x = 50 + radius * Math.cos(angle);
+      const y = 50 + radius * Math.sin(angle);
+      points.push(`${Math.max(2, Math.min(98, x)).toFixed(1)}% ${Math.max(2, Math.min(98, y)).toFixed(1)}%`);
+    }
+    return `polygon(${points.join(', ')})`;
+  }
+
   const shapes = {
-    circle: 'polygon(50% 0%, 75% 6.7%, 93.3% 25%, 100% 50%, 93.3% 75%, 75% 93.3%, 50% 100%, 25% 93.3%, 6.7% 75%, 0% 50%, 6.7% 25%, 25% 6.7%)',
-    square: 'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 100% 33%, 100% 67%, 100% 100%, 67% 100%, 33% 100%, 0% 100%, 0% 67%, 0% 33%)',
+    circle: generateCircle(),
+    square: generateSquare(),
     blobs: [
-      // Blob 1 - wide organic
-      'polygon(45% 8%, 78% 12%, 95% 35%, 92% 58%, 85% 82%, 62% 95%, 35% 92%, 12% 78%, 5% 52%, 8% 28%, 22% 12%, 38% 5%)',
-      // Blob 2 - tall peanut
-      'polygon(50% 2%, 68% 8%, 82% 22%, 88% 42%, 78% 58%, 85% 78%, 70% 95%, 42% 98%, 22% 85%, 15% 62%, 18% 38%, 28% 12%)',
-      // Blob 3 - asymmetric blob
-      'polygon(42% 5%, 72% 8%, 92% 28%, 98% 52%, 88% 75%, 65% 92%, 38% 95%, 15% 82%, 5% 55%, 8% 32%, 25% 15%, 35% 8%)',
-      // Blob 4 - rounded rectangle
-      'polygon(15% 12%, 45% 8%, 75% 12%, 92% 25%, 95% 52%, 92% 78%, 75% 92%, 45% 95%, 15% 92%, 5% 75%, 5% 35%, 8% 18%)',
-      // Blob 5 - amoeba
-      'polygon(55% 5%, 82% 15%, 95% 38%, 88% 62%, 75% 85%, 52% 98%, 25% 88%, 8% 65%, 5% 42%, 15% 22%, 35% 8%, 48% 2%)',
-      // Blob 6 - cloud-like
-      'polygon(48% 8%, 75% 5%, 92% 22%, 98% 48%, 92% 72%, 72% 92%, 45% 95%, 18% 88%, 5% 62%, 8% 35%, 25% 15%, 42% 5%)',
-      // Blob 7 - horizontal stretch
-      'polygon(35% 18%, 65% 12%, 88% 25%, 98% 48%, 92% 72%, 75% 88%, 45% 92%, 18% 85%, 2% 58%, 5% 35%, 18% 18%, 32% 12%)',
-      // Blob 8 - organic diamond
-      'polygon(50% 5%, 72% 15%, 90% 32%, 95% 55%, 85% 78%, 65% 92%, 40% 95%, 18% 82%, 5% 58%, 8% 32%, 25% 15%, 45% 5%)'
+      generateBlob(1),
+      generateBlob(2.5),
+      generateBlob(4),
+      generateBlob(5.5),
+      generateBlob(7),
+      generateBlob(8.5),
+      generateBlob(10),
+      generateBlob(11.5)
     ]
   };
 
