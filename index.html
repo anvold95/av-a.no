@@ -588,62 +588,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let radius;
       switch(type) {
-        case 'bean':
-          // Bean with more character
-          radius = 42 + Math.sin(angle * 1.3 + 0.5) * 8
-                     + Math.sin(angle * 2.7) * 5
-                     + Math.cos(angle * 1.8 + 1.2) * 4
-                     + Math.sin(angle * 3.5 + 0.8) * 2;
+        case 'amoeba1':
+          // Classic amoeba with pseudopods
+          radius = 35 + Math.sin(angle * 1.3 + 0.5) * 10
+                     + Math.pow(Math.sin(angle * 2.1 + 0.8), 3) * 15
+                     + Math.sin(angle * 3.7) * 6
+                     + Math.pow(Math.cos(angle * 1.7 + 1.2), 5) * 12
+                     + Math.sin(angle * 5.3 + 2.1) * 4;
           break;
-        case 'peanut':
-          // Peanut with asymmetric lobes
-          radius = 32 + Math.abs(Math.sin(angle + 0.3)) * 14
-                     + Math.sin(angle * 2.3 + 1) * 4
-                     + Math.cos(angle * 1.7) * 3
-                     + Math.sin(angle * 4.2) * 2;
+        case 'amoeba2':
+          // Amoeba with extended arms
+          radius = 32 + Math.abs(Math.sin(angle * 1.5 + 0.3)) * 12
+                     + Math.pow(Math.sin(angle * 2.7), 3) * 14
+                     + Math.cos(angle * 1.9 + 1.5) * 8
+                     + Math.pow(Math.sin(angle * 3.3 + 0.7), 5) * 10
+                     + Math.sin(angle * 4.9 + 1.8) * 5;
+          break;
+        case 'amoeba3':
+          // Irregular amoeba with deep indentations
+          radius = 38 + Math.sin(angle * 1.1) * 8
+                     + Math.pow(Math.cos(angle * 2.3 + 0.5), 3) * 16
+                     + Math.sin(angle * 3.1 + 2.2) * 7
+                     + Math.pow(Math.sin(angle * 1.8 + 1.1), 5) * 11
+                     + Math.cos(angle * 4.7 + 0.9) * 5;
           break;
         case 'blob1':
-          // Organic blob with multiple bulges
-          radius = 38 + Math.sin(angle * 2.2 + 0.3) * 8
-                     + Math.sin(angle * 3.3 + 1.2) * 5
-                     + Math.cos(angle * 1.5 + 2.1) * 4
-                     + Math.sin(angle * 4.7 + 0.5) * 3;
+          // Organic blob with dramatic bulges
+          radius = 34 + Math.sin(angle * 2.2 + 0.3) * 12
+                     + Math.pow(Math.sin(angle * 1.4 + 1.2), 3) * 13
+                     + Math.cos(angle * 3.5 + 2.1) * 6
+                     + Math.pow(Math.cos(angle * 2.8 + 0.5), 5) * 9
+                     + Math.sin(angle * 5.1 + 1.7) * 4;
           break;
         case 'blob2':
           // Highly asymmetric organic shape
-          radius = 36 + Math.sin(angle * 1.2) * 10
-                     + Math.cos(angle * 2.8 + 0.7) * 6
-                     + Math.sin(angle * 1.7 + 2.3) * 5
-                     + Math.cos(angle * 3.9 + 1.1) * 3;
+          radius = 30 + Math.sin(angle * 1.2) * 14
+                     + Math.pow(Math.cos(angle * 2.5 + 0.7), 3) * 15
+                     + Math.sin(angle * 1.7 + 2.3) * 8
+                     + Math.pow(Math.sin(angle * 3.2 + 1.1), 5) * 10
+                     + Math.cos(angle * 4.4 + 0.3) * 5;
           break;
-        case 'droplet':
-          // Teardrop with wobble
-          radius = 32 + (1 + Math.cos(angle)) * 10
-                     + Math.sin(angle * 2.5 + 0.8) * 4
-                     + Math.cos(angle * 3.2) * 3
-                     + Math.sin(angle * 1.8 + 1.5) * 3;
+        case 'splat':
+          // Splat shape with multiple extensions
+          radius = 32 + Math.pow(Math.sin(angle * 3.1), 2) * 14
+                     + Math.pow(Math.cos(angle * 2.3 + 1.5), 4) * 12
+                     + Math.sin(angle * 1.7 + 0.8) * 9
+                     + Math.pow(Math.sin(angle * 4.2 + 2.1), 3) * 8
+                     + Math.cos(angle * 5.5) * 4;
           break;
-        case 'cloud':
-          // Cloud with irregular bumps
-          radius = 36 + Math.sin(angle * 2.7) * 6
-                     + Math.sin(angle * 1.8 + 2) * 7
-                     + Math.cos(angle * 3.4 + 0.5) * 4
-                     + Math.sin(angle * 4.1 + 1.3) * 3;
+        case 'creature':
+          // Creature-like with reaching pseudopods
+          radius = 30 + Math.abs(Math.sin(angle * 2.1 + 0.5)) * 15
+                     + Math.pow(Math.sin(angle * 1.3 + 1.8), 5) * 14
+                     + Math.cos(angle * 3.7 + 0.3) * 7
+                     + Math.pow(Math.cos(angle * 2.9 + 2.5), 3) * 10
+                     + Math.sin(angle * 4.8 + 1.2) * 5;
           break;
-        case 'amoeba':
-          // Amoeba - very irregular but smooth
-          radius = 38 + Math.sin(angle * 1.6 - 0.5) * 7
-                     + Math.sin(angle * 2.9 + 1) * 6
-                     + Math.cos(angle * 2.1 + 2.4) * 5
-                     + Math.sin(angle * 3.7 + 0.3) * 4
-                     + Math.cos(angle * 4.5) * 2;
-          break;
-        case 'organic':
-          // Complex organic with flowing curves
-          radius = 40 + Math.sin(angle * 1.4 + 0.8) * 9
-                     + Math.cos(angle * 2.6 + 0.3) * 5
-                     + Math.sin(angle * 3.1 + 1.9) * 4
-                     + Math.cos(angle * 4.3 + 0.7) * 3;
+        case 'wild':
+          // Wild, unpredictable shape
+          radius = 33 + Math.sin(angle * 1.5 + 0.8) * 11
+                     + Math.pow(Math.sin(angle * 2.8 + 1.3), 3) * 13
+                     + Math.pow(Math.cos(angle * 1.9 + 2.7), 5) * 12
+                     + Math.sin(angle * 4.1 + 0.5) * 7
+                     + Math.pow(Math.sin(angle * 3.4 + 1.9), 4) * 8
+                     + Math.cos(angle * 5.7 + 0.2) * 4;
           break;
         default:
           radius = 45;
@@ -651,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const x = 50 + radius * Math.cos(angle);
       const y = 50 + radius * Math.sin(angle);
-      points.push(`${Math.max(3, Math.min(97, x)).toFixed(1)}% ${Math.max(3, Math.min(97, y)).toFixed(1)}%`);
+      points.push(`${Math.max(2, Math.min(98, x)).toFixed(1)}% ${Math.max(2, Math.min(98, y)).toFixed(1)}%`);
     }
     return `polygon(${points.join(', ')})`;
   }
@@ -660,49 +668,77 @@ document.addEventListener('DOMContentLoaded', () => {
     circle: generateCircle(),
     square: generateSquare(),
     blobs: [
-      generateBlob('bean'),
-      generateBlob('peanut'),
+      generateBlob('amoeba1'),
+      generateBlob('amoeba2'),
+      generateBlob('amoeba3'),
       generateBlob('blob1'),
       generateBlob('blob2'),
-      generateBlob('droplet'),
-      generateBlob('cloud'),
-      generateBlob('amoeba'),
-      generateBlob('organic')
+      generateBlob('splat'),
+      generateBlob('creature'),
+      generateBlob('wild')
     ]
   };
 
   let shapeState = 'circle'; // 'circle' or 'blob'
+  let mobileAnimationInterval = null;
+  let currentBlobIndex = 0;
+  const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   function getRandomBlob() {
     return shapes.blobs[Math.floor(Math.random() * shapes.blobs.length)];
+  }
+
+  function getNextBlob() {
+    currentBlobIndex = (currentBlobIndex + 1) % shapes.blobs.length;
+    return shapes.blobs[currentBlobIndex];
   }
 
   function setShape(clipPath) {
     carousel.style.clipPath = clipPath;
   }
 
+  function startMobileAnimation() {
+    if (mobileAnimationInterval) return;
+    // Cycle through shapes continuously
+    mobileAnimationInterval = setInterval(() => {
+      if (Math.random() > 0.3) {
+        setShape(getNextBlob());
+      } else {
+        setShape(shapes.circle);
+      }
+    }, 1200); // Change shape every 1.2 seconds
+  }
+
+  function stopMobileAnimation() {
+    if (mobileAnimationInterval) {
+      clearInterval(mobileAnimationInterval);
+      mobileAnimationInterval = null;
+    }
+  }
+
   // Initialize with circle
   setShape(shapes.circle);
 
-  carousel.addEventListener('mouseenter', () => {
-    if (isAnimating) return; // Don't change shape while image is animating
-    setShape(shapes.square);
-    carousel.classList.add('is-square');
-  });
+  // Desktop hover behavior
+  if (!isMobile) {
+    carousel.addEventListener('mouseenter', () => {
+      if (isAnimating) return;
+      setShape(shapes.square);
+      carousel.classList.add('is-square');
+    });
 
-  carousel.addEventListener('mouseleave', () => {
-    if (isAnimating) return; // Don't change shape while image is animating
-    carousel.classList.remove('is-square');
-    if (shapeState === 'circle') {
-      // Was circle, now transition to blob
-      setShape(getRandomBlob());
-      shapeState = 'blob';
-    } else {
-      // Was blob, now transition to circle
-      setShape(shapes.circle);
-      shapeState = 'circle';
-    }
-  });
+    carousel.addEventListener('mouseleave', () => {
+      if (isAnimating) return;
+      carousel.classList.remove('is-square');
+      if (shapeState === 'circle') {
+        setShape(getRandomBlob());
+        shapeState = 'blob';
+      } else {
+        setShape(shapes.circle);
+        shapeState = 'circle';
+      }
+    });
+  }
 
   function showImage(idx, animate = true) {
     if (isAnimating) return;
@@ -752,11 +788,21 @@ document.addEventListener('DOMContentLoaded', () => {
   let touchStartY = 0;
   let touchEndX = 0;
   let isSwiping = false;
+  let mobileActiveTimeout = null;
 
   carousel.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
+    touchEndX = touchStartX;
     isSwiping = true;
+
+    // Mobile: become square on touch
+    if (isMobile) {
+      setShape(shapes.square);
+      carousel.classList.add('is-square');
+      // Clear any existing timeout
+      if (mobileActiveTimeout) clearTimeout(mobileActiveTimeout);
+    }
   }, { passive: true });
 
   carousel.addEventListener('touchmove', (e) => {
@@ -779,7 +825,32 @@ document.addEventListener('DOMContentLoaded', () => {
         prevImage();
       }
     }
+
+    // Mobile: start continuous shape animation after touch
+    if (isMobile) {
+      carousel.classList.remove('is-square');
+      startMobileAnimation();
+
+      // Stop animation after 8 seconds of inactivity
+      mobileActiveTimeout = setTimeout(() => {
+        stopMobileAnimation();
+        setShape(shapes.circle);
+      }, 8000);
+    }
   }, { passive: true });
+
+  // Also trigger on tap (click on mobile)
+  if (isMobile) {
+    carousel.addEventListener('click', () => {
+      // Reset the inactivity timeout
+      if (mobileActiveTimeout) clearTimeout(mobileActiveTimeout);
+      startMobileAnimation();
+      mobileActiveTimeout = setTimeout(() => {
+        stopMobileAnimation();
+        setShape(shapes.circle);
+      }, 8000);
+    });
+  }
 
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
