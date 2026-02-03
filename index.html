@@ -149,8 +149,7 @@ main {
   aspect-ratio: 1/1;
   margin-bottom: 48px;
   overflow: visible;
-  transition: clip-path 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: blur(0px);
+  transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-image {
@@ -158,36 +157,33 @@ main {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
-  transition: opacity 0.25s ease;
-  filter: drop-shadow(0 0 20px rgba(245, 245, 245, 0.8));
+  transition: opacity 0.25s ease, filter 0.6s ease;
+  filter: blur(0px);
 }
 
 .carousel-image.fade {
   opacity: 0;
 }
 
-/* Soft cloud-like edge effect */
-.carousel::before {
-  content: '';
-  position: absolute;
-  inset: -30px;
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(245, 245, 245, 0.3) 45%, rgba(245, 245, 245, 0.7) 52%, rgba(245, 245, 245, 0.95) 58%);
-  pointer-events: none;
-  z-index: 3;
-  transition: opacity 0.6s ease;
+/* Soft misty edge - blur the image edges */
+.carousel:not(.is-square) .carousel-image {
+  filter: blur(0px);
+  mask-image: radial-gradient(circle at center, black 60%, transparent 85%);
+  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 85%);
 }
 
-.carousel.is-square::before {
-  opacity: 0;
+.carousel.is-square .carousel-image {
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
-/* Vignette effect - for circle/blob shapes */
+/* Vignette effect */
 .carousel::after {
   content: '';
   position: absolute;
   inset: -50%;
   pointer-events: none;
-  background: radial-gradient(circle at center, transparent 30%, rgba(245, 245, 245, 0.95) 55%);
+  background: radial-gradient(circle at center, transparent 25%, rgba(245, 245, 245, 0.6) 45%, rgba(245, 245, 245, 1) 55%);
   transition: opacity 0.5s ease;
   opacity: 1;
 }
