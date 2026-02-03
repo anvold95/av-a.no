@@ -92,28 +92,6 @@ header {
   cursor: default;
 }
 
-.logo:hover {
-  color: #999;
-}
-
-.logo-name,
-.logo-org {
-  transition: opacity 0.3s ease;
-}
-
-.logo-org {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-style: italic;
-  text-transform: none;
-  letter-spacing: 0.02em;
-  opacity: 0;
-  margin-left: 0.5em;
-}
-
-.logo:hover .logo-org {
-  opacity: 1;
-}
 
 /* Info button with flip effect */
 .info-btn {
@@ -505,10 +483,6 @@ html {
   color: #1a1a1a;
 }
 
-.info-header .logo:hover {
-  color: #999;
-}
-
 .info-close {
   font-family: var(--font-subtitle);
   font-size: 14px;
@@ -700,29 +674,6 @@ html {
     gap: 16px;
   }
 
-  /* Mobile logo toggle */
-  .logo {
-    cursor: pointer;
-    position: relative;
-  }
-
-  .logo .logo-org {
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin-left: 0;
-    opacity: 0;
-    white-space: nowrap;
-  }
-
-  .logo.show-org .logo-name {
-    opacity: 0;
-  }
-
-  .logo.show-org .logo-org {
-    opacity: 1;
-  }
-
   .projects-section {
     padding: 48px 24px 60px;
   }
@@ -746,7 +697,7 @@ html {
 
 <div class="page">
   <header>
-    <div class="logo"><span class="logo-name">A. Vold Arkitektur AS</span><span class="logo-org">Org.nr 933 464 563</span></div>
+    <div class="logo">Org.nr 933 464 563</div>
     <div class="info-btn" id="infoBtn">
       <span class="info-btn-inner">Info</span>
     </div>
@@ -805,7 +756,7 @@ html {
 <!-- Info Overlay -->
 <div class="info-overlay" id="infoOverlay">
   <div class="info-header">
-    <div class="logo"><span class="logo-name">A. Vold Arkitektur AS</span><span class="logo-org">Org.nr 933 464 563</span></div>
+    <div class="logo">Org.nr 933 464 563</div>
     <div class="info-close" id="infoClose">Lukk</div>
   </div>
 
@@ -1240,18 +1191,6 @@ document.addEventListener('DOMContentLoaded', () => {
     infoOverlay.classList.remove('visible');
     document.body.classList.remove('info-open');
   });
-
-  // Mobile logo tap to toggle org number
-  if (isMobile) {
-    document.querySelectorAll('.logo').forEach(logo => {
-      logo.addEventListener('click', (e) => {
-        // Don't toggle if info overlay is open and this is the main header logo
-        if (!infoOverlay.classList.contains('visible') || logo.closest('.info-header')) {
-          logo.classList.toggle('show-org');
-        }
-      });
-    });
-  }
 
   // Scroll arrow
   const scrollArrow = document.getElementById('scrollArrow');
