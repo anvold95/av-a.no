@@ -220,6 +220,197 @@ main {
   letter-spacing: 0.08em;
 }
 
+/* Scroll Arrow */
+.scroll-arrow {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s, transform 0.3s;
+  animation: bounce 2s infinite;
+}
+
+.scroll-arrow:hover {
+  opacity: 1;
+}
+
+.scroll-arrow svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--text-color, #fff);
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(-8px); }
+  60% { transform: translateX(-50%) translateY(-4px); }
+}
+
+/* Snap Scroll Container */
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.page {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Projects Section */
+.projects-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  background: #fff;
+  padding: 80px 48px 100px;
+}
+
+.projects-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.project-item {
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.project-item:hover {
+  transform: scale(1.02);
+}
+
+.project-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Project Overlay */
+.project-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.98);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.project-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.project-overlay-close {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.project-overlay-close:hover {
+  color: #7d7a2e;
+}
+
+.project-overlay-content {
+  max-width: 900px;
+  width: 90%;
+  text-align: center;
+}
+
+.project-overlay-image {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.project-overlay-image img {
+  max-width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+}
+
+.project-overlay-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+}
+
+.project-overlay-prev,
+.project-overlay-next {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.project-overlay-image:hover .project-overlay-prev,
+.project-overlay-image:hover .project-overlay-next {
+  opacity: 1;
+}
+
+.project-overlay-prev {
+  justify-content: flex-start;
+  padding-left: 16px;
+}
+
+.project-overlay-next {
+  justify-content: flex-end;
+  padding-right: 16px;
+}
+
+.project-overlay-prev span,
+.project-overlay-next span {
+  font-size: 28px;
+  font-weight: 300;
+  color: #1a1a1a;
+  text-shadow: 0 2px 8px rgba(255,255,255,0.8);
+}
+
+.project-overlay-info {
+  color: #1a1a1a;
+}
+
+.project-overlay-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.project-overlay-desc {
+  font-size: 14px;
+  color: #666;
+  letter-spacing: 0.05em;
+}
+
+.project-overlay-year {
+  font-size: 13px;
+  color: #999;
+  margin-top: 4px;
+}
+
 /* Info Overlay */
 .info-overlay {
   position: fixed;
@@ -361,19 +552,25 @@ main {
 }
 
 /* Responsive */
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .projects-section {
+    padding: 60px 32px 80px;
+  }
+}
+
 @media (max-width: 600px) {
-  /* Prevent scroll on landing page */
-  html, body {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
+  html {
+    scroll-snap-type: none;
   }
 
   .page {
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   header,
@@ -399,9 +596,26 @@ main {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* When info is open, allow its scroll */
-  body.info-open {
-    overflow: hidden;
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .projects-section {
+    padding: 48px 24px 60px;
+  }
+
+  .scroll-arrow {
+    bottom: 24px;
+  }
+
+  .project-overlay-close {
+    top: 24px;
+    right: 24px;
+  }
+
+  .project-overlay-content {
+    width: 95%;
   }
 }
   </style>
@@ -446,6 +660,38 @@ document.documentElement.style.setProperty('--hover-color', theme.hover);
       <a href="tel:+4741165450">+47 411 65 450</a>
     </div>
   </main>
+
+  <div class="scroll-arrow" id="scrollArrow">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+</div>
+
+<!-- Projects Section -->
+<section class="projects-section" id="projectsSection">
+  <div class="projects-grid" id="projectsGrid">
+    <!-- Projects will be inserted by JavaScript -->
+  </div>
+</section>
+
+<!-- Project Overlay -->
+<div class="project-overlay" id="projectOverlay">
+  <div class="project-overlay-close" id="projectOverlayClose">Lukk</div>
+  <div class="project-overlay-content">
+    <div class="project-overlay-image">
+      <img id="projectOverlayImg" src="" alt="">
+      <div class="project-overlay-nav">
+        <div class="project-overlay-prev" id="projectPrev"><span>&larr;</span></div>
+        <div class="project-overlay-next" id="projectNext"><span>&rarr;</span></div>
+      </div>
+    </div>
+    <div class="project-overlay-info">
+      <div class="project-overlay-title" id="projectTitle"></div>
+      <div class="project-overlay-desc" id="projectDesc"></div>
+      <div class="project-overlay-year" id="projectYear"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Info Overlay -->
@@ -880,6 +1126,155 @@ document.addEventListener('DOMContentLoaded', () => {
   infoClose.addEventListener('click', () => {
     infoOverlay.classList.remove('visible');
     document.body.classList.remove('info-open');
+  });
+
+  // Scroll arrow
+  const scrollArrow = document.getElementById('scrollArrow');
+  const projectsSection = document.getElementById('projectsSection');
+
+  scrollArrow.addEventListener('click', () => {
+    projectsSection.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Projects data - group images by project
+  const projects = [
+    {
+      title: 'Kulturhus',
+      desc: 'Transformasjon',
+      year: '2024',
+      images: ['img/SQUARE-2-.jpg', 'img/SQUARE2.jpg']
+    },
+    {
+      title: 'Haubarg',
+      desc: 'Restaurering',
+      year: '2023',
+      images: ['img/Haubarg03 (1).jpg']
+    },
+    {
+      title: 'Bolig Oslo',
+      desc: 'Rehabilitering',
+      year: '2023',
+      images: ['img/SQUARE5.jpg', 'img/SQUARE7.jpg']
+    },
+    {
+      title: 'Næring',
+      desc: 'Transformasjon',
+      year: '2022',
+      images: ['img/SQUARE10.jpg', 'img/SQUARE11.jpg']
+    },
+    {
+      title: 'Hytte',
+      desc: 'Nybygg',
+      year: '2022',
+      images: ['img/SQUARE14.jpg']
+    },
+    {
+      title: 'Leilighet',
+      desc: 'Rehabilitering',
+      year: '2021',
+      images: ['img/SQUARE16.jpg', 'img/SQUARE18.jpg']
+    },
+    {
+      title: 'Kontor',
+      desc: 'Interiør',
+      year: '2021',
+      images: ['img/SQUARE19.jpg', 'img/SQUARE21.jpg']
+    },
+    {
+      title: 'Verksted',
+      desc: 'Transformasjon',
+      year: '2020',
+      images: ['img/SQUARE30.jpg']
+    },
+    {
+      title: 'Villa',
+      desc: 'Tilbygg',
+      year: '2020',
+      images: ['img/SQUARE37.jpg', 'img/SQUARE41.jpg']
+    }
+  ];
+
+  // Render projects grid
+  const projectsGrid = document.getElementById('projectsGrid');
+  const projectOverlay = document.getElementById('projectOverlay');
+  const projectOverlayClose = document.getElementById('projectOverlayClose');
+  const projectOverlayImg = document.getElementById('projectOverlayImg');
+  const projectTitle = document.getElementById('projectTitle');
+  const projectDesc = document.getElementById('projectDesc');
+  const projectYear = document.getElementById('projectYear');
+  const projectPrev = document.getElementById('projectPrev');
+  const projectNext = document.getElementById('projectNext');
+
+  let currentProject = null;
+  let currentProjectImage = 0;
+
+  projects.forEach((project, index) => {
+    const item = document.createElement('div');
+    item.className = 'project-item';
+    item.innerHTML = `<img src="${project.images[0]}" alt="${project.title}" loading="lazy">`;
+    item.addEventListener('click', () => openProject(index));
+    projectsGrid.appendChild(item);
+  });
+
+  function openProject(index) {
+    currentProject = index;
+    currentProjectImage = 0;
+    updateProjectOverlay();
+    projectOverlay.classList.add('visible');
+  }
+
+  function updateProjectOverlay() {
+    const project = projects[currentProject];
+    projectOverlayImg.src = project.images[currentProjectImage];
+    projectTitle.textContent = project.title;
+    projectDesc.textContent = project.desc;
+    projectYear.textContent = project.year;
+
+    // Show/hide nav arrows based on image count
+    const hasMultiple = project.images.length > 1;
+    projectPrev.style.display = hasMultiple ? 'flex' : 'none';
+    projectNext.style.display = hasMultiple ? 'flex' : 'none';
+  }
+
+  function closeProject() {
+    projectOverlay.classList.remove('visible');
+    currentProject = null;
+  }
+
+  projectOverlayClose.addEventListener('click', closeProject);
+  projectOverlay.addEventListener('click', (e) => {
+    if (e.target === projectOverlay) closeProject();
+  });
+
+  projectPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const project = projects[currentProject];
+    currentProjectImage = (currentProjectImage - 1 + project.images.length) % project.images.length;
+    updateProjectOverlay();
+  });
+
+  projectNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const project = projects[currentProject];
+    currentProjectImage = (currentProjectImage + 1) % project.images.length;
+    updateProjectOverlay();
+  });
+
+  // Keyboard navigation for project overlay
+  document.addEventListener('keydown', (e) => {
+    if (projectOverlay.classList.contains('visible')) {
+      if (e.key === 'Escape') closeProject();
+      if (e.key === 'ArrowRight') {
+        const project = projects[currentProject];
+        currentProjectImage = (currentProjectImage + 1) % project.images.length;
+        updateProjectOverlay();
+      }
+      if (e.key === 'ArrowLeft') {
+        const project = projects[currentProject];
+        currentProjectImage = (currentProjectImage - 1 + project.images.length) % project.images.length;
+        updateProjectOverlay();
+      }
+    }
   });
 });
 </script>
