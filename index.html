@@ -609,6 +609,79 @@ html {
   line-height: 1.8;
 }
 
+/* Bibliography Section */
+.biblio-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  background-image: url('img/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 80px 48px 100px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.biblio-content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.biblio-title {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin-bottom: 48px;
+}
+
+.biblio-list {
+  list-style: none;
+}
+
+.biblio-item {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 2;
+  color: #1a1a1a;
+}
+
+.biblio-year {
+  margin-right: 1.5em;
+  color: #666;
+}
+
+.biblio-name {
+  font-style: italic;
+}
+
+.biblio-name a {
+  font-style: italic;
+  color: #1a1a1a;
+}
+
+.biblio-name a:hover {
+  color: #999;
+}
+
+.biblio-source {
+  color: #666;
+  margin-left: 0.5em;
+}
+
+/* Dark scroll arrow for light backgrounds */
+.scroll-arrow-dark svg {
+  stroke: #1a1a1a;
+}
+
+.projects-section {
+  position: relative;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .projects-grid {
@@ -690,6 +763,14 @@ html {
   .project-overlay-content {
     width: 95%;
   }
+
+  .biblio-section {
+    padding: 48px 24px 60px;
+  }
+
+  .biblio-title {
+    margin-bottom: 32px;
+  }
 }
   </style>
 </head>
@@ -731,6 +812,24 @@ html {
 <section class="projects-section" id="projectsSection">
   <div class="projects-grid" id="projectsGrid">
     <!-- Projects will be inserted by JavaScript -->
+  </div>
+  <div class="scroll-arrow scroll-arrow-dark" id="scrollArrowBiblio">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+</section>
+
+<!-- Bibliography Section -->
+<section class="biblio-section" id="biblioSection">
+  <div class="biblio-content">
+    <h2 class="biblio-title">Publisert Arbeid</h2>
+    <ul class="biblio-list">
+      <li class="biblio-item">
+        <span class="biblio-year">2026</span>
+        <span class="biblio-name">Kommer snart</span>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -1192,12 +1291,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.remove('info-open');
   });
 
-  // Scroll arrow
+  // Scroll arrows
   const scrollArrow = document.getElementById('scrollArrow');
   const projectsSection = document.getElementById('projectsSection');
+  const scrollArrowBiblio = document.getElementById('scrollArrowBiblio');
+  const biblioSection = document.getElementById('biblioSection');
 
   scrollArrow.addEventListener('click', () => {
     projectsSection.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  scrollArrowBiblio.addEventListener('click', () => {
+    biblioSection.scrollIntoView({ behavior: 'smooth' });
   });
 
   // Projects data - group images by project
