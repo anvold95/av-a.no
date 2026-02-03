@@ -165,25 +165,13 @@ main {
   opacity: 0;
 }
 
-/* Soft misty edge - blur the image edges */
-.carousel:not(.is-square) .carousel-image {
-  filter: blur(0px);
-  mask-image: radial-gradient(circle at center, black 60%, transparent 85%);
-  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 85%);
-}
-
-.carousel.is-square .carousel-image {
-  mask-image: none;
-  -webkit-mask-image: none;
-}
-
-/* Vignette effect */
+/* Vignette effect - subtle fade at edges */
 .carousel::after {
   content: '';
   position: absolute;
-  inset: -50%;
+  inset: -60%;
   pointer-events: none;
-  background: radial-gradient(circle at center, transparent 25%, rgba(245, 245, 245, 0.6) 45%, rgba(245, 245, 245, 1) 55%);
+  background: radial-gradient(circle at center, transparent 28%, rgba(245, 245, 245, 0.4) 42%, rgba(245, 245, 245, 1) 52%);
   transition: opacity 0.5s ease;
   opacity: 1;
 }
@@ -964,21 +952,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoClose = document.getElementById('infoClose');
 
   // Shape cycling logic: circle -> square (hover) -> cloud (off) -> square (hover) -> circle (off) -> ...
-  // Generate shapes with many points for ultra-smooth cloud-like morphing
-  const POINTS = 200; // More points for smoother, cloud-like curves
-
-  // Simple noise function for organic variation
-  function noise(x, seed) {
-    const n = Math.sin(x * 127.1 + seed * 311.7) * 43758.5453;
-    return n - Math.floor(n);
-  }
+  // Generate shapes with many points for fragmented, wispy edges
+  const POINTS = 360; // Many points for detailed fragmented edges
 
   function generateCircle() {
     const points = [];
     for (let i = 0; i < POINTS; i++) {
       const angle = (i / POINTS) * Math.PI * 2 - Math.PI / 2;
-      const x = 50 + 48 * Math.cos(angle);
-      const y = 50 + 48 * Math.sin(angle);
+      const x = 50 + 47 * Math.cos(angle);
+      const y = 50 + 47 * Math.sin(angle);
       points.push(`${x.toFixed(2)}% ${y.toFixed(2)}%`);
     }
     return `polygon(${points.join(', ')})`;
@@ -1002,53 +984,55 @@ document.addEventListener('DOMContentLoaded', () => {
     return `polygon(${points.join(', ')})`;
   }
 
-  // Generate cloud-like organic shapes
-  function generateCloud(seed) {
+  // Generate fragmented, wispy shapes that look like they're dissolving
+  function generateFragmentedShape(seed) {
     const points = [];
     for (let i = 0; i < POINTS; i++) {
       const t = i / POINTS;
       const angle = t * Math.PI * 2 - Math.PI / 2;
 
-      // Multiple layered sine waves at different frequencies for organic feel
-      // Low frequency waves for overall shape
-      let radius = 38
-        + Math.sin(angle * 1.0 + seed) * 6
-        + Math.sin(angle * 1.5 + seed * 1.3) * 5
-        + Math.sin(angle * 2.0 + seed * 0.7) * 4;
+      // Base organic shape
+      let radius = 36
+        + Math.sin(angle * 1.0 + seed) * 5
+        + Math.sin(angle * 2.0 + seed * 1.3) * 4
+        + Math.sin(angle * 3.0 + seed * 0.7) * 3;
 
-      // Medium frequency for cloud-like bulges
-      radius += Math.sin(angle * 2.5 + seed * 2.1) * 3.5
-              + Math.sin(angle * 3.0 + seed * 1.8) * 3
-              + Math.sin(angle * 3.5 + seed * 2.5) * 2.5;
+      // Medium frequency undulations
+      radius += Math.sin(angle * 4.0 + seed * 2.1) * 2.5
+              + Math.sin(angle * 5.0 + seed * 1.8) * 2
+              + Math.sin(angle * 7.0 + seed * 2.5) * 1.5;
 
-      // Higher frequency for soft organic detail
-      radius += Math.sin(angle * 4.0 + seed * 3.2) * 2
-              + Math.sin(angle * 5.0 + seed * 2.9) * 1.5
-              + Math.sin(angle * 6.0 + seed * 3.7) * 1
-              + Math.sin(angle * 7.0 + seed * 4.1) * 0.8;
+      // High frequency fragments - creates the wispy, dissolving edge
+      radius += Math.sin(angle * 9.0 + seed * 3.2) * 1.2
+              + Math.sin(angle * 12.0 + seed * 4.1) * 1.0
+              + Math.sin(angle * 15.0 + seed * 3.7) * 0.9
+              + Math.sin(angle * 19.0 + seed * 5.3) * 0.8
+              + Math.sin(angle * 24.0 + seed * 4.9) * 0.7;
 
-      // Subtle noise-like variation
-      radius += Math.sin(angle * 8.5 + seed * 5.3) * 0.6
-              + Math.sin(angle * 11.0 + seed * 6.7) * 0.4
-              + Math.sin(angle * 13.0 + seed * 7.9) * 0.3;
+      // Very high frequency micro-fragments for that dissolving look
+      radius += Math.sin(angle * 31.0 + seed * 6.7) * 0.6
+              + Math.sin(angle * 40.0 + seed * 7.9) * 0.5
+              + Math.sin(angle * 53.0 + seed * 8.3) * 0.4
+              + Math.sin(angle * 67.0 + seed * 9.1) * 0.35
+              + Math.sin(angle * 89.0 + seed * 10.7) * 0.3;
 
       const x = 50 + radius * Math.cos(angle);
       const y = 50 + radius * Math.sin(angle);
-      points.push(`${Math.max(3, Math.min(97, x)).toFixed(2)}% ${Math.max(3, Math.min(97, y)).toFixed(2)}%`);
+      points.push(`${Math.max(2, Math.min(98, x)).toFixed(2)}% ${Math.max(2, Math.min(98, y)).toFixed(2)}%`);
     }
     return `polygon(${points.join(', ')})`;
   }
 
-  // Pre-generate a variety of cloud shapes
+  // Pre-generate a variety of fragmented shapes
   const shapes = {
     circle: generateCircle(),
     square: generateSquare(),
     clouds: []
   };
 
-  // Generate 12 unique cloud shapes with different seeds
+  // Generate 12 unique fragmented shapes with different seeds
   for (let i = 0; i < 12; i++) {
-    shapes.clouds.push(generateCloud(i * 0.8 + Math.random() * 0.5));
+    shapes.clouds.push(generateFragmentedShape(i * 0.8 + Math.random() * 0.5));
   }
 
   let shapeState = 'circle'; // 'circle' or 'blob'
