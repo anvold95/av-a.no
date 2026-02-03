@@ -148,8 +148,8 @@ main {
   max-width: 520px;
   aspect-ratio: 1/1;
   margin-bottom: 48px;
-  overflow: hidden;
-  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+  transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-image {
@@ -157,20 +157,33 @@ main {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease, filter 0.6s ease;
+  filter: blur(0px);
 }
 
 .carousel-image.fade {
   opacity: 0;
 }
 
-/* Vignette effect - for circle/blob shapes */
+/* Soft misty edge - blur the image edges */
+.carousel:not(.is-square) .carousel-image {
+  filter: blur(0px);
+  mask-image: radial-gradient(circle at center, black 60%, transparent 85%);
+  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 85%);
+}
+
+.carousel.is-square .carousel-image {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Vignette effect */
 .carousel::after {
   content: '';
   position: absolute;
   inset: -50%;
   pointer-events: none;
-  background: radial-gradient(circle at center, transparent 30%, rgba(245, 245, 245, 0.95) 55%);
+  background: radial-gradient(circle at center, transparent 25%, rgba(245, 245, 245, 0.6) 45%, rgba(245, 245, 245, 1) 55%);
   transition: opacity 0.5s ease;
   opacity: 1;
 }
@@ -617,15 +630,13 @@ html {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 80px 48px 100px;
+  padding: 32px 40px 100px;
   display: flex;
   align-items: flex-start;
 }
 
 .biblio-content {
-  max-width: 1400px;
   width: 100%;
-  margin: 0 auto;
 }
 
 .biblio-title {
@@ -765,7 +776,7 @@ html {
   }
 
   .biblio-section {
-    padding: 48px 24px 60px;
+    padding: 24px 24px 60px;
   }
 
   .biblio-title {
@@ -952,17 +963,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoOverlay = document.getElementById('infoOverlay');
   const infoClose = document.getElementById('infoClose');
 
-  // Shape cycling logic: circle -> square (hover) -> blob (off) -> square (hover) -> circle (off) -> ...
-  // Generate shapes with many points for ultra-smooth morphing
-  const POINTS = 120; // Number of points for smooth shapes
+  // Shape cycling logic: circle -> square (hover) -> cloud (off) -> square (hover) -> circle (off) -> ...
+  // Generate shapes with many points for ultra-smooth cloud-like morphing
+  const POINTS = 200; // More points for smoother, cloud-like curves
+
+  // Simple noise function for organic variation
+  function noise(x, seed) {
+    const n = Math.sin(x * 127.1 + seed * 311.7) * 43758.5453;
+    return n - Math.floor(n);
+  }
 
   function generateCircle() {
     const points = [];
     for (let i = 0; i < POINTS; i++) {
-      const angle = (i / POINTS) * Math.PI * 2 - Math.PI / 2; // Start from top
-      const x = 50 + 50 * Math.cos(angle);
-      const y = 50 + 50 * Math.sin(angle);
-      points.push(`${x.toFixed(1)}% ${y.toFixed(1)}%`);
+      const angle = (i / POINTS) * Math.PI * 2 - Math.PI / 2;
+      const x = 50 + 48 * Math.cos(angle);
+      const y = 50 + 48 * Math.sin(angle);
+      points.push(`${x.toFixed(2)}% ${y.toFixed(2)}%`);
     }
     return `polygon(${points.join(', ')})`;
   }
@@ -970,136 +987,82 @@ document.addEventListener('DOMContentLoaded', () => {
   function generateSquare() {
     const points = [];
     const perSide = POINTS / 4;
-    // Top edge (left to right)
     for (let i = 0; i < perSide; i++) {
       points.push(`${(i / perSide) * 100}% 0%`);
     }
-    // Right edge (top to bottom)
     for (let i = 0; i < perSide; i++) {
       points.push(`100% ${(i / perSide) * 100}%`);
     }
-    // Bottom edge (right to left)
     for (let i = 0; i < perSide; i++) {
       points.push(`${100 - (i / perSide) * 100}% 100%`);
     }
-    // Left edge (bottom to top)
     for (let i = 0; i < perSide; i++) {
       points.push(`0% ${100 - (i / perSide) * 100}%`);
     }
     return `polygon(${points.join(', ')})`;
   }
 
-  function generateBlob(type) {
+  // Generate cloud-like organic shapes
+  function generateCloud(seed) {
     const points = [];
     for (let i = 0; i < POINTS; i++) {
-      const t = i / POINTS; // 0 to 1
+      const t = i / POINTS;
       const angle = t * Math.PI * 2 - Math.PI / 2;
 
-      let radius;
-      switch(type) {
-        case 'amoeba1':
-          // Classic amoeba with pseudopods
-          radius = 35 + Math.sin(angle * 1.3 + 0.5) * 10
-                     + Math.pow(Math.sin(angle * 2.1 + 0.8), 3) * 15
-                     + Math.sin(angle * 3.7) * 6
-                     + Math.pow(Math.cos(angle * 1.7 + 1.2), 5) * 12
-                     + Math.sin(angle * 5.3 + 2.1) * 4;
-          break;
-        case 'amoeba2':
-          // Amoeba with extended arms
-          radius = 32 + Math.abs(Math.sin(angle * 1.5 + 0.3)) * 12
-                     + Math.pow(Math.sin(angle * 2.7), 3) * 14
-                     + Math.cos(angle * 1.9 + 1.5) * 8
-                     + Math.pow(Math.sin(angle * 3.3 + 0.7), 5) * 10
-                     + Math.sin(angle * 4.9 + 1.8) * 5;
-          break;
-        case 'amoeba3':
-          // Irregular amoeba with deep indentations
-          radius = 38 + Math.sin(angle * 1.1) * 8
-                     + Math.pow(Math.cos(angle * 2.3 + 0.5), 3) * 16
-                     + Math.sin(angle * 3.1 + 2.2) * 7
-                     + Math.pow(Math.sin(angle * 1.8 + 1.1), 5) * 11
-                     + Math.cos(angle * 4.7 + 0.9) * 5;
-          break;
-        case 'blob1':
-          // Organic blob with dramatic bulges
-          radius = 34 + Math.sin(angle * 2.2 + 0.3) * 12
-                     + Math.pow(Math.sin(angle * 1.4 + 1.2), 3) * 13
-                     + Math.cos(angle * 3.5 + 2.1) * 6
-                     + Math.pow(Math.cos(angle * 2.8 + 0.5), 5) * 9
-                     + Math.sin(angle * 5.1 + 1.7) * 4;
-          break;
-        case 'blob2':
-          // Highly asymmetric organic shape
-          radius = 30 + Math.sin(angle * 1.2) * 14
-                     + Math.pow(Math.cos(angle * 2.5 + 0.7), 3) * 15
-                     + Math.sin(angle * 1.7 + 2.3) * 8
-                     + Math.pow(Math.sin(angle * 3.2 + 1.1), 5) * 10
-                     + Math.cos(angle * 4.4 + 0.3) * 5;
-          break;
-        case 'splat':
-          // Splat shape with multiple extensions
-          radius = 32 + Math.pow(Math.sin(angle * 3.1), 2) * 14
-                     + Math.pow(Math.cos(angle * 2.3 + 1.5), 4) * 12
-                     + Math.sin(angle * 1.7 + 0.8) * 9
-                     + Math.pow(Math.sin(angle * 4.2 + 2.1), 3) * 8
-                     + Math.cos(angle * 5.5) * 4;
-          break;
-        case 'creature':
-          // Creature-like with reaching pseudopods
-          radius = 30 + Math.abs(Math.sin(angle * 2.1 + 0.5)) * 15
-                     + Math.pow(Math.sin(angle * 1.3 + 1.8), 5) * 14
-                     + Math.cos(angle * 3.7 + 0.3) * 7
-                     + Math.pow(Math.cos(angle * 2.9 + 2.5), 3) * 10
-                     + Math.sin(angle * 4.8 + 1.2) * 5;
-          break;
-        case 'wild':
-          // Wild, unpredictable shape
-          radius = 33 + Math.sin(angle * 1.5 + 0.8) * 11
-                     + Math.pow(Math.sin(angle * 2.8 + 1.3), 3) * 13
-                     + Math.pow(Math.cos(angle * 1.9 + 2.7), 5) * 12
-                     + Math.sin(angle * 4.1 + 0.5) * 7
-                     + Math.pow(Math.sin(angle * 3.4 + 1.9), 4) * 8
-                     + Math.cos(angle * 5.7 + 0.2) * 4;
-          break;
-        default:
-          radius = 45;
-      }
+      // Multiple layered sine waves at different frequencies for organic feel
+      // Low frequency waves for overall shape
+      let radius = 38
+        + Math.sin(angle * 1.0 + seed) * 6
+        + Math.sin(angle * 1.5 + seed * 1.3) * 5
+        + Math.sin(angle * 2.0 + seed * 0.7) * 4;
+
+      // Medium frequency for cloud-like bulges
+      radius += Math.sin(angle * 2.5 + seed * 2.1) * 3.5
+              + Math.sin(angle * 3.0 + seed * 1.8) * 3
+              + Math.sin(angle * 3.5 + seed * 2.5) * 2.5;
+
+      // Higher frequency for soft organic detail
+      radius += Math.sin(angle * 4.0 + seed * 3.2) * 2
+              + Math.sin(angle * 5.0 + seed * 2.9) * 1.5
+              + Math.sin(angle * 6.0 + seed * 3.7) * 1
+              + Math.sin(angle * 7.0 + seed * 4.1) * 0.8;
+
+      // Subtle noise-like variation
+      radius += Math.sin(angle * 8.5 + seed * 5.3) * 0.6
+              + Math.sin(angle * 11.0 + seed * 6.7) * 0.4
+              + Math.sin(angle * 13.0 + seed * 7.9) * 0.3;
 
       const x = 50 + radius * Math.cos(angle);
       const y = 50 + radius * Math.sin(angle);
-      points.push(`${Math.max(2, Math.min(98, x)).toFixed(1)}% ${Math.max(2, Math.min(98, y)).toFixed(1)}%`);
+      points.push(`${Math.max(3, Math.min(97, x)).toFixed(2)}% ${Math.max(3, Math.min(97, y)).toFixed(2)}%`);
     }
     return `polygon(${points.join(', ')})`;
   }
 
+  // Pre-generate a variety of cloud shapes
   const shapes = {
     circle: generateCircle(),
     square: generateSquare(),
-    blobs: [
-      generateBlob('amoeba1'),
-      generateBlob('amoeba2'),
-      generateBlob('amoeba3'),
-      generateBlob('blob1'),
-      generateBlob('blob2'),
-      generateBlob('splat'),
-      generateBlob('creature'),
-      generateBlob('wild')
-    ]
+    clouds: []
   };
+
+  // Generate 12 unique cloud shapes with different seeds
+  for (let i = 0; i < 12; i++) {
+    shapes.clouds.push(generateCloud(i * 0.8 + Math.random() * 0.5));
+  }
 
   let shapeState = 'circle'; // 'circle' or 'blob'
   let mobileAnimationInterval = null;
-  let currentBlobIndex = 0;
+  let currentCloudIndex = 0;
   const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  function getRandomBlob() {
-    return shapes.blobs[Math.floor(Math.random() * shapes.blobs.length)];
+  function getRandomCloud() {
+    return shapes.clouds[Math.floor(Math.random() * shapes.clouds.length)];
   }
 
-  function getNextBlob() {
-    currentBlobIndex = (currentBlobIndex + 1) % shapes.blobs.length;
-    return shapes.blobs[currentBlobIndex];
+  function getNextCloud() {
+    currentCloudIndex = (currentCloudIndex + 1) % shapes.clouds.length;
+    return shapes.clouds[currentCloudIndex];
   }
 
   function setShape(clipPath) {
@@ -1111,7 +1074,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cycle through shapes continuously
     mobileAnimationInterval = setInterval(() => {
       if (Math.random() > 0.3) {
-        setShape(getNextBlob());
+        setShape(getNextCloud());
       } else {
         setShape(shapes.circle);
       }
@@ -1140,7 +1103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isAnimating) return;
       carousel.classList.remove('is-square');
       if (shapeState === 'circle') {
-        setShape(getRandomBlob());
+        setShape(getRandomCloud());
         shapeState = 'blob';
       } else {
         setShape(shapes.circle);
