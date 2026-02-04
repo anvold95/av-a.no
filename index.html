@@ -618,7 +618,7 @@ html {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 32px 40px 100px;
+  padding: 100px 40px 100px;
   display: flex;
   align-items: flex-start;
 }
@@ -645,12 +645,14 @@ html {
   font-family: var(--font-body);
   font-size: 16px;
   font-weight: 300;
-  line-height: 2;
+  line-height: 2.4;
   color: #1a1a1a;
+  display: flex;
+  align-items: baseline;
+  gap: 1em;
 }
 
 .biblio-year {
-  margin-right: 1.5em;
   color: #666;
 }
 
@@ -669,7 +671,75 @@ html {
 
 .biblio-source {
   color: #666;
-  margin-left: 0.5em;
+}
+
+.biblio-read {
+  font-family: var(--font-subtitle);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-left: auto;
+}
+
+.biblio-read:hover {
+  color: #1a1a1a;
+}
+
+/* PDF Viewer Overlay */
+.pdf-viewer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  background: #fff;
+  z-index: 550;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-viewer.visible {
+  transform: translateX(0);
+}
+
+.pdf-viewer-header {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  z-index: 551;
+}
+
+.pdf-viewer-close {
+  font-family: var(--font-subtitle);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.pdf-viewer-close:hover {
+  color: #999;
+}
+
+.pdf-viewer-content {
+  flex: 1;
+  padding: 100px 40px 40px;
+  overflow-y: auto;
+}
+
+.pdf-viewer-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 /* Dark scroll arrow for light backgrounds */
@@ -764,11 +834,34 @@ html {
   }
 
   .biblio-section {
-    padding: 24px 24px 60px;
+    padding: 80px 24px 60px;
   }
 
   .biblio-title {
     margin-bottom: 32px;
+  }
+
+  .biblio-item {
+    flex-wrap: wrap;
+  }
+
+  .biblio-read {
+    margin-left: 0;
+    width: 100%;
+    margin-top: -8px;
+  }
+
+  .pdf-viewer {
+    width: 100%;
+  }
+
+  .pdf-viewer-header {
+    top: 24px;
+    right: 24px;
+  }
+
+  .pdf-viewer-content {
+    padding: 80px 24px 24px;
   }
 }
   </style>
@@ -828,9 +921,27 @@ html {
         <span class="biblio-year">2026</span>
         <span class="biblio-name">Kommer snart</span>
       </li>
+      <!-- Example with PDF link:
+      <li class="biblio-item">
+        <span class="biblio-year">2025</span>
+        <span class="biblio-name"><a href="#">Tittel på artikkel</a></span>
+        <span class="biblio-source">— Arkitektur N</span>
+        <span class="biblio-read" data-pdf="pdf/artikkel.pdf">Les</span>
+      </li>
+      -->
     </ul>
   </div>
 </section>
+
+<!-- PDF Viewer -->
+<div class="pdf-viewer" id="pdfViewer">
+  <div class="pdf-viewer-header">
+    <span class="pdf-viewer-close" id="pdfViewerClose">Lukk</span>
+  </div>
+  <div class="pdf-viewer-content">
+    <iframe id="pdfFrame" src=""></iframe>
+  </div>
+</div>
 
 <!-- Project Overlay -->
 <div class="project-overlay" id="projectOverlay">
@@ -1390,6 +1501,34 @@ document.addEventListener('DOMContentLoaded', () => {
         currentProjectImage = (currentProjectImage - 1 + project.images.length) % project.images.length;
         updateProjectOverlay();
       }
+    }
+  });
+
+  // PDF Viewer
+  const pdfViewer = document.getElementById('pdfViewer');
+  const pdfViewerClose = document.getElementById('pdfViewerClose');
+  const pdfFrame = document.getElementById('pdfFrame');
+
+  document.querySelectorAll('.biblio-read').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pdfUrl = btn.dataset.pdf;
+      if (pdfUrl) {
+        pdfFrame.src = pdfUrl;
+        pdfViewer.classList.add('visible');
+      }
+    });
+  });
+
+  pdfViewerClose.addEventListener('click', () => {
+    pdfViewer.classList.remove('visible');
+    pdfFrame.src = '';
+  });
+
+  // Close PDF viewer with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (pdfViewer.classList.contains('visible') && e.key === 'Escape') {
+      pdfViewer.classList.remove('visible');
+      pdfFrame.src = '';
     }
   });
 });
