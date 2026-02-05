@@ -31,6 +31,7 @@
 
 html, body {
   height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -321,7 +322,9 @@ html {
 .project-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 600;
   display: flex;
   align-items: center;
@@ -824,13 +827,39 @@ html {
     bottom: 24px;
   }
 
+  .project-overlay {
+    align-items: flex-start;
+    padding-top: 70px;
+  }
+
   .project-overlay-close {
     top: 24px;
     right: 24px;
   }
 
   .project-overlay-content {
-    width: 95%;
+    width: 100%;
+    transform: none;
+  }
+
+  .project-overlay.visible .project-overlay-content {
+    transform: none;
+  }
+
+  .project-overlay-image {
+    margin-bottom: 20px;
+  }
+
+  .project-overlay-image img {
+    width: 100vw;
+    max-width: none;
+    max-height: 60vh;
+    object-fit: cover;
+    margin-left: calc(-50vw + 50%);
+  }
+
+  .project-overlay-info {
+    padding: 0 24px;
   }
 
   .biblio-section {
