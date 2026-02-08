@@ -360,6 +360,14 @@ html {
   max-width: 900px;
   width: 90%;
   text-align: center;
+  transform: scale(0.9) translateY(30px);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  opacity: 0;
+}
+
+.project-overlay.visible .project-overlay-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 
 .project-overlay-image {
@@ -442,16 +450,6 @@ html {
   font-weight: 300;
   color: #999;
   margin-top: 4px;
-}
-
-/* Lift image for thumbnail-to-overlay animation */
-.project-lift-img {
-  position: fixed;
-  z-index: 601;
-  display: none;
-  pointer-events: none;
-  will-change: transform;
-  transform-origin: center center;
 }
 
 /* Info Overlay */
@@ -841,6 +839,11 @@ html {
 
   .project-overlay-content {
     width: 100%;
+    transform: none;
+  }
+
+  .project-overlay.visible .project-overlay-content {
+    transform: none;
   }
 
   .project-overlay-image {
@@ -980,9 +983,6 @@ html {
     </div>
   </div>
 </div>
-
-<!-- Lift image for thumbnail animation -->
-<img class="project-lift-img" id="projectLiftImg" src="" alt="">
 
 <!-- Info Overlay -->
 <div class="info-overlay" id="infoOverlay">
@@ -1456,10 +1456,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentProject = null;
   let currentProjectImage = 0;
-  let activeThumbImg = null;
-  let isAnimating = false;
-  const projectLiftImg = document.getElementById('projectLiftImg');
-  const overlayInfo = document.querySelector('.project-overlay-info');
 
   projects.forEach((project, index) => {
     const item = document.createElement('div');
@@ -1470,94 +1466,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openProject(index) {
-    if (isAnimating) return;
-    isAnimating = true;
-
-    const clickedItem = projectsGrid.children[index];
-    const thumbImg = clickedItem.querySelector('img');
-    const thumbRect = thumbImg.getBoundingClientRect();
-
     currentProject = index;
     currentProjectImage = 0;
-    activeThumbImg = thumbImg;
-
-    // Set up overlay content
     updateProjectOverlay();
-
-    // Hide overlay image and info (they appear after lift animation)
-    projectOverlayImg.style.opacity = '0';
-    overlayInfo.style.opacity = '0';
-    overlayInfo.style.transition = 'none';
-
-    // Set up lift image at thumbnail position
-    projectLiftImg.src = thumbImg.src;
-    projectLiftImg.style.left = thumbRect.left + 'px';
-    projectLiftImg.style.top = thumbRect.top + 'px';
-    projectLiftImg.style.width = thumbRect.width + 'px';
-    projectLiftImg.style.height = thumbRect.height + 'px';
-    projectLiftImg.style.transform = 'none';
-    projectLiftImg.style.transition = 'none';
-    projectLiftImg.style.display = 'block';
-
-    // Hide source thumbnail (it appears to "lift out")
-    thumbImg.style.visibility = 'hidden';
-
-    // Show overlay backdrop (background dims/blurs)
     projectOverlay.classList.add('visible');
-
-    // Wait for layout to measure overlay image's final position
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const targetRect = projectOverlayImg.getBoundingClientRect();
-
-        // If target has no dimensions (image not loaded), fall back
-        if (targetRect.width === 0 || targetRect.height === 0) {
-          projectOverlayImg.style.opacity = '1';
-          overlayInfo.style.transition = 'opacity 0.3s ease';
-          overlayInfo.style.opacity = '1';
-          projectLiftImg.style.display = 'none';
-          isAnimating = false;
-          return;
-        }
-
-        // FLIP: set lift image to target size, transform back to thumbnail position
-        const scaleX = thumbRect.width / targetRect.width;
-        const scaleY = thumbRect.height / targetRect.height;
-        const dx = (thumbRect.left + thumbRect.width / 2) - (targetRect.left + targetRect.width / 2);
-        const dy = (thumbRect.top + thumbRect.height / 2) - (targetRect.top + targetRect.height / 2);
-
-        projectLiftImg.style.left = targetRect.left + 'px';
-        projectLiftImg.style.top = targetRect.top + 'px';
-        projectLiftImg.style.width = targetRect.width + 'px';
-        projectLiftImg.style.height = targetRect.height + 'px';
-        projectLiftImg.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleX}, ${scaleY})`;
-
-        // Force reflow
-        projectLiftImg.offsetHeight;
-
-        // Animate transform to identity (fly to final position)
-        projectLiftImg.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        projectLiftImg.style.transform = 'translate(0, 0) scale(1)';
-
-        const onEnd = () => {
-          projectLiftImg.removeEventListener('transitionend', onEnd);
-          clearTimeout(fallbackTimer);
-
-          // Swap: show overlay image, hide lift image
-          projectOverlayImg.style.opacity = '1';
-          projectLiftImg.style.display = 'none';
-
-          // Fade in project info
-          overlayInfo.style.transition = 'opacity 0.3s ease';
-          overlayInfo.style.opacity = '1';
-
-          isAnimating = false;
-        };
-
-        projectLiftImg.addEventListener('transitionend', onEnd);
-        const fallbackTimer = setTimeout(onEnd, 600);
-      });
-    });
   }
 
   function updateProjectOverlay() {
@@ -1574,77 +1486,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function closeProject() {
-    if (currentProject === null) return;
-    if (isAnimating) return;
-    isAnimating = true;
-
-    // Get current overlay image position
-    const currentRect = projectOverlayImg.getBoundingClientRect();
-
-    // Get thumbnail target position (visibility:hidden still has layout)
-    const thumbRect = activeThumbImg ? activeThumbImg.getBoundingClientRect() : null;
-
-    // If we can't animate, just fade out
-    if (!thumbRect || currentRect.width === 0) {
-      projectOverlay.classList.remove('visible');
-      if (activeThumbImg) activeThumbImg.style.visibility = '';
-      activeThumbImg = null;
-      currentProject = null;
-      isAnimating = false;
-      return;
-    }
-
-    // Set up lift image at overlay image position
-    projectLiftImg.src = projectOverlayImg.src;
-    projectLiftImg.style.left = currentRect.left + 'px';
-    projectLiftImg.style.top = currentRect.top + 'px';
-    projectLiftImg.style.width = currentRect.width + 'px';
-    projectLiftImg.style.height = currentRect.height + 'px';
-    projectLiftImg.style.transform = 'none';
-    projectLiftImg.style.transition = 'none';
-    projectLiftImg.style.display = 'block';
-
-    // Hide overlay image
-    projectOverlayImg.style.opacity = '0';
-
-    // Fade out info immediately
-    overlayInfo.style.transition = 'opacity 0.15s ease';
-    overlayInfo.style.opacity = '0';
-
-    // Start fading out overlay background
     projectOverlay.classList.remove('visible');
-
-    // Force reflow
-    projectLiftImg.offsetHeight;
-
-    // Calculate transform to fly back to thumbnail
-    const scaleX = thumbRect.width / currentRect.width;
-    const scaleY = thumbRect.height / currentRect.height;
-    const dx = (thumbRect.left + thumbRect.width / 2) - (currentRect.left + currentRect.width / 2);
-    const dy = (thumbRect.top + thumbRect.height / 2) - (currentRect.top + currentRect.height / 2);
-
-    // Animate back to thumbnail
-    projectLiftImg.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
-    projectLiftImg.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleX}, ${scaleY})`;
-
-    const onEnd = () => {
-      projectLiftImg.removeEventListener('transitionend', onEnd);
-      clearTimeout(fallbackTimer);
-
-      projectLiftImg.style.display = 'none';
-
-      // Restore thumbnail visibility
-      if (activeThumbImg) {
-        activeThumbImg.style.visibility = '';
-      }
-
-      activeThumbImg = null;
-      currentProject = null;
-      isAnimating = false;
-    };
-
-    projectLiftImg.addEventListener('transitionend', onEnd);
-    const fallbackTimer = setTimeout(onEnd, 550);
+    currentProject = null;
   }
 
   projectOverlayClose.addEventListener('click', closeProject);
@@ -1654,7 +1497,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   projectPrev.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (currentProject === null) return;
     const project = projects[currentProject];
     currentProjectImage = (currentProjectImage - 1 + project.images.length) % project.images.length;
     updateProjectOverlay();
@@ -1662,7 +1504,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   projectNext.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (currentProject === null) return;
     const project = projects[currentProject];
     currentProjectImage = (currentProjectImage + 1) % project.images.length;
     updateProjectOverlay();
@@ -1672,12 +1513,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (projectOverlay.classList.contains('visible')) {
       if (e.key === 'Escape') closeProject();
-      if (e.key === 'ArrowRight' && currentProject !== null) {
+      if (e.key === 'ArrowRight') {
         const project = projects[currentProject];
         currentProjectImage = (currentProjectImage + 1) % project.images.length;
         updateProjectOverlay();
       }
-      if (e.key === 'ArrowLeft' && currentProject !== null) {
+      if (e.key === 'ArrowLeft') {
         const project = projects[currentProject];
         currentProjectImage = (currentProjectImage - 1 + project.images.length) % project.images.length;
         updateProjectOverlay();
