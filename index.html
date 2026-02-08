@@ -452,6 +452,15 @@ html {
   margin-top: 4px;
 }
 
+.project-lift-img {
+  position: fixed;
+  z-index: 601;
+  display: none;
+  pointer-events: none;
+  will-change: transform;
+  transform-origin: center center;
+}
+
 /* Info Overlay */
 .info-overlay {
   position: fixed;
@@ -984,6 +993,8 @@ html {
   </div>
 </div>
 
+<img class="project-lift-img" id="projectLiftImg" src="" alt="">
+
 <!-- Info Overlay -->
 <div class="info-overlay" id="infoOverlay">
   <div class="info-header">
@@ -1456,6 +1467,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentProject = null;
   let currentProjectImage = 0;
+  let activeThumbImg = null;
+  let isAnimating = false;
+  const projectLiftImg = document.getElementById('projectLiftImg');
+  const overlayInfo = document.querySelector('.project-overlay-info');
 
   projects.forEach((project, index) => {
     const item = document.createElement('div');
@@ -1466,10 +1481,83 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openProject(index) {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    const thumbImg = projectsGrid.children[index].querySelector('img');
+    const thumbRect = thumbImg.getBoundingClientRect();
+
     currentProject = index;
     currentProjectImage = 0;
+    activeThumbImg = thumbImg;
+
     updateProjectOverlay();
+
+    // Hide overlay image and info while lift animates
+    projectOverlayImg.style.opacity = '0';
+    overlayInfo.style.opacity = '0';
+    overlayInfo.style.transition = 'none';
+
+    // Place lift image at thumbnail position
+    projectLiftImg.src = thumbImg.src;
+    projectLiftImg.style.left = thumbRect.left + 'px';
+    projectLiftImg.style.top = thumbRect.top + 'px';
+    projectLiftImg.style.width = thumbRect.width + 'px';
+    projectLiftImg.style.height = thumbRect.height + 'px';
+    projectLiftImg.style.transform = 'none';
+    projectLiftImg.style.transition = 'none';
+    projectLiftImg.style.display = 'block';
+
+    // Hide source thumbnail
+    thumbImg.style.visibility = 'hidden';
+
+    // Dim/blur background
     projectOverlay.classList.add('visible');
+
+    // Measure final position and animate
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const targetRect = projectOverlayImg.getBoundingClientRect();
+
+        if (targetRect.width === 0 || targetRect.height === 0) {
+          projectOverlayImg.style.opacity = '1';
+          overlayInfo.style.transition = 'opacity 0.3s ease';
+          overlayInfo.style.opacity = '1';
+          projectLiftImg.style.display = 'none';
+          isAnimating = false;
+          return;
+        }
+
+        const scaleX = thumbRect.width / targetRect.width;
+        const scaleY = thumbRect.height / targetRect.height;
+        const dx = (thumbRect.left + thumbRect.width / 2) - (targetRect.left + targetRect.width / 2);
+        const dy = (thumbRect.top + thumbRect.height / 2) - (targetRect.top + targetRect.height / 2);
+
+        projectLiftImg.style.left = targetRect.left + 'px';
+        projectLiftImg.style.top = targetRect.top + 'px';
+        projectLiftImg.style.width = targetRect.width + 'px';
+        projectLiftImg.style.height = targetRect.height + 'px';
+        projectLiftImg.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleX}, ${scaleY})`;
+
+        projectLiftImg.offsetHeight; // force reflow
+
+        projectLiftImg.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        projectLiftImg.style.transform = 'translate(0, 0) scale(1)';
+
+        const onEnd = () => {
+          projectLiftImg.removeEventListener('transitionend', onEnd);
+          clearTimeout(fallback);
+          projectOverlayImg.style.opacity = '1';
+          projectLiftImg.style.display = 'none';
+          overlayInfo.style.transition = 'opacity 0.3s ease';
+          overlayInfo.style.opacity = '1';
+          isAnimating = false;
+        };
+
+        projectLiftImg.addEventListener('transitionend', onEnd);
+        const fallback = setTimeout(onEnd, 600);
+      });
+    });
   }
 
   function updateProjectOverlay() {
@@ -1486,8 +1574,58 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function closeProject() {
+    if (currentProject === null || isAnimating) return;
+    isAnimating = true;
+
+    const currentRect = projectOverlayImg.getBoundingClientRect();
+    const thumbRect = activeThumbImg ? activeThumbImg.getBoundingClientRect() : null;
+
+    if (!thumbRect || currentRect.width === 0) {
+      projectOverlay.classList.remove('visible');
+      if (activeThumbImg) activeThumbImg.style.visibility = '';
+      activeThumbImg = null;
+      currentProject = null;
+      isAnimating = false;
+      return;
+    }
+
+    // Place lift image at overlay image position
+    projectLiftImg.src = projectOverlayImg.src;
+    projectLiftImg.style.left = currentRect.left + 'px';
+    projectLiftImg.style.top = currentRect.top + 'px';
+    projectLiftImg.style.width = currentRect.width + 'px';
+    projectLiftImg.style.height = currentRect.height + 'px';
+    projectLiftImg.style.transform = 'none';
+    projectLiftImg.style.transition = 'none';
+    projectLiftImg.style.display = 'block';
+
+    projectOverlayImg.style.opacity = '0';
+    overlayInfo.style.transition = 'opacity 0.15s ease';
+    overlayInfo.style.opacity = '0';
     projectOverlay.classList.remove('visible');
-    currentProject = null;
+
+    projectLiftImg.offsetHeight; // force reflow
+
+    const scaleX = thumbRect.width / currentRect.width;
+    const scaleY = thumbRect.height / currentRect.height;
+    const dx = (thumbRect.left + thumbRect.width / 2) - (currentRect.left + currentRect.width / 2);
+    const dy = (thumbRect.top + thumbRect.height / 2) - (currentRect.top + currentRect.height / 2);
+
+    projectLiftImg.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+    projectLiftImg.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleX}, ${scaleY})`;
+
+    const onEnd = () => {
+      projectLiftImg.removeEventListener('transitionend', onEnd);
+      clearTimeout(fallback);
+      projectLiftImg.style.display = 'none';
+      if (activeThumbImg) activeThumbImg.style.visibility = '';
+      activeThumbImg = null;
+      currentProject = null;
+      isAnimating = false;
+    };
+
+    projectLiftImg.addEventListener('transitionend', onEnd);
+    const fallback = setTimeout(onEnd, 550);
   }
 
   projectOverlayClose.addEventListener('click', closeProject);
