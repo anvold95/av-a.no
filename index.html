@@ -1470,7 +1470,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentProject = null;
   let currentProjectImage = 0;
   let activeThumbImg = null;
-  let isAnimating = false;
+  let isLiftAnimating = false;
   const projectLiftImg = document.getElementById('projectLiftImg');
   const overlayInfo = document.querySelector('.project-overlay-info');
 
@@ -1483,8 +1483,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openProject(index) {
-    if (isAnimating) return;
-    isAnimating = true;
+    if (isLiftAnimating) return;
+    isLiftAnimating = true;
 
     const thumbImg = projectsGrid.children[index].querySelector('img');
     const thumbRect = thumbImg.getBoundingClientRect();
@@ -1495,12 +1495,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateProjectOverlay();
 
-    // Hide overlay image and info while lift animates
     projectOverlayImg.style.opacity = '0';
     overlayInfo.style.opacity = '0';
     overlayInfo.style.transition = 'none';
 
-    // Place lift div at thumbnail position with its image as background
     projectLiftImg.style.backgroundImage = `url(${thumbImg.src})`;
     projectLiftImg.style.left = thumbRect.left + 'px';
     projectLiftImg.style.top = thumbRect.top + 'px';
@@ -1510,13 +1508,10 @@ document.addEventListener('DOMContentLoaded', () => {
     projectLiftImg.style.transition = 'none';
     projectLiftImg.style.display = 'block';
 
-    // Hide source thumbnail
     thumbImg.style.visibility = 'hidden';
 
-    // Dim/blur background
     projectOverlay.classList.add('visible');
 
-    // Measure final position and animate
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const targetRect = projectOverlayImg.getBoundingClientRect();
@@ -1527,7 +1522,7 @@ document.addEventListener('DOMContentLoaded', () => {
           overlayInfo.style.opacity = '1';
           projectLiftImg.style.display = 'none';
           thumbImg.style.visibility = '';
-          isAnimating = false;
+          isLiftAnimating = false;
           return;
         }
 
@@ -1554,7 +1549,7 @@ document.addEventListener('DOMContentLoaded', () => {
           projectLiftImg.style.display = 'none';
           overlayInfo.style.transition = 'opacity 0.3s ease';
           overlayInfo.style.opacity = '1';
-          isAnimating = false;
+          isLiftAnimating = false;
         };
 
         projectLiftImg.addEventListener('transitionend', onEnd);
@@ -1577,8 +1572,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function closeProject() {
-    if (currentProject === null || isAnimating) return;
-    isAnimating = true;
+    if (currentProject === null || isLiftAnimating) return;
+    isLiftAnimating = true;
 
     const currentRect = projectOverlayImg.getBoundingClientRect();
     const thumbRect = activeThumbImg ? activeThumbImg.getBoundingClientRect() : null;
@@ -1588,7 +1583,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (activeThumbImg) activeThumbImg.style.visibility = '';
       activeThumbImg = null;
       currentProject = null;
-      isAnimating = false;
+      isLiftAnimating = false;
       return;
     }
 
@@ -1625,7 +1620,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (activeThumbImg) activeThumbImg.style.visibility = '';
       activeThumbImg = null;
       currentProject = null;
-      isAnimating = false;
+      isLiftAnimating = false;
     };
 
     projectLiftImg.addEventListener('transitionend', onEnd);
